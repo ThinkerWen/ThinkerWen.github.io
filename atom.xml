@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>一文破晓</title>
+  
+  
+  <link href="https://thinkerwen.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://thinkerwen.github.io/"/>
+  <updated>2024-03-27T08:15:38.271Z</updated>
+  <id>https://thinkerwen.github.io/</id>
+  
+  <author>
+    <name>ThinkerWen</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python过图形验证码的校验</title>
+    <link href="https://thinkerwen.github.io/2024/03/27/Python%E8%BF%87%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E6%A0%A1%E9%AA%8C/"/>
+    <id>https://thinkerwen.github.io/2024/03/27/Python%E8%BF%87%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E6%A0%A1%E9%AA%8C/</id>
+    <published>2024-03-27T08:14:15.000Z</published>
+    <updated>2024-03-27T08:15:38.271Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大麦网回流票监控</title>
+    <link href="https://thinkerwen.github.io/2024/03/27/%E5%A4%A7%E9%BA%A6%E7%BD%91%E5%9B%9E%E6%B5%81%E7%A5%A8%E7%9B%91%E6%8E%A7/"/>
+    <id>https://thinkerwen.github.io/2024/03/27/%E5%A4%A7%E9%BA%A6%E7%BD%91%E5%9B%9E%E6%B5%81%E7%A5%A8%E7%9B%91%E6%8E%A7/</id>
+    <published>2024-03-27T08:10:37.000Z</published>
+    <updated>2024-03-27T08:11:57.840Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。&lt;/p&gt;
+&lt;p&gt;要获取源代码请点击：&lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于我</title>
+    <link href="https://thinkerwen.github.io/2024/03/27/about/"/>
+    <id>https://thinkerwen.github.io/2024/03/27/about/</id>
+    <published>2024-03-27T07:53:07.000Z</published>
+    <updated>2024-03-27T08:09:10.449Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;👋 Hi, I’m Wen&lt;/li&gt;
+&lt;li&gt;🛰 My WeChat: EurekaNomi&lt;/li&gt;
+&lt;li&gt;📸 My Instgram: &lt;a href=&quot;https://www.instagram.com/jason.wxw/&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
