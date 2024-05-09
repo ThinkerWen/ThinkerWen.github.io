@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Python过图形验证码的校验</title>
+    <url>/2024/03/27/Python%E8%BF%87%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E6%A0%A1%E9%AA%8C/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。</p>
+<p>文章源码地址：<a href="https://github.com/ThinkerWen/CaptchaPass">点击查看</a></p>
+<p><strong>验证码如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">背景图</th>
+<th align="center">目标图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://images.hive-net.cn/upload/20240326164455DJtM.jpg" width="200" alt="背景图"/></td>
+<td align="center"><img src="https://images.hive-net.cn/upload/2024032616452NrMsm.png" width="200" alt="目标图"/></td>
+</tr>
+</tbody></table>
+<p><strong>弹出验证码的Response如下：</strong></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;errorCode&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;errorMsg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;bg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://example.com/ENZg076503962.jpg&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;front&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://example.com/ENZg076503963.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJhbGci...&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">765</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">396</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>完成验证码的Request如下</strong></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;m&quot;</span><span class="punctuation">:</span> <span class="string">&quot;[&#123;\&quot;x\&quot;:395,\&quot;y\&quot;:256&#125;,&#123;\&quot;x\&quot;:89,\&quot;y\&quot;:273&#125;,&#123;\&quot;x\&quot;:670,\&quot;y\&quot;:140&#125;]&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJhbGci...&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。</p>
+<p>要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。</p>
+<p>于是我使用Python的OpenCV进行图片的识别。</p>
+<h4 id="1-提取图片"><a href="#1-提取图片" class="headerlink" title="1.提取图片"></a>1.提取图片</h4><p>首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 <code>cv2.imread(front_image)</code> 来加载图片时，会显示一片漆黑：</p>
+<img src="https://images.hive-net.cn/upload/202403261652XhE470.png" width="200" alt="背景图"/>
+
+<p>即使后来我使用了保留透明通道的加载 <code>cv2.imread(front_path, cv2.IMREAD_UNCHANGED)</code>，依旧是一片漆黑。</p>
+<p>于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：</p>
+<img src="https://images.hive-net.cn/upload/20240326170125wRFh.png" width="200" alt="背景图"/>
+
+<h4 id="2-匹配图片"><a href="#2-匹配图片" class="headerlink" title="2.匹配图片"></a>2.匹配图片</h4><p>即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。</p>
+<p>我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。<br>本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：</p>
+<p><strong>rectangle_list</strong>每一个元素是[x1,y1,x2,y2]</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">rectangle_list = [[<span class="number">9</span>, <span class="number">9</span>, <span class="number">75</span>, <span class="number">75</span>], [<span class="number">109</span>, <span class="number">9</span>, <span class="number">175</span>, <span class="number">75</span>], [<span class="number">209</span>, <span class="number">9</span>, <span class="number">275</span>, <span class="number">75</span>]]  </span><br><span class="line"><span class="keyword">for</span> idx, rectangle <span class="keyword">in</span> <span class="built_in">enumerate</span>(rectangle_list, start=<span class="number">1</span>):  </span><br><span class="line">    cropped_image = white_front[rectangle[<span class="number">1</span>]:rectangle[<span class="number">3</span>], rectangle[<span class="number">0</span>]:rectangle[<span class="number">2</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)</span><br><span class="line">gray_front = cv2.cvtColor(front, cv2.COLOR_BGR2GRAY)</span><br></pre></td></tr></table></figure>
+
+<p>然后直接进行最佳匹配：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED)  </span><br><span class="line">min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)</span><br><span class="line">cv2.putText(bg, <span class="built_in">str</span>(idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.5</span>, (<span class="number">7</span>, <span class="number">249</span>, <span class="number">151</span>), <span class="number">2</span>)</span><br><span class="line">show(bg)</span><br></pre></td></tr></table></figure>
+
+<p>最后发现匹配结果欠佳，总是不能完整的将3个目标图案都准确找到，所以还需要再优化。</p>
+<h4 id="3-优化匹配方案"><a href="#3-优化匹配方案" class="headerlink" title="3.优化匹配方案"></a>3.优化匹配方案</h4><p>继续观察，发现背景图片中的目标图案总是白色的，所以我们放弃使用默认的灰度，转而将背景图片上所有的白色部分保留，其余全部转为黑色，这样不就完全没有杂色了。</p>
+<p>为了尽可能保留完整的图案，经过多次RGB颜色的尝试，发现250-255区间可以保留大部分目标图案的白色：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">_, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)</span><br></pre></td></tr></table></figure>
+<p>同时为了和背景图片上的黑色色块一致，我再将黑色的目标图案反转为白色:<br>由于要获取的是点击坐标，所以我们将x1,y1(即左上角坐标)进行+20的偏移，来移动到图案本身上面</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">_, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)  </span><br><span class="line">  </span><br><span class="line">res = cv2.matchTemplate(  </span><br><span class="line">    strong_contrast_bg,  </span><br><span class="line">    cv2.bitwise_not(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)),  </span><br><span class="line">    cv2.TM_CCOEFF_NORMED  </span><br><span class="line">)  </span><br><span class="line">min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  </span><br><span class="line">  </span><br><span class="line">x, y = max_loc  </span><br><span class="line">x, y = x + <span class="number">20</span>, y + <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p>经过验证，现在的识别就能正常过点击验证码了。<br>贴出代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> cv2  </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ProcessCaptcha</span>(<span class="params">bg_path: <span class="built_in">str</span>, front_path: <span class="built_in">str</span></span>):  </span><br><span class="line">    result = []  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    加载图像  </span></span><br><span class="line"><span class="string">    背景为jpg格式的普通图像 像素为 765x396</span></span><br><span class="line"><span class="string">	目标为png格式的包含透明通道图像 像素为 300x84    </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span>    </span><br><span class="line">    bg = cv2.imread(bg_path)  </span><br><span class="line">    front = cv2.imread(front_path, cv2.IMREAD_UNCHANGED)  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    由于目标图为透明黑色图片，直接加载会导致图像全黑，  </span></span><br><span class="line"><span class="string">    为了避免全黑情况，创建与图像尺寸相同的白色背景图像，再提取图像的透明度通道，将透明部分的像素值设置为白色</span></span><br><span class="line"><span class="string">	这样加载完后的图像就变成了白底黑色目标的图像  </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span>    </span><br><span class="line">    white_front = np.ones_like(front) * <span class="number">255</span>  </span><br><span class="line">    alpha_channel = front[:, :, <span class="number">3</span>]  </span><br><span class="line">    white_front[:, :, <span class="number">0</span>:<span class="number">3</span>] = cv2.bitwise_and(  </span><br><span class="line">        white_front[:, :, <span class="number">0</span>:<span class="number">3</span>],  </span><br><span class="line">        white_front[:, :, <span class="number">0</span>:<span class="number">3</span>],  </span><br><span class="line">        mask=cv2.bitwise_not(alpha_channel)  </span><br><span class="line">    )  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    为了按序点击，需要提取目标区域的矩形方块  </span></span><br><span class="line"><span class="string">    由于目标图像较为规律有序，于是计算出3个目标图像像素坐标，直接按像素截取  </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">	rectangle_list = [[<span class="number">9</span>, <span class="number">9</span>, <span class="number">75</span>, <span class="number">75</span>], [<span class="number">109</span>, <span class="number">9</span>, <span class="number">175</span>, <span class="number">75</span>], [<span class="number">209</span>, <span class="number">9</span>, <span class="number">275</span>, <span class="number">75</span>]]  </span><br><span class="line">    <span class="keyword">for</span> rectangle <span class="keyword">in</span> rectangle_list:  </span><br><span class="line">        cropped_image = white_front[rectangle[<span class="number">1</span>]:rectangle[<span class="number">3</span>], rectangle[<span class="number">0</span>]:rectangle[<span class="number">2</span>]]  </span><br><span class="line">  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">        将背景图片转换为黑白两色的图片，只保留RGB(250-255)的图像  </span></span><br><span class="line"><span class="string">        如此能保留绝大部分目标图像轮廓</span></span><br><span class="line"><span class="string">		将目标图像转换为黑色背景白色轮廓  </span></span><br><span class="line"><span class="string">        如此便与背景的颜色逻辑一致  </span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">        _, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)  </span><br><span class="line">        strong_contrast_front = cv2.bitwise_not(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY))  </span><br><span class="line">  </span><br><span class="line">        res = cv2.matchTemplate(  </span><br><span class="line">            strong_contrast_bg,  </span><br><span class="line">            strong_contrast_front,  </span><br><span class="line">            cv2.TM_CCOEFF_NORMED  </span><br><span class="line">        )  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">        使用 TM_CCOEFF_NORMED 算法匹配到最佳  </span></span><br><span class="line"><span class="string">        由于此时的 X,Y 坐标为左上角坐标，需要加20进行偏移处理，获取到点击坐标  </span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">		x, y = cv2.minMaxLoc(res)[<span class="number">3</span>]</span><br><span class="line">        result.append((x + <span class="number">20</span>, y + <span class="number">20</span>))  </span><br><span class="line">  </span><br><span class="line">    logging.info(<span class="string">f&quot;Done process: &quot;</span>+<span class="built_in">str</span>(result).replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27; &#x27;</span>))  </span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<h3 id="滑动验证码"><a href="#滑动验证码" class="headerlink" title="滑动验证码"></a>滑动验证码</h3><p>滑动验证码与上同理，甚至现在比较常见的一种滑动验证码已经有了通用的代码，如：</p>
+<table>
+<thead>
+<tr>
+<th align="center">背景图</th>
+<th align="center">目标图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://images.hive-net.cn/upload/202403261733dPTqAY.png" width="200" alt="背景图"/></td>
+<td align="center"><img src="https://images.hive-net.cn/upload/202403261733HjiqWk.png" width="200" alt="目标图"/></td>
+</tr>
+</tbody></table>
+<p>这种滑动验证码已经是无脑式 <code>matchTemplate()、minMaxLoc()</code> 就可以，非常方便：</p>
+<img src="https://images.hive-net.cn/upload/202403261734oWZoTJ.png" width="200" alt="背景图"/>
+
+<p>贴出代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params">bg_path: <span class="built_in">str</span>, front_path: <span class="built_in">str</span></span>) -&gt; <span class="literal">None</span>:  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># flags0是灰度模式  </span></span><br><span class="line">    image = cv2.imread(front_path, <span class="number">0</span>)  </span><br><span class="line">    template = cv2.imread(bg_path, <span class="number">0</span>)  </span><br><span class="line">    template = cv2.resize(template, (<span class="number">340</span>, <span class="number">191</span>), interpolation=cv2.INTER_CUBIC)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 寻找最佳匹配  </span></span><br><span class="line">    res = cv2.matchTemplate(_tran_canny(image), _tran_canny(template), cv2.TM_CCOEFF_NORMED)  </span><br><span class="line">    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  </span><br><span class="line">  </span><br><span class="line">    x, y = max_loc  </span><br><span class="line">    w, h = image.shape[::-<span class="number">1</span>]  </span><br><span class="line">    cv2.rectangle(template, (x, y), (x + w, y + h), (<span class="number">7</span>, <span class="number">249</span>, <span class="number">151</span>), <span class="number">2</span>)  </span><br><span class="line">    show(template)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于我</title>
+    <url>/2024/03/27/about/</url>
+    <content><![CDATA[<ul>
+<li>👋 Hi, I’m Wen</li>
+<li>🛰 My WeChat: EurekaNomi</li>
+<li>📸 My Instgram: <a href="https://www.instagram.com/jason.wxw/" >Jason.wxw</a></li>
+<li>🌈 My Tiktok: <a href="https://www.tiktok.com/@friday.wang/" >DesignerWang</a></li>
+<li>📬 My E-mail: <a href="mailto:&#119;&#x78;&#x77;&#x31;&#50;&#54;&#109;&#97;&#105;&#108;&#64;&#x31;&#50;&#54;&#x2e;&#x63;&#x6f;&#x6d;">&#119;&#x78;&#x77;&#x31;&#50;&#54;&#109;&#97;&#105;&#108;&#64;&#x31;&#50;&#54;&#x2e;&#x63;&#x6f;&#x6d;</a></li>
+<li>🌎 My WebSite：<a href="https://thinkerwen.github.io/">thinkerwen.github.io</a></li>
+<li>✨ My WeChat official account: 夜寒信息</li>
+</ul>
+<p><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&pause=1000&random=false&width=435&lines=Welcome+to+my+profile;I+wish+you+happiness+every+day." alt="Typing SVG"></a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>大麦网回流票监控</title>
+    <url>/2024/03/27/%E5%A4%A7%E9%BA%A6%E7%BD%91%E5%9B%9E%E6%B5%81%E7%A5%A8%E7%9B%91%E6%8E%A7/</url>
+    <content><![CDATA[<p>最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。</p>
+<p>要获取源代码请点击：<a href="https://github.com/ThinkerWen/TicketMonitoring">源码地址</a></p>
+
+<p>最简单的方向就是从网页端入手。</p>
+<img src="https://images.hive-net.cn/article/article_damai_1.png" width="200" alt="Damai" />
+
+<p>在这个演唱会页面看到<strong>网页端不支持购买</strong>，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。</p>
+<p>经过抓包得到以下两个链接，分别是</p>
+<p>场次接口：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696836862157&amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;api=mtop.alibaba.damai.detail.getdetail&amp;v=1.2&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D</span><br></pre></td></tr></table></figure>
+
+<p>座次接口：</p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696837077937&amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;api=mtop.alibaba.detail.subpage.getdetail&amp;v=2.0&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D</span><br></pre></td></tr></table></figure>
+
+<p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数<strong>_m_h5_tk</strong>、<strong>_m_h5_tk_enc</strong></p>
+<img src="https://images.hive-net.cn/article/article_damai_2.png" width="500" alt="Damai" />
+
+
+<p>而这两个接口里的参数大同小异，分别如下</p>
+<p>场次接口：</p>
+<img src="https://images.hive-net.cn/article/article_damai_3.png" width="500" alt="HeroPower" />
+
+<p>座次接口：</p>
+<img src="https://images.hive-net.cn/article/article_damai_4.png" width="500" alt="HeroPower" />
+
+<p>可以看到其中关键参数就是<strong>t</strong>、<strong>sign</strong>、<strong>data</strong>，其他参数都是固定的。</p>
+<p>其中data显而易见，场次接口的itemId就是这个演出的id，其他参数固定；座次接口的itemId是演出id，dataId就是当前场次的id（例如10.21场），其他参数固定。<br>接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到”sign”上，也可以打到对应链接上。</p>
+<img src="https://images.hive-net.cn/article/article_damai_5.png" width="500" alt="Damai" />
+
+<p>刷新一下页面触发断点，找到对应的请求发起js文件。</p>
+<img src="https://images.hive-net.cn/article/article_damai_6.png" width="500" alt="Damai" />
+
+<p>在这个文件里简单调试下很容易就能找到加密函数</p>
+<img src="https://images.hive-net.cn/article/article_damai_7.png" width="500" alt="Damai" />
+
+<p>可以看到这个函数就是将<strong>token</strong>、<strong>c</strong>、<strong>s</strong>、<strong>data</strong>，以&amp;进行分隔拼接，然后再进行加密得到sign。</p>
+<p>其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。</p>
+<p>所以现在就剩token未知，在函数上打个断点看看：<br><img src="https://images.hive-net.cn/article/article_damai_8.png" width="500" alt="Damai" /></p>
+<p>发现这个token很眼熟，回头看看我们请求所需的cookie，这个<strong>token</strong>就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。</p>
+<p>我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。</p>
+<p>现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。</p>
+<img src="https://images.hive-net.cn/article/article_damai_9.png" width="300" alt="Damai" />
+
+<p>可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。</p>
+<p>最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。</p>
+<img src="https://images.hive-net.cn/article/article_damai_10.jpg" width="200" alt="Damai" />
+]]></content>
+      <categories>
+        <category>逆向</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+</search>

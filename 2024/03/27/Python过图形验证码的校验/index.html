@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-hans">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Python过图形验证码的校验 |  一文破晓</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <link rel="alternate" href="/atom.xml" title="一文破晓" type="application/atom+xml">
+</head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Python过图形验证码的校验"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Python过图形验证码的校验
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/03/27/Python%E8%BF%87%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E6%A0%A1%E9%AA%8C/" class="article-date">
+  <time datetime="2024-03-27T08:14:15.000Z" itemprop="datePublished">2024-03-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">6 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。</p>
+<p>文章源码地址：<a target="_blank" rel="noopener" href="https://github.com/ThinkerWen/CaptchaPass">点击查看</a></p>
+<p><strong>验证码如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">背景图</th>
+<th align="center">目标图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://images.hive-net.cn/upload/20240326164455DJtM.jpg" width="200" alt="背景图"/></td>
+<td align="center"><img src="https://images.hive-net.cn/upload/2024032616452NrMsm.png" width="200" alt="目标图"/></td>
+</tr>
+</tbody></table>
+<p><strong>弹出验证码的Response如下：</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;errorCode&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;errorMsg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;bg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://example.com/ENZg076503962.jpg&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;front&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://example.com/ENZg076503963.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJhbGci...&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;width&quot;</span><span class="punctuation">:</span> <span class="number">765</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;height&quot;</span><span class="punctuation">:</span> <span class="number">396</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>完成验证码的Request如下</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;m&quot;</span><span class="punctuation">:</span> <span class="string">&quot;[&#123;\&quot;x\&quot;:395,\&quot;y\&quot;:256&#125;,&#123;\&quot;x\&quot;:89,\&quot;y\&quot;:273&#125;,&#123;\&quot;x\&quot;:670,\&quot;y\&quot;:140&#125;]&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJhbGci...&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。</p>
+<p>要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。</p>
+<p>于是我使用Python的OpenCV进行图片的识别。</p>
+<h4 id="1-提取图片"><a href="#1-提取图片" class="headerlink" title="1.提取图片"></a>1.提取图片</h4><p>首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 <code>cv2.imread(front_image)</code> 来加载图片时，会显示一片漆黑：</p>
+<img src="https://images.hive-net.cn/upload/202403261652XhE470.png" width="200" alt="背景图"/>
+
+<p>即使后来我使用了保留透明通道的加载 <code>cv2.imread(front_path, cv2.IMREAD_UNCHANGED)</code>，依旧是一片漆黑。</p>
+<p>于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：</p>
+<img src="https://images.hive-net.cn/upload/20240326170125wRFh.png" width="200" alt="背景图"/>
+
+<h4 id="2-匹配图片"><a href="#2-匹配图片" class="headerlink" title="2.匹配图片"></a>2.匹配图片</h4><p>即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。</p>
+<p>我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。<br>本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：</p>
+<p><strong>rectangle_list</strong>每一个元素是[x1,y1,x2,y2]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rectangle_list = [[<span class="number">9</span>, <span class="number">9</span>, <span class="number">75</span>, <span class="number">75</span>], [<span class="number">109</span>, <span class="number">9</span>, <span class="number">175</span>, <span class="number">75</span>], [<span class="number">209</span>, <span class="number">9</span>, <span class="number">275</span>, <span class="number">75</span>]]  </span><br><span class="line"><span class="keyword">for</span> idx, rectangle <span class="keyword">in</span> <span class="built_in">enumerate</span>(rectangle_list, start=<span class="number">1</span>):  </span><br><span class="line">    cropped_image = white_front[rectangle[<span class="number">1</span>]:rectangle[<span class="number">3</span>], rectangle[<span class="number">0</span>]:rectangle[<span class="number">2</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)</span><br><span class="line">gray_front = cv2.cvtColor(front, cv2.COLOR_BGR2GRAY)</span><br></pre></td></tr></table></figure>
+
+<p>然后直接进行最佳匹配：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED)  </span><br><span class="line">min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)</span><br><span class="line">cv2.putText(bg, <span class="built_in">str</span>(idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.5</span>, (<span class="number">7</span>, <span class="number">249</span>, <span class="number">151</span>), <span class="number">2</span>)</span><br><span class="line">show(bg)</span><br></pre></td></tr></table></figure>
+
+<p>最后发现匹配结果欠佳，总是不能完整的将3个目标图案都准确找到，所以还需要再优化。</p>
+<h4 id="3-优化匹配方案"><a href="#3-优化匹配方案" class="headerlink" title="3.优化匹配方案"></a>3.优化匹配方案</h4><p>继续观察，发现背景图片中的目标图案总是白色的，所以我们放弃使用默认的灰度，转而将背景图片上所有的白色部分保留，其余全部转为黑色，这样不就完全没有杂色了。</p>
+<p>为了尽可能保留完整的图案，经过多次RGB颜色的尝试，发现250-255区间可以保留大部分目标图案的白色：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">_, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)</span><br></pre></td></tr></table></figure>
+<p>同时为了和背景图片上的黑色色块一致，我再将黑色的目标图案反转为白色:<br>由于要获取的是点击坐标，所以我们将x1,y1(即左上角坐标)进行+20的偏移，来移动到图案本身上面</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">_, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)  </span><br><span class="line">  </span><br><span class="line">res = cv2.matchTemplate(  </span><br><span class="line">    strong_contrast_bg,  </span><br><span class="line">    cv2.bitwise_not(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)),  </span><br><span class="line">    cv2.TM_CCOEFF_NORMED  </span><br><span class="line">)  </span><br><span class="line">min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  </span><br><span class="line">  </span><br><span class="line">x, y = max_loc  </span><br><span class="line">x, y = x + <span class="number">20</span>, y + <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p>经过验证，现在的识别就能正常过点击验证码了。<br>贴出代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> cv2  </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">ProcessCaptcha</span>(<span class="params">bg_path: <span class="built_in">str</span>, front_path: <span class="built_in">str</span></span>):  </span><br><span class="line">    result = []  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    加载图像  </span></span><br><span class="line"><span class="string">    背景为jpg格式的普通图像 像素为 765x396</span></span><br><span class="line"><span class="string">	目标为png格式的包含透明通道图像 像素为 300x84    </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span>    </span><br><span class="line">    bg = cv2.imread(bg_path)  </span><br><span class="line">    front = cv2.imread(front_path, cv2.IMREAD_UNCHANGED)  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    由于目标图为透明黑色图片，直接加载会导致图像全黑，  </span></span><br><span class="line"><span class="string">    为了避免全黑情况，创建与图像尺寸相同的白色背景图像，再提取图像的透明度通道，将透明部分的像素值设置为白色</span></span><br><span class="line"><span class="string">	这样加载完后的图像就变成了白底黑色目标的图像  </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span>    </span><br><span class="line">    white_front = np.ones_like(front) * <span class="number">255</span>  </span><br><span class="line">    alpha_channel = front[:, :, <span class="number">3</span>]  </span><br><span class="line">    white_front[:, :, <span class="number">0</span>:<span class="number">3</span>] = cv2.bitwise_and(  </span><br><span class="line">        white_front[:, :, <span class="number">0</span>:<span class="number">3</span>],  </span><br><span class="line">        white_front[:, :, <span class="number">0</span>:<span class="number">3</span>],  </span><br><span class="line">        mask=cv2.bitwise_not(alpha_channel)  </span><br><span class="line">    )  </span><br><span class="line">  </span><br><span class="line">    <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">    为了按序点击，需要提取目标区域的矩形方块  </span></span><br><span class="line"><span class="string">    由于目标图像较为规律有序，于是计算出3个目标图像像素坐标，直接按像素截取  </span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">	rectangle_list = [[<span class="number">9</span>, <span class="number">9</span>, <span class="number">75</span>, <span class="number">75</span>], [<span class="number">109</span>, <span class="number">9</span>, <span class="number">175</span>, <span class="number">75</span>], [<span class="number">209</span>, <span class="number">9</span>, <span class="number">275</span>, <span class="number">75</span>]]  </span><br><span class="line">    <span class="keyword">for</span> rectangle <span class="keyword">in</span> rectangle_list:  </span><br><span class="line">        cropped_image = white_front[rectangle[<span class="number">1</span>]:rectangle[<span class="number">3</span>], rectangle[<span class="number">0</span>]:rectangle[<span class="number">2</span>]]  </span><br><span class="line">  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">        将背景图片转换为黑白两色的图片，只保留RGB(250-255)的图像  </span></span><br><span class="line"><span class="string">        如此能保留绝大部分目标图像轮廓</span></span><br><span class="line"><span class="string">		将目标图像转换为黑色背景白色轮廓  </span></span><br><span class="line"><span class="string">        如此便与背景的颜色逻辑一致  </span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  </span><br><span class="line">        _, strong_contrast_bg = cv2.threshold(gray_bg, <span class="number">250</span>, <span class="number">255</span>, cv2.THRESH_BINARY)  </span><br><span class="line">        strong_contrast_front = cv2.bitwise_not(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY))  </span><br><span class="line">  </span><br><span class="line">        res = cv2.matchTemplate(  </span><br><span class="line">            strong_contrast_bg,  </span><br><span class="line">            strong_contrast_front,  </span><br><span class="line">            cv2.TM_CCOEFF_NORMED  </span><br><span class="line">        )  </span><br><span class="line">        <span class="string">&quot;&quot;&quot;  </span></span><br><span class="line"><span class="string">        使用 TM_CCOEFF_NORMED 算法匹配到最佳  </span></span><br><span class="line"><span class="string">        由于此时的 X,Y 坐标为左上角坐标，需要加20进行偏移处理，获取到点击坐标  </span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">		x, y = cv2.minMaxLoc(res)[<span class="number">3</span>]</span><br><span class="line">        result.append((x + <span class="number">20</span>, y + <span class="number">20</span>))  </span><br><span class="line">  </span><br><span class="line">    logging.info(<span class="string">f&quot;Done process: &quot;</span>+<span class="built_in">str</span>(result).replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27; &#x27;</span>))  </span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<h3 id="滑动验证码"><a href="#滑动验证码" class="headerlink" title="滑动验证码"></a>滑动验证码</h3><p>滑动验证码与上同理，甚至现在比较常见的一种滑动验证码已经有了通用的代码，如：</p>
+<table>
+<thead>
+<tr>
+<th align="center">背景图</th>
+<th align="center">目标图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://images.hive-net.cn/upload/202403261733dPTqAY.png" width="200" alt="背景图"/></td>
+<td align="center"><img src="https://images.hive-net.cn/upload/202403261733HjiqWk.png" width="200" alt="目标图"/></td>
+</tr>
+</tbody></table>
+<p>这种滑动验证码已经是无脑式 <code>matchTemplate()、minMaxLoc()</code> 就可以，非常方便：</p>
+<img src="https://images.hive-net.cn/upload/202403261734oWZoTJ.png" width="200" alt="背景图"/>
+
+<p>贴出代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params">bg_path: <span class="built_in">str</span>, front_path: <span class="built_in">str</span></span>) -&gt; <span class="literal">None</span>:  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># flags0是灰度模式  </span></span><br><span class="line">    image = cv2.imread(front_path, <span class="number">0</span>)  </span><br><span class="line">    template = cv2.imread(bg_path, <span class="number">0</span>)  </span><br><span class="line">    template = cv2.resize(template, (<span class="number">340</span>, <span class="number">191</span>), interpolation=cv2.INTER_CUBIC)  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 寻找最佳匹配  </span></span><br><span class="line">    res = cv2.matchTemplate(_tran_canny(image), _tran_canny(template), cv2.TM_CCOEFF_NORMED)  </span><br><span class="line">    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)  </span><br><span class="line">  </span><br><span class="line">    x, y = max_loc  </span><br><span class="line">    w, h = image.shape[::-<span class="number">1</span>]  </span><br><span class="line">    cv2.rectangle(template, (x, y), (x + w, y + h), (<span class="number">7</span>, <span class="number">249</span>, <span class="number">151</span>), <span class="number">2</span>)  </span><br><span class="line">    show(template)</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://thinkerwen.github.io/2024/03/27/Python%E8%BF%87%E5%9B%BE%E5%BD%A2%E9%AA%8C%E8%AF%81%E7%A0%81%E7%9A%84%E6%A0%A1%E9%AA%8C/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/03/27/%E5%A4%A7%E9%BA%A6%E7%BD%91%E5%9B%9E%E6%B5%81%E7%A5%A8%E7%9B%91%E6%8E%A7/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">大麦网回流票监控</div>
+      </a>
+    
+  </nav>
+
+  
+   
+  
+   
+    <script src="https://cdn.staticfile.org/twikoo/1.4.18/twikoo.all.min.js"></script>
+    <div id="twikoo" class="twikoo"></div>
+    <script>
+        twikoo.init({
+            envId: ""
+        })
+    </script>
+ 
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2024
+        <i class="ri-heart-fill heart_icon"></i> ThinkerWen
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.jpg" alt="一文破晓"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E9%80%86%E5%90%91/">逆向</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2024/03/27/about/">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.png">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
