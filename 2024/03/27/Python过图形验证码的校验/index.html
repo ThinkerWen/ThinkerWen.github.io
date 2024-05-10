@@ -137,11 +137,11 @@
 <p>要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。</p>
 <p>于是我使用Python的OpenCV进行图片的识别。</p>
 <h4 id="1-提取图片"><a href="#1-提取图片" class="headerlink" title="1.提取图片"></a>1.提取图片</h4><p>首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 <code>cv2.imread(front_image)</code> 来加载图片时，会显示一片漆黑：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c75c8ec330.png" width="200" alt="背景图"/>
+<img src="https://images.hive-net.cn/img/2024/05/09/663c75c8ec330.png" width="200" alt="目标图"/>
 
 <p>即使后来我使用了保留透明通道的加载 <code>cv2.imread(front_path, cv2.IMREAD_UNCHANGED)</code>，依旧是一片漆黑。</p>
 <p>于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c75d9ea07b.png" width="200" alt="背景图"/>
+<img src="https://images.hive-net.cn/img/2024/05/09/663c75d9ea07b.png" width="200" alt="目标图"/>
 
 <h4 id="2-匹配图片"><a href="#2-匹配图片" class="headerlink" title="2.匹配图片"></a>2.匹配图片</h4><p>即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。</p>
 <p>我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。<br>本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：</p>
