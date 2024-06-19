@@ -6,7 +6,7 @@
   <link href="https://thinkerwen.github.io/atom.xml" rel="self"/>
   
   <link href="https://thinkerwen.github.io/"/>
-  <updated>2024-06-19T08:27:06.032Z</updated>
+  <updated>2024-06-19T11:47:49.034Z</updated>
   <id>https://thinkerwen.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>crackme_0x02</title>
+    <link href="https://thinkerwen.github.io/2024/06/19/crackme-0x02/"/>
+    <id>https://thinkerwen.github.io/2024/06/19/crackme-0x02/</id>
+    <published>2024-06-19T11:47:20.000Z</published>
+    <updated>2024-06-19T11:47:49.034Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h2&gt;&lt;p&gt;What if JD-GUI doesn’t show you the password?&lt;/p&gt;
+&lt;h3 id=&quot;目标&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/CrackMe/"/>
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/tags/CrackMe/"/>
+    
+  </entry>
+  
+  <entry>
     <title>crackme_0x01</title>
     <link href="https://thinkerwen.github.io/2024/06/19/crackme-0x01/"/>
     <id>https://thinkerwen.github.io/2024/06/19/crackme-0x01/</id>
     <published>2024-06-19T08:13:54.000Z</published>
-    <updated>2024-06-19T08:27:06.032Z</updated>
+    <updated>2024-06-19T11:47:47.910Z</updated>
     
     
       

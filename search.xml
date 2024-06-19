@@ -152,9 +152,34 @@
     <title>crackme_0x01</title>
     <url>/2024/06/19/crackme-0x01/</url>
     <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.</p>
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>找到Flag</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>找到Flag</p>
 <h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/izxhl0mj4k7i">https://yhxx.lanzoub.com/izxhl0mj4k7i</a></p>
-<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag<br><img src="https://images.hive-net.cn/img/2024/06/19/66727bb713722.jpg" width="200" alt="CrackMe" /><br>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。<br>在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/66728f7da4f0d.png" width="500" alt="CrackMe" /><br>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData()</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。<br><img src="https://images.hive-net.cn/img/2024/06/19/667290fd75537.png" width="500" alt="CrackMe" /><br>进入<code>Data().getData()</code>，发现函数直接返回了<code>password</code>字符串<code>s3cr37_p4ssw0rd_1337</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672923942e32.png" width="500" alt="CrackMe" /><br>在文本框输入<code>s3cr37_p4ssw0rd_1337</code>即可拿到<code>flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/66727cb321559.jpg" width="200" alt="CrackMe" /></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag<br><img src="https://images.hive-net.cn/img/2024/06/19/66727bb713722.jpg" width="200" alt="CrackMe" /><br>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。<br>在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。<br>②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/66728f7da4f0d.png" width="500" alt="CrackMe" /><br>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData()</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。<br><img src="https://images.hive-net.cn/img/2024/06/19/667290fd75537.png" width="500" alt="CrackMe" /><br>进入<code>Data().getData()</code>，发现函数直接返回了<code>password</code>字符串<code>s3cr37_p4ssw0rd_1337</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672923942e32.png" width="500" alt="CrackMe" /><br>在文本框输入<code>s3cr37_p4ssw0rd_1337</code>即可拿到<code>flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/66727cb321559.jpg" width="200" alt="CrackMe" /></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+        <category>CrackMe</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>CrackMe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>crackme_0x02</title>
+    <url>/2024/06/19/crackme-0x02/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>What if JD-GUI doesn’t show you the password?</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>找到Flag</p>
+<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/ikyBX0mj4kab">https://yhxx.lanzoub.com/ikyBX0mj4kab</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag<br><img src="https://images.hive-net.cn/img/2024/06/19/6672a7b5637ac.jpg" width="200" alt="CrackMe" /></p>
+<p>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。<br>在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>和<code>ApplicationContext</code>得到<code>flag</code>。<br>②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c0e53fc32.png" width="500" alt="CrackMe" /></p>
+<p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c217cbe11.png" width="500" alt="CrackMe" /></p>
+<p>进入<code>Data().getData()</code>，发现函数需要获取到<code>ApplicationContext</code>中的字符串来当做<code>password</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c277a761e.png" width="500" alt="CrackMe" /></p>
+<p>追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c321a2770.png" width="500" alt="CrackMe" /></p>
+<p>Android的字符串资源都存储在<code>/res/values/strings.xml</code>中<br>可以使用apktool工具解压apk文件查看：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apktool d base.apk</span><br><span class="line"><span class="built_in">cd</span> base</span><br><span class="line"><span class="built_in">cat</span> res/values/strings.xml</span><br></pre></td></tr></table></figure>
+<p>或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。<br>打开xml文件后可以看到名为secret的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code>即为密码。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c498e51a0.png" width="500" alt="CrackMe" /></p>
+<p>在文本框输入<code>s0m3_0th3r_s3cr3t_passw0rd</code>即可拿到<code>flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/19/6672c4be209ad.jpg" width="200" alt="CrackMe" /></p>
 ]]></content>
       <categories>
         <category>逆向</category>
