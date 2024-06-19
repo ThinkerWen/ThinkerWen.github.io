@@ -6,7 +6,7 @@
   <link href="https://thinkerwen.github.io/atom.xml" rel="self"/>
   
   <link href="https://thinkerwen.github.io/"/>
-  <updated>2024-05-10T08:04:25.531Z</updated>
+  <updated>2024-06-19T08:15:45.514Z</updated>
   <id>https://thinkerwen.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>crackme_0x01</title>
+    <link href="https://thinkerwen.github.io/2024/06/19/crackme-0x01/"/>
+    <id>https://thinkerwen.github.io/2024/06/19/crackme-0x01/</id>
+    <published>2024-06-19T08:13:54.000Z</published>
+    <updated>2024-06-19T08:15:45.514Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;crackme-0x01&quot;&gt;&lt;a href=&quot;#crackme-0x01&quot; class=&quot;headerlink&quot; title=&quot;crackme_0x01&quot;&gt;&lt;/a&gt;crackme_0x01&lt;/h1&gt;&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>Python过图形验证码的校验</title>
