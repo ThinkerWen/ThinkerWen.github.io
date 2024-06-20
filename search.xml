@@ -223,11 +223,42 @@
 <h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>成功注册软件</p>
 <h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/i3Acs0mqhnji">https://yhxx.lanzoub.com/i3Acs0mqhnji</a></p>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eaaecb92c.jpg" width="200" alt="CrackMe" /></p>
-<p>通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
+<p>用Jadx-GUI打开APK看一下源码，通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
 <p>在<code>checkSN()</code>中将<code>username</code>进行md5加密，然后经过简单的字符串拼接计算出注册码<code>sn</code>，由于并不困难，所以只需本地实现一下计算过程就行。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673ec65e1bf0.png" width="500" alt="CrackMe" /></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">md5_hash</span>(<span class="params">input_string</span>):</span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line">    md5.update(input_string.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    bytes_hash = md5.digest()</span><br><span class="line">    hexstr = <span class="string">&#x27;&#x27;</span>.join(<span class="string">f&#x27;<span class="subst">&#123;b:02x&#125;</span>&#x27;</span> <span class="keyword">for</span> b <span class="keyword">in</span> bytes_hash)</span><br><span class="line">    <span class="keyword">return</span> hexstr</span><br><span class="line"></span><br><span class="line">result = <span class="built_in">str</span>()</span><br><span class="line">user_name = <span class="string">&quot;cracker&quot;</span></span><br><span class="line">hexstr = md5_hash(user_name)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(hexstr), <span class="number">2</span>):</span><br><span class="line">    result += hexstr[i]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;The <span class="subst">&#123;user_name&#125;</span>&#x27;s password is: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output:</span></span><br><span class="line"><span class="comment"># The cracker&#x27;s password is: 26b525207d9b7886</span></span><br></pre></td></tr></table></figure>
 
 <p>将得到的用户名和注册码填入APP即可注册成功<br><img src="https://images.hive-net.cn/img/2024/06/20/6673ed6120879.png" width="200" alt="CrackMe" /></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+        <category>CrackMe</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>CrackMe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>crackme_0x05</title>
+    <url>/2024/06/20/crackme-0x05/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>注册为企业版程序</p>
+<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/i5cyV0mrazaf">https://yhxx.lanzoub.com/i5cyV0mrazaf</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入注册码来进行注册。</p>
+<div style="display: flex; align-items: flex-start; gap: 10px;">  <img src="https://images.hive-net.cn/img/2024/06/20/6673fdf8bc208.jpg" width="200" alt="CrackMe" /> <img src="https://images.hive-net.cn/img/2024/06/20/6673fde7cd9c6.png" width="200" alt="CrackMe" /></div>
+
+<p>用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过<code>MyApp.m</code>来判断APP的注册状态。<br>在②中判断注册状态，如果未注册则执行③的<code>doRegister()</code>，如果已经注册则执行<code>MyApp.work()</code><br><img src="https://images.hive-net.cn/img/2024/06/20/66741703e8cf8.png" width="500" alt="CrackMe" /></p>
+<p>先看一下<code>MyApp.m</code>参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为<code>hack</code>的so，并在<code>onCreate()</code>中调用了native方法<code>initSN()</code>。<br>且在别处没有找到其他修改<code>MyApp.m</code>的地方，那么大概率就在so中进行操作的，并且<code>MyApp.work()</code>函数也是native函数。<br><img src="https://images.hive-net.cn/img/2024/06/20/667418ab1c0c1.png" width="500" alt="CrackMe" /></p>
+<p>我们再看输入注册码后的<code>doRegister()</code>,他将输入的注册码sn作为参数传入到了<code>MyApp.saveSN()</code>中，且<code>MyApp.saveSN()</code>也是native函数，所以我们只需要看<code>hack</code>的so即可。<br><img src="https://images.hive-net.cn/img/2024/06/20/667419c366b02.png" width="500" alt="CrackMe" /></p>
+<p>打开IDA工具找对应的native方法。<br>找到<code>work()</code>方法对应的native方法<code>n3</code>后发现想要注册为企业版，则使用到了<code>n1</code>方法<br><img src="https://images.hive-net.cn/img/2024/06/20/66741b37adc9e.png" width="500" alt="CrackMe" /></p>
+<p>我们再去看<code>n1</code>，<code>n1</code>对应的是<code>initSN()</code>方法，它在打开APP时读取<code>/sdcard/reg.dat</code>，将其中的内容与4种md5字符串做对比，来设置<code>MyApp.m</code>的值。<br>而我们要注册为企业版，所以需要<code>MyApp.m</code>为3，即内容需要和<code>b2db1185c9e5b88d9b70d7b3278a4947</code>相等。<br><img src="https://images.hive-net.cn/img/2024/06/20/66741bac05d66.png" width="500" alt="CrackMe" /></p>
+<p>再看<code>saveSN()</code>对应的<code>n2</code>方法，它将输入的字符串做md5加密然后存储到<code>/sdcard/reg.dat</code>中，所以结合n2现在有两种解法：</p>
+<ol>
+<li>直接将<code>b2db1185c9e5b88d9b70d7b3278a4947</code>输入到<code>/sdcard/reg.dat</code>中即可</li>
+<li>找到<code>b2db1185c9e5b88d9b70d7b3278a4947</code>对应的明文即为注册码<img src="https://images.hive-net.cn/img/2024/06/20/66741dacc2dfa.png" width="500" alt="CrackMe" /></li>
+</ol>
+<p>到md5撞库解密的网站输入<code>b2db1185c9e5b88d9b70d7b3278a4947</code>，得到明文为<code>32345678</code><br><img src="https://images.hive-net.cn/img/2024/06/20/66741e7b3abf8.png" width="500" alt="CrackMe" /></p>
+<p>输入注册码保存成功，再打开APP则已经注册为企业版了<br><img src="https://images.hive-net.cn/img/2024/06/20/66741edd3e17e.png" width="200" alt="CrackMe" /></p>
 ]]></content>
       <categories>
         <category>逆向</category>

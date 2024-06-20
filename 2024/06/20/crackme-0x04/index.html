@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">255</span>
+            <span class="post-count">265</span>
         </span>
     </span>
 
@@ -113,7 +113,7 @@
 <h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>成功注册软件</p>
 <h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a target="_blank" rel="noopener" href="https://yhxx.lanzoub.com/i3Acs0mqhnji">https://yhxx.lanzoub.com/i3Acs0mqhnji</a></p>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eaaecb92c.jpg" width="200" alt="CrackMe" /></p>
-<p>通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
+<p>用Jadx-GUI打开APK看一下源码，通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
 <p>在<code>checkSN()</code>中将<code>username</code>进行md5加密，然后经过简单的字符串拼接计算出注册码<code>sn</code>，由于并不困难，所以只需本地实现一下计算过程就行。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673ec65e1bf0.png" width="500" alt="CrackMe" /></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">md5_hash</span>(<span class="params">input_string</span>):</span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line">    md5.update(input_string.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    bytes_hash = md5.digest()</span><br><span class="line">    hexstr = <span class="string">&#x27;&#x27;</span>.join(<span class="string">f&#x27;<span class="subst">&#123;b:02x&#125;</span>&#x27;</span> <span class="keyword">for</span> b <span class="keyword">in</span> bytes_hash)</span><br><span class="line">    <span class="keyword">return</span> hexstr</span><br><span class="line"></span><br><span class="line">result = <span class="built_in">str</span>()</span><br><span class="line">user_name = <span class="string">&quot;cracker&quot;</span></span><br><span class="line">hexstr = md5_hash(user_name)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(hexstr), <span class="number">2</span>):</span><br><span class="line">    result += hexstr[i]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;The <span class="subst">&#123;user_name&#125;</span>&#x27;s password is: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output:</span></span><br><span class="line"><span class="comment"># The cracker&#x27;s password is: 26b525207d9b7886</span></span><br></pre></td></tr></table></figure>
 
@@ -200,6 +200,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2024/06/20/crackme-0x05/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            crackme_0x05
+          
+        </div>
+      </a>
     
     
       <a href="/2024/06/20/crackme-0x03/" class="article-nav-link">

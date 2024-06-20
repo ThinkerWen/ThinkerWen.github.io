@@ -6,7 +6,7 @@
   <link href="https://thinkerwen.github.io/atom.xml" rel="self"/>
   
   <link href="https://thinkerwen.github.io/"/>
-  <updated>2024-06-20T08:56:25.257Z</updated>
+  <updated>2024-06-20T12:22:48.861Z</updated>
   <id>https://thinkerwen.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>crackme_0x05</title>
+    <link href="https://thinkerwen.github.io/2024/06/20/crackme-0x05/"/>
+    <id>https://thinkerwen.github.io/2024/06/20/crackme-0x05/</id>
+    <published>2024-06-20T12:22:31.000Z</published>
+    <updated>2024-06-20T12:22:48.861Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h2&gt;&lt;p&gt;此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。&lt;/p&gt;
+&lt;h3 id=&quot;目标&quot;&gt;&lt;a href=&quot;#目标&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/CrackMe/"/>
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/tags/CrackMe/"/>
+    
+  </entry>
+  
+  <entry>
     <title>crackme_0x04</title>
     <link href="https://thinkerwen.github.io/2024/06/20/crackme-0x04/"/>
     <id>https://thinkerwen.github.io/2024/06/20/crackme-0x04/</id>
     <published>2024-06-20T08:51:29.000Z</published>
-    <updated>2024-06-20T08:56:25.257Z</updated>
+    <updated>2024-06-20T10:05:27.151Z</updated>
     
     
       
