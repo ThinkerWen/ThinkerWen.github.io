@@ -6,7 +6,7 @@
   <link href="https://thinkerwen.github.io/atom.xml" rel="self"/>
   
   <link href="https://thinkerwen.github.io/"/>
-  <updated>2024-06-19T11:47:49.034Z</updated>
+  <updated>2024-06-20T06:44:17.138Z</updated>
   <id>https://thinkerwen.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>crackme_0x03</title>
+    <link href="https://thinkerwen.github.io/2024/06/20/crackme-0x03/"/>
+    <id>https://thinkerwen.github.io/2024/06/20/crackme-0x03/</id>
+    <published>2024-06-20T06:43:51.000Z</published>
+    <updated>2024-06-20T06:44:17.138Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h2&gt;&lt;p&gt;Some hashes, cats and strings generation.&lt;/p&gt;
+&lt;h3 id=&quot;目标&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/categories/%E9%80%86%E5%90%91/CrackMe/"/>
+    
+    
+    <category term="逆向" scheme="https://thinkerwen.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+    <category term="CrackMe" scheme="https://thinkerwen.github.io/tags/CrackMe/"/>
+    
+  </entry>
   
   <entry>
     <title>crackme_0x02</title>

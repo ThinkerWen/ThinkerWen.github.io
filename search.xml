@@ -190,4 +190,29 @@
         <tag>CrackMe</tag>
       </tags>
   </entry>
+  <entry>
+    <title>crackme_0x03</title>
+    <url>/2024/06/20/crackme-0x03/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>Some hashes, cats and strings generation.</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>找到Flag</p>
+<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/iwKDO0mj4kfg">https://yhxx.lanzoub.com/iwKDO0mj4kfg</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a5711c8bc.jpg" width="200" alt="CrackMe" /><br>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。<br>在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。<br>②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a6190255d.png" width="500" alt="CrackMe" /></p>
+<p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().isPasswordOk(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().isPasswordOk()</code>就可以拿到密码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a6eab8c7c.png" width="500" alt="CrackMe" /></p>
+<p>在<code>Data().isPasswordOk()</code>可以从①中看到密码长度是6，然后在②中将用户填入的<code>password</code>进行md5加密并与现有的md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>作对比，相等则给出flag。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a7ff54eb1.png" width="500" alt="CrackMe" /></p>
+<p>于是现在有两种解法：<br>1.找出md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>的明文，即为密码。<br>2.让<code>isPasswordOk()</code>函数永远返回true，随便输入6位字符串即可拿到flag。</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>到md5撞库解密的网站输入<code>ac43bb53262e4edd82c0e82a93c84755</code>，得到明文为<code>3#8H1J</code><br><img src="https://images.hive-net.cn/img/2024/06/20/6673a9747b2c2.png" width="500" alt="CrackMe" /><br>输入密码<code>3#8H1J</code>，即可拿到flag。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673aa58956c5.png" width="200" alt="CrackMe" /></p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用frida对<code>isPasswordOk()</code>函数进行hook，使之永远返回true。<br>hook代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title class_">Java</span>.<span class="title function_">perform</span>( <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">Data</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;net.persianov.crackme0x03.Data&quot;</span>);</span><br><span class="line">    <span class="title class_">Data</span>[<span class="string">&quot;isPasswordOk&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">str</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isPasswordOk is called&#x27;</span> + <span class="string">&#x27;, &#x27;</span> + <span class="string">&#x27;str: &#x27;</span> + str);</span><br><span class="line">      <span class="keyword">let</span> ret = <span class="literal">true</span>;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isPasswordOk ret value is &#x27;</span> + ret);</span><br><span class="line">      <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(main);</span><br></pre></td></tr></table></figure>
+
+<p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code><br><img src="https://cdn.nlark.com/yuque/0/2023/png/22601974/1675655709434-d96f7928-0271-4812-bc27-974ce0c7104e.png"><br>随意输入字符串即可拿到flag。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a84da919e.jpg" width="200" alt="CrackMe" /></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+        <category>CrackMe</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>CrackMe</tag>
+      </tags>
+  </entry>
 </search>
