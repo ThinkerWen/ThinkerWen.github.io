@@ -89,9 +89,10 @@
     <content><![CDATA[<ul>
 <li>👋 Hi, I’m Wen</li>
 <li>🛰 My WeChat: Rem_wife</li>
+<li>🐱 My GitHub: <a href="https://github.com/ThinkerWen/" >ThinkerWen</a></li>
 <li>📸 My Instgram: <a href="https://www.instagram.com/jason.wxw/" >Jason.wxw</a></li>
 <li>🌈 My Tiktok: <a href="https://www.tiktok.com/@friday.wang/" >DesignerWang</a></li>
-<li>📬 My E-mail: <a href="mailto:&#x77;&#120;&#119;&#x31;&#50;&#x36;&#109;&#97;&#105;&#x6c;&#x40;&#49;&#x32;&#x36;&#x2e;&#99;&#x6f;&#x6d;">&#x77;&#120;&#119;&#x31;&#50;&#x36;&#109;&#97;&#105;&#x6c;&#x40;&#49;&#x32;&#x36;&#x2e;&#99;&#x6f;&#x6d;</a></li>
+<li>📬 My E-mail: <a href="mailto:&#x77;&#120;&#119;&#49;&#50;&#x36;&#109;&#x61;&#105;&#x6c;&#x40;&#x31;&#50;&#x36;&#x2e;&#99;&#111;&#x6d;">&#x77;&#120;&#119;&#49;&#50;&#x36;&#109;&#x61;&#105;&#x6c;&#x40;&#x31;&#50;&#x36;&#x2e;&#99;&#111;&#x6d;</a></li>
 <li>🌎 My WebSite：<a href="https://www.404fix.cn/">https://www.404fix.cn</a></li>
 <li>✨ My WeChat official account: 夜寒信息</li>
 </ul>
@@ -205,6 +206,28 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title class_">Java</span>.<span class="title function_">perform</span>( <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">Data</span> = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;net.persianov.crackme0x03.Data&quot;</span>);</span><br><span class="line">    <span class="title class_">Data</span>[<span class="string">&quot;isPasswordOk&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params">str</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isPasswordOk is called&#x27;</span> + <span class="string">&#x27;, &#x27;</span> + <span class="string">&#x27;str: &#x27;</span> + str);</span><br><span class="line">      <span class="keyword">let</span> ret = <span class="literal">true</span>;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isPasswordOk ret value is &#x27;</span> + ret);</span><br><span class="line">      <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(main);</span><br></pre></td></tr></table></figure>
 
 <p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code><br><img src="https://images.hive-net.cn/img/2024/06/20/6673d11a6031e.png" width="500" alt="CrackMe" /><br>随意输入字符串即可拿到flag。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673a84da919e.jpg" width="200" alt="CrackMe" /></p>
+]]></content>
+      <categories>
+        <category>逆向</category>
+        <category>CrackMe</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>CrackMe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>crackme_0x04</title>
+    <url>/2024/06/20/crackme-0x04/</url>
+    <content><![CDATA[<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>使用用户名和注册码来成功注册软件。</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>成功注册软件</p>
+<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a href="https://yhxx.lanzoub.com/i3Acs0mqhnji">https://yhxx.lanzoub.com/i3Acs0mqhnji</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eaaecb92c.jpg" width="200" alt="CrackMe" /></p>
+<p>通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
+<p>在<code>checkSN()</code>中将<code>username</code>进行md5加密，然后经过简单的字符串拼接计算出注册码<code>sn</code>，由于并不困难，所以只需本地实现一下计算过程就行。<br><img src="https://images.hive-net.cn/img/2024/06/20/6673ec65e1bf0.png" width="500" alt="CrackMe" /></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">md5_hash</span>(<span class="params">input_string</span>):</span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line">    md5.update(input_string.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    bytes_hash = md5.digest()</span><br><span class="line">    hexstr = <span class="string">&#x27;&#x27;</span>.join(<span class="string">f&#x27;<span class="subst">&#123;b:02x&#125;</span>&#x27;</span> <span class="keyword">for</span> b <span class="keyword">in</span> bytes_hash)</span><br><span class="line">    <span class="keyword">return</span> hexstr</span><br><span class="line"></span><br><span class="line">result = <span class="built_in">str</span>()</span><br><span class="line">user_name = <span class="string">&quot;cracker&quot;</span></span><br><span class="line">hexstr = md5_hash(user_name)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(hexstr), <span class="number">2</span>):</span><br><span class="line">    result += hexstr[i]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;The <span class="subst">&#123;user_name&#125;</span>&#x27;s password is: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output:</span></span><br><span class="line"><span class="comment"># The cracker&#x27;s password is: 26b525207d9b7886</span></span><br></pre></td></tr></table></figure>
+
+<p>将得到的用户名和注册码填入APP即可注册成功<br><img src="https://images.hive-net.cn/img/2024/06/20/6673ed6120879.png" width="200" alt="CrackMe" /></p>
 ]]></content>
       <categories>
         <category>逆向</category>
