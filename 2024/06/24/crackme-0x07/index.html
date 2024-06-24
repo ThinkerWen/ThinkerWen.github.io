@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>crackme_0x06 |  一文破晓</title>
+      <title>crackme_0x07 |  一文破晓</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -54,7 +54,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-crackme-0x06"
+  id="post-crackme-0x07"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -65,7 +65,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  crackme_0x06
+  crackme_0x07
 </h1>
  
 
@@ -73,8 +73,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/06/24/crackme-0x06/" class="article-date">
-  <time datetime="2024-06-24T06:53:53.000Z" itemprop="datePublished">2024-06-24</time>
+      <a href="/2024/06/24/crackme-0x07/" class="article-date">
+  <time datetime="2024-06-24T08:25:21.000Z" itemprop="datePublished">2024-06-24</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a> / <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/CrackMe/">CrackMe</a>
@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">492</span>
+            <span class="post-count">691</span>
         </span>
     </span>
 
@@ -94,7 +94,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">2 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
@@ -109,22 +109,24 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>A secret string is hidden somewhere in this app. Find a way to extract it.</p>
+  <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>This app holds a secret inside. May include traces of native code.</p>
 <h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>找到密码</p>
-<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a target="_blank" rel="noopener" href="https://yhxx.lanzoub.com/iGhc20mreula">https://yhxx.lanzoub.com/iGhc20mreula</a></p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678ec7d0c70b.jpg" width="200" alt="CrackMe" /></p>
-<p>在GitHub上有个脚本可以过很多root检测<a target="_blank" rel="noopener" href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。<br>Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678edd657e94.png" width="500" alt="CrackMe" /></p>
-<p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678edff5b5c9.png" width="500" alt="CrackMe" /></p>
-<p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable1 -l crack.js</code></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">passRoot</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> c = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;sg.vantagepoint.a.c&quot;</span>);</span><br><span class="line">        c[<span class="string">&quot;a&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`c.a is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        c[<span class="string">&quot;b&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`c.b is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        c[<span class="string">&quot;c&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">passRoot</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(main);</span><br></pre></td></tr></table></figure>
+<h3 id="APK下载"><a href="#APK下载" class="headerlink" title="APK下载"></a>APK下载</h3><p><a target="_blank" rel="noopener" href="https://yhxx.lanzoub.com/iMZpZ0mx336d">https://yhxx.lanzoub.com/iMZpZ0mx336d</a></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。<br><img src="https://images.hive-net.cn/img/2024/06/24/667927fce62ae.jpg" width="200" alt="CrackMe" /></p>
+<p>在GitHub上有个脚本可以过很多root检测<a target="_blank" rel="noopener" href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。<br>Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。<br><img src="https://images.hive-net.cn/img/2024/06/24/6679285b257e6.png" width="500" alt="CrackMe" /></p>
+<p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。<br><img src="https://images.hive-net.cn/img/2024/06/24/6679287d678bb.png" width="500" alt="CrackMe" /></p>
+<p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">passRoot</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> b = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;sg.vantagepoint.a.b&quot;</span>);</span><br><span class="line">        b[<span class="string">&quot;a&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.a is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        b[<span class="string">&quot;b&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.b is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        b[<span class="string">&quot;c&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.c is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">passRoot</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(main);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>打开后APP就可以正常使用，不会提示root了。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678ecca77e46.jpg" width="200" alt="CrackMe" /></p>
-<p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>a.a()</code>方法中进行检查。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678ee2a30914.png" width="500" alt="CrackMe" /></p>
-<p>进入<code>a.a()</code>方法，可以看到加密的方法还是比较简单的，本地还原一下就行。<br><img src="https://images.hive-net.cn/img/2024/06/24/6678ee4d75068.png" width="500" alt="CrackMe" /></p>
-<p>将加密函数进行本地还原，输出结果为<code>I want to believe</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64decode</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aes_decrypt</span>(<span class="params">key_hex: <span class="built_in">str</span>, data_base64: <span class="built_in">str</span></span>) -&gt; <span class="built_in">bytes</span>:</span><br><span class="line">    key = <span class="built_in">bytes</span>.fromhex(key_hex)</span><br><span class="line">    data = b64decode(data_base64)</span><br><span class="line">    cipher = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    decrypted_data = cipher.decrypt(data)</span><br><span class="line">    pad_len = decrypted_data[-<span class="number">1</span>]</span><br><span class="line">    decrypted_data = decrypted_data[:-pad_len]</span><br><span class="line">    <span class="keyword">return</span> decrypted_data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_string</span>() -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        decrypted_data = aes_decrypt(<span class="string">&quot;8d127684cbc37c17616d806cf50473cc&quot;</span>, <span class="string">&quot;5UJiFctbmgbDoLXmpL12mkno8HT4Lv8dlat8FxR2GOc=&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;AES error: <span class="subst">&#123;<span class="built_in">str</span>(e)&#125;</span>&quot;</span>)</span><br><span class="line">        decrypted_data = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> decrypted_data.decode()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(get_string())</span><br><span class="line"></span><br><span class="line"><span class="comment"># output: I want to believe</span></span><br></pre></td></tr></table></figure>
+<p>打开后APP就可以正常使用，不会提示root了。<br><img src="https://images.hive-net.cn/img/2024/06/24/6679290518402.png" width="200" alt="CrackMe" /></p>
+<p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.m.a()</code>方法中进行检查。<br><img src="https://images.hive-net.cn/img/2024/06/24/6679294099978.png" width="500" alt="CrackMe" /></p>
+<p>进入<code>this.m.a()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到有<code>System.loadLibrary(&quot;foo&quot;)</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。<br><img src="https://images.hive-net.cn/img/2024/06/24/6679297227939.png" width="500" alt="CrackMe" /></p>
+<p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到其中用到了<code>strncmp()</code>来做字符串对比，所以只需要hook<code>strncmp()</code>即可。同时可以看到字符串长度为23位，这也缩小了hook范围，更加方便。<br><img src="https://images.hive-net.cn/img/2024/06/24/66792a441d21d.png" width="500" alt="CrackMe" /></p>
+<p>写出hook脚本，重启注入APP<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code>，输入<code>01234567890123456789012</code>来查看返回值，可以看到输出为<code>Thanks for all the fish</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">passRoot</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> b = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;sg.vantagepoint.a.b&quot;</span>);</span><br><span class="line">        b[<span class="string">&quot;a&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.a is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        b[<span class="string">&quot;b&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.b is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        b[<span class="string">&quot;c&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`b.c is called`</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getSecret</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> libfoo_ptr = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> modules = <span class="title class_">Process</span>.<span class="title function_">enumerateModules</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;modules.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (modules[i].<span class="property">name</span> == <span class="string">&quot;libfoo.so&quot;</span>) libfoo_ptr = modules[i].<span class="property">base</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(<span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(libfoo_ptr, <span class="string">&quot;strncmp&quot;</span>), &#123;</span><br><span class="line">        <span class="attr">onEnter</span>: <span class="keyword">function</span> (<span class="params">args</span>) &#123;</span><br><span class="line">           <span class="keyword">if</span>(args[<span class="number">2</span>].<span class="title function_">toInt32</span>() == <span class="number">23</span> &amp;&amp; <span class="title class_">Memory</span>.<span class="title function_">readUtf8String</span>(args[<span class="number">0</span>],<span class="number">23</span>) == <span class="string">&quot;01234567890123456789012&quot;</span>) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;[*] Secret string at &quot;</span> + args[<span class="number">1</span>] + <span class="string">&quot;: &quot;</span> + <span class="title class_">Memory</span>.<span class="title function_">readUtf8String</span>(args[<span class="number">1</span>],<span class="number">23</span>));</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;,</span><br><span class="line">        <span class="attr">onLeave</span>: <span class="keyword">function</span>(<span class="params">retval</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">passRoot</span>();</span><br><span class="line">    <span class="title function_">getSecret</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(main);</span><br></pre></td></tr></table></figure>
+<img src="https://images.hive-net.cn/img/2024/06/24/66792b8e04b57.png" width="500" alt="CrackMe" />
 
-<p>将密码输入APP，密码正确，密码为<code>I want to believe</code><br><img src="https://images.hive-net.cn/img/2024/06/24/6678ecf85a381.jpg" width="200" alt="CrackMe" /></p>
+<p>将密码输入APP，密码正确，密码为<code>Thanks for all the fish</code><br><img src="https://images.hive-net.cn/img/2024/06/24/66792bf890379.png" width="200" alt="CrackMe" /></p>
  
       <!-- reward -->
       
@@ -195,7 +197,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://thinkerwen.github.io/2024/06/24/crackme-0x06/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://thinkerwen.github.io/2024/06/24/crackme-0x07/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -208,19 +210,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/06/24/crackme-0x07/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            crackme_0x07
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/06/20/crackme-0x05/" class="article-nav-link">
+      <a href="/2024/06/24/crackme-0x06/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">crackme_0x05</div>
+        <div class="article-nav-title">crackme_0x06</div>
       </a>
     
   </nav>
