@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x05/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x05/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x05/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -50,7 +52,7 @@ APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。
 用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中，所以结合n2现在有两种解法：
 直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 " />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

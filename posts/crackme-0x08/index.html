@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x08/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x08/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x08/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -48,7 +50,7 @@ function passRoot() { Java.perform(function() { let RootDetection = Java.use(&am
 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js
 function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console." />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

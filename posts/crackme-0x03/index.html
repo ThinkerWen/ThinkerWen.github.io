@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x03/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x03/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x03/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -50,7 +52,7 @@ APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。
 方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：
 function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.persianov.crackme0x03.Data&amp;#34;); Data[&amp;#34;isPasswordOk&amp;#34;].implementation = function (str) { console.log(&amp;#39;isPasswordOk is called&amp;#39; &#43; &amp;#39;, &amp;#39; &#43; &amp;#39;str: &amp;#39; &#43; str); let ret = true; console.log(&amp;#39;isPasswordOk ret value is &amp;#39; &#43; ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net." />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

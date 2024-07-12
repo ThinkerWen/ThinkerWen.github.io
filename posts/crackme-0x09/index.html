@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x09/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x09/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x09/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -50,7 +52,7 @@ APK下载 https://yhxx.lanzoue.com/iwnao22p7pda
 题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
 function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。
 from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3." />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

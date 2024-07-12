@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x04/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x04/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x04/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -46,7 +48,7 @@ APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
 目标 成功注册软件
 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
 题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 " />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

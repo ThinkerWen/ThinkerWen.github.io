@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -70,7 +72,7 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：
 rectangle_list每一个元素是[x1,y1,x2,y2]
 rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：" />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x02/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x02/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x02/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -48,7 +50,7 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
 APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在/res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
 apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 " />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   

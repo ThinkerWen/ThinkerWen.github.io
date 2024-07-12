@@ -8,7 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
   <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x07/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x07/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x07/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -48,7 +50,7 @@ function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.van
 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js
 function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.vantagepoint.a.b&amp;#34;); b[&amp;#34;a&amp;#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&amp;#34;b&amp;#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&amp;#34;c&amp;#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入this." />
-  <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
   
