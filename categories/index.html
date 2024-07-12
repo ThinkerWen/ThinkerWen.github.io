@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://www.404fix.cn/posts/crackme-0x01/" />
-  <link rel="canonical" href="https://www.404fix.cn/posts/crackme-0x01/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
+  <meta property="og:url" content="https://www.404fix.cn/categories/" />
+  <link rel="canonical" href="https://www.404fix.cn/categories/" /><link rel="alternate" type="application/atom+xml" href="https://www.404fix.cn/index.xml" title="一文破晓">
 
   <script type="application/ld+json">
   {
@@ -18,10 +18,10 @@
            "@type": "WebPage",
            "@id": "https:\/\/www.404fix.cn\/"
       },
-      "articleSection" : "posts",
-      "name" : "Android crackme_0x01",
-      "headline" : "Android crackme_0x01",
-      "description" : "描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/izxhl0mj4k7i\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。 在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。 ",
+      "articleSection" : "categories",
+      "name" : "Categories",
+      "headline" : "Categories",
+      "description" : "",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -29,23 +29,17 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2024",
-      "datePublished": "2024-06-19 16:13:54 \u002b0000 UTC",
-      "dateModified" : "2024-06-19 16:13:54 \u002b0000 UTC",
-      "url" : "https:\/\/www.404fix.cn\/posts\/crackme-0x01\/",
-      "keywords" : [ "CrackMe","逆向", ]
+      "datePublished": "2024-06-26 16:00:52 \u002b0000 UTC",
+      "dateModified" : "2024-06-26 16:00:52 \u002b0000 UTC",
+      "url" : "https:\/\/www.404fix.cn\/categories\/",
+      "keywords" : [  ]
   }
 </script>
-<title>Android crackme_0x01</title>
-  <meta property="og:title" content="Android crackme_0x01" />
+<title>Categories</title>
+  <meta property="og:title" content="Categories" />
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.
-目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。 在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。 " />
-  <meta name="description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.
-目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。 在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。 " />
+  <meta property="og:description" content="" />
+  <meta name="description" content="" />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="" />
   
 
@@ -72,11 +66,10 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
 
 
 <body>
-  <article class="post Chinese" id="article">
+  <article class="posts">
     <div class="row">
       <div class="col-xs-12">
-        <div class="site-header">
-          
+        
 <header>
   <div class="header-title">
     <a href="/"
@@ -105,116 +98,11 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
 </div>
 <div class="header-line"></div>
 
+
+        <h1 class="taxonomy-term"></h1>
+        <div id="posts-list">
+          
         </div>
-        <header class="post-header">
-          <h1 class="post-title">Android crackme_0x01</h1>
-          
-          <div class="row post-desc">
-            <div class="col-xs-6">
-              
-              <time class="post-date" datetime="2024-06-19 16:13:54 UTC">
-                19 Jun 2024
-              </time>
-              
-            </div>
-            <div class="col-xs-6">
-              
-            </div>
-          </div>
-          
-        </header>
-
-        <div class="post-content markdown-body">
-          
-          <h2 id="描述">描述</h2>
-<p>The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.</p>
-<h3 id="目标">目标</h3>
-<p>找到Flag</p>
-<h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/izxhl0mj4k7i">https://yhxx.lanzoub.com/izxhl0mj4k7i</a></p>
-<h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-<img src="https://images.hive-net.cn/img/2024/06/19/66727bb713722.jpg" width="200" alt="CrackMe" />
-用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
-在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
-②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/66728f7da4f0d.png" width="500" alt="CrackMe" />
-进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData()</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。
-<img src="https://images.hive-net.cn/img/2024/06/19/667290fd75537.png" width="500" alt="CrackMe" />
-进入<code>Data().getData()</code>，发现函数直接返回了<code>password</code>字符串<code>s3cr37_p4ssw0rd_1337</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672923942e32.png" width="500" alt="CrackMe" />
-在文本框输入<code>s3cr37_p4ssw0rd_1337</code>即可拿到<code>flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/66727cb321559.jpg" width="200" alt="CrackMe" /></p>
-
-        </div>
-
-        <div class="row middle-xs">
-          <div class="col-xs-12">
-            
-            <div class="post-tags">
-              <a href="/tags/crackme/">
-                CrackMe
-              </a>
-            </div>
-            
-            <div class="post-tags">
-              <a href="/tags/%E9%80%86%E5%90%91/">
-                逆向
-              </a>
-            </div>
-            
-          </div>
-        </div>
-        
-          <div class="row">
-            <div class="col-xs-12">
-              
-            </div>
-          </div>
-
-          
-
-<div class="related-content">
-  <h3>Related Posts</h3>
-  <ul>
-    
-    <li><a href="/posts/damai-resale-ticket-monitor/">大麦网回流票监控</a></li>
-    
-    <li><a href="/posts/python-bypass-graphical-captcha-verification/">Python过图形验证码的校验</a></li>
-    
-  </ul>
-</div>
-
-
-
-          
-          
-          <div style="height: 50px;"></div>
-          
-          <div class="post-comments">
-            <div id="disqus_thread"></div>
-<script>
-  window.addEventListener("load", () => {
-    (function() {
-      
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://Wen.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  });
-</script>
-<noscript
-  >Please enable JavaScript to view the
-  <a href="https://disqus.com/?ref_noscript"
-    >comments powered by Disqus.</a
-  ></noscript
->
-
-          </div>
-          
-        
 
         <div class="site-footer">
   
@@ -234,8 +122,6 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
     
   
 </script>
-
-  
 
 </body>
 

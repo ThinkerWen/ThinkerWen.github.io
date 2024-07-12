@@ -85,12 +85,5 @@
       <guid>https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/</guid>
       <description>背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。&#xA;文章源码地址：点击查看&#xA;验证码如下：&#xA;背景图 目标图 弹出验证码的Response如下：&#xA;{ &amp;#34;data&amp;#34;: { &amp;#34;errorCode&amp;#34;: 0, &amp;#34;errorMsg&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;bg&amp;#34;: &amp;#34;https://example.com/ENZg076503962.jpg&amp;#34;, &amp;#34;front&amp;#34;: &amp;#34;https://example.com/ENZg076503963.png&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34;, &amp;#34;width&amp;#34;: 765, &amp;#34;height&amp;#34;: 396 } } 完成验证码的Request如下&#xA;{ &amp;#34;m&amp;#34;: &amp;#34;[{\&amp;#34;x\&amp;#34;:395,\&amp;#34;y\&amp;#34;:256},{\&amp;#34;x\&amp;#34;:89,\&amp;#34;y\&amp;#34;:273},{\&amp;#34;x\&amp;#34;:670,\&amp;#34;y\&amp;#34;:140}]&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。&#xA;方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。&#xA;要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。&#xA;于是我使用Python的OpenCV进行图片的识别。&#xA;1.提取图片 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 cv2.imread(front_image) 来加载图片时，会显示一片漆黑：&#xA;即使后来我使用了保留透明通道的加载 cv2.imread(front_path, cv2.IMREAD_UNCHANGED)，依旧是一片漆黑。&#xA;于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：&#xA;2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。&#xA;我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：&#xA;rectangle_list每一个元素是[x1,y1,x2,y2]&#xA;rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：</description>
     </item>
-    <item>
-      <title>关于我</title>
-      <link>https://www.404fix.cn/posts/about/</link>
-      <pubDate>Wed, 27 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>https://www.404fix.cn/posts/about/</guid>
-      <description> 👋 嗨, 我是 Wen 🛰 我的微信: Rem_wife 🐱 我的GitHub: ThinkerWen 📸 我的Instgram: Jason.wxw 🌈 我的Tiktok: DesignerWang 📬 我的邮箱: wxw126mail@126.com 🌎 我的网站：https://www.404fix.cn ✨ 我的微信公众号: 夜寒信息 </description>
-    </item>
   </channel>
 </rss>

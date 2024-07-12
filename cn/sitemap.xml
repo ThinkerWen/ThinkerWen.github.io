@@ -18,6 +18,25 @@
     <loc>https://www.404fix.cn/posts/crackme-0x09/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
   </url><url>
+    <loc>https://www.404fix.cn/categories/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.404fix.cn/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.404fix.cn/categories/"
+                />
+  </url><url>
+    <loc>https://www.404fix.cn/tags/crackme/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+  </url><url>
+    <loc>https://www.404fix.cn/categories/crackme/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+  </url><url>
     <loc>https://www.404fix.cn/posts/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
     <xhtml:link
@@ -29,6 +48,19 @@
                 rel="alternate"
                 hreflang="cn"
                 href="https://www.404fix.cn/posts/"
+                />
+  </url><url>
+    <loc>https://www.404fix.cn/tags/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://www.404fix.cn/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="https://www.404fix.cn/tags/"
                 />
   </url><url>
     <loc>https://www.404fix.cn/years/</loc>
@@ -56,6 +88,12 @@
                 hreflang="cn"
                 href="https://www.404fix.cn/"
                 />
+  </url><url>
+    <loc>https://www.404fix.cn/tags/%E9%80%86%E5%90%91/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+  </url><url>
+    <loc>https://www.404fix.cn/categories/%E9%80%86%E5%90%91/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
   </url><url>
     <loc>https://www.404fix.cn/posts/crackme-0x08/</loc>
     <lastmod>2024-06-25T15:14:04+00:00</lastmod>
@@ -86,18 +124,5 @@
   </url><url>
     <loc>https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/</loc>
     <lastmod>2024-03-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://www.404fix.cn/posts/about/</loc>
-    <lastmod>2024-03-27T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://www.404fix.cn/en/posts/about/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://www.404fix.cn/posts/about/"
-                />
   </url>
 </urlset>
