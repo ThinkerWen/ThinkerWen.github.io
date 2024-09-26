@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "大麦网回流票监控",
       "headline" : "大麦网回流票监控",
-      "description" : "最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。\n最简单的方向就是从网页端入手。\n在这个演唱会页面看到网页端不支持购买，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。\n经过抓包得到以下两个链接，分别是\n场次接口：\nhttps:\/\/mtop.damai.cn\/h5\/mtop.alibaba.damai.detail.getdetail\/1.2\/?jsv=2.7.2\u0026amp;appKey=12574478\u0026amp;t=1696836862157\u0026amp;sign=8f6f6d430ae53782832c28c208c9c246\u0026amp;api=mtop.alibaba.damai.detail.getdetail\u0026amp;v=1.2\u0026amp;H5Request=true\u0026amp;type=originaljson\u0026amp;timeout=10000\u0026amp;dataType=json\u0026amp;valueType=original\u0026amp;forceAntiCreep=true\u0026amp;AntiCreep=true\u0026amp;useH5=true\u0026amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：\nhttps:\/\/mtop.damai.cn\/h5\/mtop.alibaba.detail.subpage.getdetail\/2.0\/?jsv=2.7.2\u0026amp;appKey=12574478\u0026amp;t=1696837077937\u0026amp;sign=2000a8d025a2b8ff407be20a671b5e48\u0026amp;api=mtop.alibaba.detail.subpage.getdetail\u0026amp;v=2.0\u0026amp;H5Request=true\u0026amp;type=originaljson\u0026amp;timeout=10000\u0026amp;dataType=json\u0026amp;valueType=original\u0026amp;forceAntiCreep=true\u0026amp;AntiCreep=true\u0026amp;useH5=true\u0026amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下\n场次接口：\n座次接口：\n可以看到其中关键参数就是t、sign、data，其他参数都是固定的。\n其中data显而易见，场次接口的itemId就是这个演出的id，其他参数固定；座次接口的itemId是演出id，dataId就是当前场次的id（例如10.21场），其他参数固定。\n接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到sign上，也可以打到对应链接上。\n刷新一下页面触发断点，找到对应的请求发起js文件。\n在这个文件里简单调试下很容易就能找到加密函数\n可以看到这个函数就是将token、c、s、data，以\u0026amp;进行分隔拼接，然后再进行加密得到sign。\n其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。\n所以现在就剩token未知，在函数上打个断点看看：\n发现这个token很眼熟，回头看看我们请求所需的cookie，这个token就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。\n我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。\n现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。\n可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。\n最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。",
+      "description" : "最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。\n最简单的方向就是从网页端入手。\n在这个演唱会页面看到网页端不支持购买，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。\n经过抓包得到以下两个链接，分别是\n场次接口：\nhttps:\/\/mtop.damai.cn\/h5\/mtop.alibaba.damai.detail.getdetail\/1.2\/?jsv=2.7.2\u0026amp;appKey=12574478\u0026amp;t=1696836862157\u0026amp;sign=8f6f6d430ae53782832c28c208c9c246\u0026amp;api=mtop.alibaba.damai.detail.getdetail\u0026amp;v=1.2\u0026amp;H5Request=true\u0026amp;type=originaljson\u0026amp;timeout=10000\u0026amp;dataType=json\u0026amp;valueType=original\u0026amp;forceAntiCreep=true\u0026amp;AntiCreep=true\u0026amp;useH5=true\u0026amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：\nhttps:\/\/mtop.damai.cn\/h5\/mtop.alibaba.detail.subpage.getdetail\/2.0\/?jsv=2.7.2\u0026amp;appKey=12574478\u0026amp;t=1696837077937\u0026amp;sign=2000a8d025a2b8ff407be20a671b5e48\u0026amp;api=mtop.alibaba.detail.subpage.getdetail\u0026amp;v=2.0\u0026amp;H5Request=true\u0026amp;type=originaljson\u0026amp;timeout=10000\u0026amp;dataType=json\u0026amp;valueType=original\u0026amp;forceAntiCreep=true\u0026amp;AntiCreep=true\u0026amp;useH5=true\u0026amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下\n场次接口：\n座次接口：\n可以看到其中关键参数就是t、sign、data，其他参数都是固定的。\n其中data显而易见，场次接口的itemId就是这个演出的id，其他参数固定；座次接口的itemId是演出id，dataId就是当前场次的id（例如10.21场），其他参数固定。\n接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到sign上，也可以打到对应链接上。\n刷新一下页面触发断点，找到对应的请求发起js文件。\n在这个文件里简单调试下很容易就能找到加密函数\n可以看到这个函数就是将token、c、s、data，以\u0026amp;进行分隔拼接，然后再进行加密得到sign。\n其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。\n所以现在就剩token未知，在函数上打个断点看看：\n发现这个token很眼熟，回头看看我们请求所需的cookie，这个token就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。\n我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。\n现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。\n可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。\n最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -45,8 +45,8 @@
 在这个演唱会页面看到网页端不支持购买，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。
 经过抓包得到以下两个链接，分别是
 场次接口：
-https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696836862157&amp;amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;amp;api=mtop.alibaba.damai.detail.getdetail&amp;amp;v=1.2&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：
-https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696837077937&amp;amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;amp;api=mtop.alibaba.detail.subpage.getdetail&amp;amp;v=2.0&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下
+https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696836862157&amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;api=mtop.alibaba.damai.detail.getdetail&amp;v=1.2&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：
+https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696837077937&amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;api=mtop.alibaba.detail.subpage.getdetail&amp;v=2.0&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下
 场次接口：
 座次接口：
 可以看到其中关键参数就是t、sign、data，其他参数都是固定的。
@@ -54,21 +54,22 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&am
 接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到sign上，也可以打到对应链接上。
 刷新一下页面触发断点，找到对应的请求发起js文件。
 在这个文件里简单调试下很容易就能找到加密函数
-可以看到这个函数就是将token、c、s、data，以&amp;amp;进行分隔拼接，然后再进行加密得到sign。
+可以看到这个函数就是将token、c、s、data，以&amp;进行分隔拼接，然后再进行加密得到sign。
 其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。
 所以现在就剩token未知，在函数上打个断点看看：
 发现这个token很眼熟，回头看看我们请求所需的cookie，这个token就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。
 我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。
 现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。
 可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。
-最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。" />
+最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。
+" />
   <meta name="description" content="最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。
 最简单的方向就是从网页端入手。
 在这个演唱会页面看到网页端不支持购买，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。
 经过抓包得到以下两个链接，分别是
 场次接口：
-https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696836862157&amp;amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;amp;api=mtop.alibaba.damai.detail.getdetail&amp;amp;v=1.2&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：
-https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696837077937&amp;amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;amp;api=mtop.alibaba.detail.subpage.getdetail&amp;amp;v=2.0&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下
+https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696836862157&amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;api=mtop.alibaba.damai.detail.getdetail&amp;v=1.2&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：
+https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696837077937&amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;api=mtop.alibaba.detail.subpage.getdetail&amp;v=2.0&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下
 场次接口：
 座次接口：
 可以看到其中关键参数就是t、sign、data，其他参数都是固定的。
@@ -76,14 +77,15 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&am
 接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到sign上，也可以打到对应链接上。
 刷新一下页面触发断点，找到对应的请求发起js文件。
 在这个文件里简单调试下很容易就能找到加密函数
-可以看到这个函数就是将token、c、s、data，以&amp;amp;进行分隔拼接，然后再进行加密得到sign。
+可以看到这个函数就是将token、c、s、data，以&amp;进行分隔拼接，然后再进行加密得到sign。
 其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。
 所以现在就剩token未知，在函数上打个断点看看：
 发现这个token很眼熟，回头看看我们请求所需的cookie，这个token就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。
 我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。
 现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。
 可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。
-最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。" />
+最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。
+" />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -166,7 +168,7 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&am
           
           <p>最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。</p>
 <p>最简单的方向就是从网页端入手。</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c732439822.png" width="200" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_88DSq2.png" width="200" alt="大麦" />
 <p>在这个演唱会页面看到<strong>网页端不支持购买</strong>，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。</p>
 <p>经过抓包得到以下两个链接，分别是</p>
 <p>场次接口：</p>
@@ -174,31 +176,31 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&am
 </span></span></span></code></pre></div><p>座次接口：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-HTTP" data-lang="HTTP"><span style="display:flex;"><span><span style="color:#d20f39">https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696837077937&amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;api=mtop.alibaba.detail.subpage.getdetail&amp;v=2.0&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D
 </span></span></span></code></pre></div><p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数<code>_m_h5_tk</code>和<code>_m_h5_tk_enc</code>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73b1648b6.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VGAgxj.png" width="500" alt="大麦" />
 而这两个接口里的参数大同小异，分别如下</p>
 <p>场次接口：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73bcc4fc4.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_zIjBAS.png" width="500" alt="大麦" />
 <p>座次接口：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73c7c53b1.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_NL4mDY.png" width="500" alt="大麦" />
 <p>可以看到其中关键参数就是<code>t</code>、<code>sign</code>、<code>data</code>，其他参数都是固定的。</p>
 <p>其中data显而易见，场次接口的<code>itemId</code>就是这个演出的id，其他参数固定；座次接口的<code>itemId</code>是演出id，<code>dataId</code>就是当前场次的id（例如10.21场），其他参数固定。<br>
 接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到<code>sign</code>上，也可以打到对应链接上。</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73d28ca31.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_JDuCbE.png" width="200" alt="大麦" />
 <p>刷新一下页面触发断点，找到对应的请求发起js文件。</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73e61f463.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ZgU6Vp.png" width="500" alt="大麦" />
 <p>在这个文件里简单调试下很容易就能找到加密函数</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73ef99c0e.png" width="500" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ptv6qb.png" width="500" alt="大麦" />
 <p>可以看到这个函数就是将<code>token</code>、<code>c</code>、<code>s</code>、<code>data</code>，以&amp;进行分隔拼接，然后再进行加密得到sign。</p>
 <p>其中<code>token</code>暂时未知，<code>c</code>就是url参数中的t时间戳，<code>s</code>就是url参数中的<code>appKey</code>固定值，<code>data</code>就是url参数中的<code>data</code>的json字符串，简单拼接就行。</p>
 <p>所以现在就剩token未知，在函数上打个断点看看：<br>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c73f7d9c8d.png" width="500" alt="大麦" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_dOTo6b.png" width="500" alt="大麦" /></p>
 <p>发现这个<code>token</code>很眼熟，回头看看我们请求所需的cookie，这个<code>token</code>就是cookie中<code>_m_h5_tk</code>的前半部分，直接拿过来用就可以。</p>
 <p>我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。</p>
 <p>现在所需要知道的就是<code>_m_h5_tk</code>是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c740282087.png" width="300" alt="大麦" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_7CMqEz.png" width="500" alt="大麦" />
 <p>可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的<code>_m_h5_tk</code>，这下大功告成了。</p>
 <p>最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c74705595a.jpg" width="200" alt="微信推送" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ygrH9y.jpg" width="200" alt="微信推送" />
         </div>
 
         <div class="row middle-xs">

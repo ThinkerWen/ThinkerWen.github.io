@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,11 +43,11 @@
   <meta property="og:description" content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
-题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 " />
+题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&#39;utf-8&#39;)) bytes_hash = md5.digest() hexstr = &#39;&#39;.join(f&#39;{b:02x}&#39; for b in bytes_hash) return hexstr result = str() user_name = &#34;cracker&#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&#34;The {user_name}&#39;s password is: {result}&#34;) # Output: # The cracker&#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 " />
   <meta name="description" content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
-题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 " />
+题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&#39;utf-8&#39;)) bytes_hash = md5.digest() hexstr = &#39;&#39;.join(f&#39;{b:02x}&#39; for b in bytes_hash) return hexstr result = str() user_name = &#34;cracker&#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&#34;The {user_name}&#39;s password is: {result}&#34;) # Output: # The cracker&#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 " />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -136,11 +136,11 @@ APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
 <p><a href="https://yhxx.lanzoub.com/i3Acs0mqhnji">https://yhxx.lanzoub.com/i3Acs0mqhnji</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673eaaecb92c.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_REl7Wz.jpg" width="200" alt="CrackMe" /></p>
 <p>用Jadx-GUI打开APK看一下源码，通过<code>onClick()</code>绑定的函数发现注册按钮是通过调用<code>checkSN()</code>函数来判断是否成功注册的，传入参数为用户名和注册码。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673eb9f03d4d.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Foj31S.png" width="500" alt="CrackMe" /></p>
 <p>在<code>checkSN()</code>中将<code>username</code>进行md5加密，然后经过简单的字符串拼接计算出注册码<code>sn</code>，由于并不困难，所以只需本地实现一下计算过程就行。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673ec65e1bf0.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_LL1HKk.png" width="500" alt="CrackMe" /></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">hashlib</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">md5_hash</span>(input_string):
@@ -160,7 +160,7 @@ APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># Output:</span>
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># The cracker&#39;s password is: 26b525207d9b7886</span>
 </span></span></code></pre></div><p>将得到的用户名和注册码填入APP即可注册成功
-<img src="https://images.hive-net.cn/img/2024/06/20/6673ed6120879.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_aXmJrb.png" width="200" alt="CrackMe" /></p>
 
         </div>
 

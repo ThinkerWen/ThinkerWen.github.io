@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -136,17 +136,17 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
 <p><a href="https://yhxx.lanzoub.com/izxhl0mj4k7i">https://yhxx.lanzoub.com/izxhl0mj4k7i</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-<img src="https://images.hive-net.cn/img/2024/06/19/66727bb713722.jpg" width="200" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_4YgT7u.jpg" width="200" alt="CrackMe" />
 用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
 在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
 ②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/66728f7da4f0d.png" width="500" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_jrayxU.png" width="500" alt="CrackMe" />
 进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData()</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。
-<img src="https://images.hive-net.cn/img/2024/06/19/667290fd75537.png" width="500" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_WkaZbD.png" width="500" alt="CrackMe" />
 进入<code>Data().getData()</code>，发现函数直接返回了<code>password</code>字符串<code>s3cr37_p4ssw0rd_1337</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672923942e32.png" width="500" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_yg83W4.png" width="500" alt="CrackMe" />
 在文本框输入<code>s3cr37_p4ssw0rd_1337</code>即可拿到<code>flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/66727cb321559.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_lmlltf.jpg" width="200" alt="CrackMe" /></p>
 
         </div>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x08",
       "headline" : "Android crackme_0x08",
-      "description" : "描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iVOZH0n1ra1i\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js\nfunction passRoot() { Java.perform(function() { let RootDetection = Java.use(\u0026#34;sg.vantagepoint.util.RootDetection\u0026#34;); RootDetection[\u0026#34;checkRoot1\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot1 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot2\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot2 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot3\u0026#34;].implementation = function () { console.",
+      "description" : "描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iVOZH0n1ra1i\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js\nfunction passRoot() { Java.perform(function() { let RootDetection = Java.use(\u0026#34;sg.vantagepoint.util.RootDetection\u0026#34;); RootDetection[\u0026#34;checkRoot1\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot1 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot2\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot2 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot3\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot3 is called\u0060); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -44,12 +44,12 @@
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js
-function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console." />
+function passRoot() { Java.perform(function() { let RootDetection = Java.use(&#34;sg.vantagepoint.util.RootDetection&#34;); RootDetection[&#34;checkRoot1&#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&#34;checkRoot2&#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&#34;checkRoot3&#34;].implementation = function () { console.log(`RootDetection.checkRoot3 is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 " />
   <meta name="description" content="描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js
-function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console." />
+function passRoot() { Java.perform(function() { let RootDetection = Java.use(&#34;sg.vantagepoint.util.RootDetection&#34;); RootDetection[&#34;checkRoot1&#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&#34;checkRoot2&#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&#34;checkRoot3&#34;].implementation = function () { console.log(`RootDetection.checkRoot3 is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 " />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -138,12 +138,12 @@ function passRoot() { Java.perform(function() { let RootDetection = Java.use(&am
 <p><a href="https://yhxx.lanzoub.com/iVOZH0n1ra1i">https://yhxx.lanzoub.com/iVOZH0n1ra1i</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
-<img src="https://images.hive-net.cn/img/2024/06/24/667941632166e.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_qESMPz.png" width="200" alt="CrackMe" /></p>
 <p>在GitHub上有个脚本可以过很多root检测<a href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
-<img src="https://images.hive-net.cn/img/2024/06/24/667941994c846.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_uyFeGw.png" width="500" alt="CrackMe" /></p>
 <p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
-<img src="https://images.hive-net.cn/img/2024/06/24/667941abbe475.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_RbWsDv.png" width="500" alt="CrackMe" /></p>
 <p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
@@ -169,14 +169,14 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>打开后APP就可以正常使用，不会提示root了。
-<img src="https://images.hive-net.cn/img/2024/06/24/667941d2368de.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_nZQKlx.png" width="200" alt="CrackMe" /></p>
 <p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.check.check_code()</code>方法中进行检查。
-<img src="https://images.hive-net.cn/img/2024/06/24/667941f913579.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_AZRoWt.png" width="500" alt="CrackMe" /></p>
 <p>进入<code>this.check.check_code()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到在<code>verifyLibs()</code>中加载了<code>libfoo.so</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679422188028.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_PBEzHH.png" width="500" alt="CrackMe" /></p>
 <p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到验证方法主要用到了<code>v8</code>,<code>v9</code>两个参数，且在②中做了一些简单的对比，当字节长度为24且内容都相等的时候则会在③return true验证成功。
 可以看到<code>v9</code>在<code>sub_10E0</code>中做了处理，<code>v8</code>作为循环的index在<code>qword_15038</code>数组上遍历，那么现在的任务就是找到<code>v9</code>和<code>qword_15038</code>的内容，然后还原对比算法。
-<img src="https://images.hive-net.cn/img/2024/06/25/667a6a4eea265.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_HJ8pTe.png" width="500" alt="CrackMe" /></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
 </span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> RootDetection <span style="color:#04a5e5;font-weight:bold">=</span> Java.use(<span style="color:#40a02b">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
@@ -244,7 +244,7 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>找到了<code>v8</code>的内容：<code>pizzapizzapizzapizzapizz</code>和<code>qword_15038</code>的内容：<code>1d0811130f1749150d0003195a1d1315080e5a0017081314</code>
-<img src="https://images.hive-net.cn/img/2024/06/25/667a6c0531343.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Msv0Yq.png" width="500" alt="CrackMe" /></p>
 <p>还原算法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">binascii</span>
 </span></span><span style="display:flex;"><span>
@@ -259,7 +259,7 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: making owasp great again</span>
 </span></span></code></pre></div><p>将密码输入APP，密码正确，密码为<code>making owasp great again</code>
-<img src="https://images.hive-net.cn/img/2024/06/25/667a6d04e24d2.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_RywvLN.png" width="200" alt="CrackMe" /></p>
 
         </div>
 

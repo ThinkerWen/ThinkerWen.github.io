@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -138,17 +138,17 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
 <p><a href="https://yhxx.lanzoub.com/ikyBX0mj4kab">https://yhxx.lanzoub.com/ikyBX0mj4kab</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-<img src="https://images.hive-net.cn/img/2024/06/19/6672a7b5637ac.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_p6FPzk.jpg" width="200" alt="CrackMe" /></p>
 <p>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
 在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>和<code>ApplicationContext</code>得到<code>flag</code>。
 ②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c0e53fc32.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_NxCeGq.png" width="500" alt="CrackMe" /></p>
 <p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c217cbe11.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_RdI1TZ.png" width="500" alt="CrackMe" /></p>
 <p>进入<code>Data().getData()</code>，发现函数需要获取到<code>ApplicationContext</code>中的字符串来当做<code>password</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c277a761e.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Vl7Dh2.png" width="500" alt="CrackMe" /></p>
 <p>追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c321a2770.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_ZWwZ6G.png" width="500" alt="CrackMe" /></p>
 <p>Android的字符串资源都存储在<code>/res/values/strings.xml</code>中
 可以使用apktool工具解压apk文件查看：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apktool d base.apk
@@ -156,9 +156,9 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
 </span></span><span style="display:flex;"><span>cat res/values/strings.xml
 </span></span></code></pre></div><p>或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
 打开xml文件后可以看到名为secret的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code>即为密码。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c498e51a0.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_njHdXe.png" width="500" alt="CrackMe" /></p>
 <p>在文本框输入<code>s0m3_0th3r_s3cr3t_passw0rd</code>即可拿到<code>flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/19/6672c4be209ad.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_TTVqqg.jpg" width="200" alt="CrackMe" /></p>
 
         </div>
 

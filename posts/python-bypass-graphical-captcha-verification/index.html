@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "Python过图形验证码的校验",
       "headline" : "Python过图形验证码的校验",
-      "description" : "背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。\n文章源码地址：点击查看\n验证码如下：\n背景图 目标图 弹出验证码的Response如下：\n{ \u0026#34;data\u0026#34;: { \u0026#34;errorCode\u0026#34;: 0, \u0026#34;errorMsg\u0026#34;: \u0026#34;\u0026#34;, \u0026#34;bg\u0026#34;: \u0026#34;https:\/\/example.com\/ENZg076503962.jpg\u0026#34;, \u0026#34;front\u0026#34;: \u0026#34;https:\/\/example.com\/ENZg076503963.png\u0026#34;, \u0026#34;token\u0026#34;: \u0026#34;eyJhbGci...\u0026#34;, \u0026#34;width\u0026#34;: 765, \u0026#34;height\u0026#34;: 396 } } 完成验证码的Request如下\n{ \u0026#34;m\u0026#34;: \u0026#34;[{\\\u0026#34;x\\\u0026#34;:395,\\\u0026#34;y\\\u0026#34;:256},{\\\u0026#34;x\\\u0026#34;:89,\\\u0026#34;y\\\u0026#34;:273},{\\\u0026#34;x\\\u0026#34;:670,\\\u0026#34;y\\\u0026#34;:140}]\u0026#34;, \u0026#34;token\u0026#34;: \u0026#34;eyJhbGci...\u0026#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。\n方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。\n要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。\n于是我使用Python的OpenCV进行图片的识别。\n1.提取图片 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 cv2.imread(front_image) 来加载图片时，会显示一片漆黑：\n即使后来我使用了保留透明通道的加载 cv2.imread(front_path, cv2.IMREAD_UNCHANGED)，依旧是一片漆黑。\n于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：\n2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。\n我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：\nrectangle_list每一个元素是[x1,y1,x2,y2]\nrectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：",
+      "description" : "背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。\n文章源码地址：点击查看\n验证码如下：\n背景图 目标图 弹出验证码的Response如下：\n{ \u0026#34;data\u0026#34;: { \u0026#34;errorCode\u0026#34;: 0, \u0026#34;errorMsg\u0026#34;: \u0026#34;\u0026#34;, \u0026#34;bg\u0026#34;: \u0026#34;https:\/\/example.com\/ENZg076503962.jpg\u0026#34;, \u0026#34;front\u0026#34;: \u0026#34;https:\/\/example.com\/ENZg076503963.png\u0026#34;, \u0026#34;token\u0026#34;: \u0026#34;eyJhbGci...\u0026#34;, \u0026#34;width\u0026#34;: 765, \u0026#34;height\u0026#34;: 396 } } 完成验证码的Request如下\n{ \u0026#34;m\u0026#34;: \u0026#34;[{\\\u0026#34;x\\\u0026#34;:395,\\\u0026#34;y\\\u0026#34;:256},{\\\u0026#34;x\\\u0026#34;:89,\\\u0026#34;y\\\u0026#34;:273},{\\\u0026#34;x\\\u0026#34;:670,\\\u0026#34;y\\\u0026#34;:140}]\u0026#34;, \u0026#34;token\u0026#34;: \u0026#34;eyJhbGci...\u0026#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。\n方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。\n要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。\n于是我使用Python的OpenCV进行图片的识别。\n1.提取图片 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 cv2.imread(front_image) 来加载图片时，会显示一片漆黑：\n即使后来我使用了保留透明通道的加载 cv2.imread(front_path, cv2.IMREAD_UNCHANGED)，依旧是一片漆黑。\n于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：\n2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。\n我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：\nrectangle_list每一个元素是[x1,y1,x2,y2]\nrectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：\ngray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY) gray_front = cv2.cvtColor(front, cv2.COLOR_BGR2GRAY) 然后直接进行最佳匹配：\nres = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res) cv2.putText(bg, str(idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (7, 249, 151), 2) show(bg) 最后发现匹配结果欠佳，总是不能完整的将3个目标图案都准确找到，所以还需要再优化。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -44,8 +44,8 @@
 文章源码地址：点击查看
 验证码如下：
 背景图 目标图 弹出验证码的Response如下：
-{ &amp;#34;data&amp;#34;: { &amp;#34;errorCode&amp;#34;: 0, &amp;#34;errorMsg&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;bg&amp;#34;: &amp;#34;https://example.com/ENZg076503962.jpg&amp;#34;, &amp;#34;front&amp;#34;: &amp;#34;https://example.com/ENZg076503963.png&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34;, &amp;#34;width&amp;#34;: 765, &amp;#34;height&amp;#34;: 396 } } 完成验证码的Request如下
-{ &amp;#34;m&amp;#34;: &amp;#34;[{\&amp;#34;x\&amp;#34;:395,\&amp;#34;y\&amp;#34;:256},{\&amp;#34;x\&amp;#34;:89,\&amp;#34;y\&amp;#34;:273},{\&amp;#34;x\&amp;#34;:670,\&amp;#34;y\&amp;#34;:140}]&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。
+{ &#34;data&#34;: { &#34;errorCode&#34;: 0, &#34;errorMsg&#34;: &#34;&#34;, &#34;bg&#34;: &#34;https://example.com/ENZg076503962.jpg&#34;, &#34;front&#34;: &#34;https://example.com/ENZg076503963.png&#34;, &#34;token&#34;: &#34;eyJhbGci...&#34;, &#34;width&#34;: 765, &#34;height&#34;: 396 } } 完成验证码的Request如下
+{ &#34;m&#34;: &#34;[{\&#34;x\&#34;:395,\&#34;y\&#34;:256},{\&#34;x\&#34;:89,\&#34;y\&#34;:273},{\&#34;x\&#34;:670,\&#34;y\&#34;:140}]&#34;, &#34;token&#34;: &#34;eyJhbGci...&#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。
 方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。
 要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。
 于是我使用Python的OpenCV进行图片的识别。
@@ -55,13 +55,16 @@
 2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。
 我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：
 rectangle_list每一个元素是[x1,y1,x2,y2]
-rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：" />
+rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：
+gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY) gray_front = cv2.cvtColor(front, cv2.COLOR_BGR2GRAY) 然后直接进行最佳匹配：
+res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res) cv2.putText(bg, str(idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (7, 249, 151), 2) show(bg) 最后发现匹配结果欠佳，总是不能完整的将3个目标图案都准确找到，所以还需要再优化。
+" />
   <meta name="description" content="背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。
 文章源码地址：点击查看
 验证码如下：
 背景图 目标图 弹出验证码的Response如下：
-{ &amp;#34;data&amp;#34;: { &amp;#34;errorCode&amp;#34;: 0, &amp;#34;errorMsg&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;bg&amp;#34;: &amp;#34;https://example.com/ENZg076503962.jpg&amp;#34;, &amp;#34;front&amp;#34;: &amp;#34;https://example.com/ENZg076503963.png&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34;, &amp;#34;width&amp;#34;: 765, &amp;#34;height&amp;#34;: 396 } } 完成验证码的Request如下
-{ &amp;#34;m&amp;#34;: &amp;#34;[{\&amp;#34;x\&amp;#34;:395,\&amp;#34;y\&amp;#34;:256},{\&amp;#34;x\&amp;#34;:89,\&amp;#34;y\&amp;#34;:273},{\&amp;#34;x\&amp;#34;:670,\&amp;#34;y\&amp;#34;:140}]&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。
+{ &#34;data&#34;: { &#34;errorCode&#34;: 0, &#34;errorMsg&#34;: &#34;&#34;, &#34;bg&#34;: &#34;https://example.com/ENZg076503962.jpg&#34;, &#34;front&#34;: &#34;https://example.com/ENZg076503963.png&#34;, &#34;token&#34;: &#34;eyJhbGci...&#34;, &#34;width&#34;: 765, &#34;height&#34;: 396 } } 完成验证码的Request如下
+{ &#34;m&#34;: &#34;[{\&#34;x\&#34;:395,\&#34;y\&#34;:256},{\&#34;x\&#34;:89,\&#34;y\&#34;:273},{\&#34;x\&#34;:670,\&#34;y\&#34;:140}]&#34;, &#34;token&#34;: &#34;eyJhbGci...&#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。
 方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。
 要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。
 于是我使用Python的OpenCV进行图片的识别。
@@ -71,7 +74,10 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。
 我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：
 rectangle_list每一个元素是[x1,y1,x2,y2]
-rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：" />
+rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：
+gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY) gray_front = cv2.cvtColor(front, cv2.COLOR_BGR2GRAY) 然后直接进行最佳匹配：
+res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res) cv2.putText(bg, str(idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (7, 249, 151), 2) show(bg) 最后发现匹配结果欠佳，总是不能完整的将3个目标图案都准确找到，所以还需要再优化。
+" />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -157,35 +163,35 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 <p>文章源码地址：<a href="https://github.com/ThinkerWen/CaptchaPass">点击查看</a></p>
 <p><strong>验证码如下：</strong></p>
 <table>
-<thead>
-<tr>
-<th style="text-align:center">背景图</th>
-<th style="text-align:center">目标图</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><img src="https://images.hive-net.cn/img/2024/05/09/663c75b2e13f8.jpg" width="200" alt="背景图"/></td>
-<td style="text-align:center"><img src="https://images.hive-net.cn/img/2024/05/09/663c75bec8dad.png" width="200" alt="目标图"/></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center">背景图</th>
+          <th style="text-align: center">目标图</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_kFpfTO.jpg" width="200" alt="背景图"/></td>
+          <td style="text-align: center"><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_e7mXPs.png" width="200" alt="目标图"/></td>
+      </tr>
+  </tbody>
 </table>
 <p><strong>弹出验证码的Response如下：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JSON" data-lang="JSON"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#8839ef">&#34;data&#34;</span>: {
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;errorCode&#34;</span>: <span style="color:#fe640b">0</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;errorMsg&#34;</span>: <span style="color:#40a02b">&#34;&#34;</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;bg&#34;</span>: <span style="color:#40a02b">&#34;https://example.com/ENZg076503962.jpg&#34;</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;front&#34;</span>: <span style="color:#40a02b">&#34;https://example.com/ENZg076503963.png&#34;</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;token&#34;</span>: <span style="color:#40a02b">&#34;eyJhbGci...&#34;</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;width&#34;</span>: <span style="color:#fe640b">765</span>,
-</span></span><span style="display:flex;"><span>		<span style="color:#8839ef">&#34;height&#34;</span>: <span style="color:#fe640b">396</span>
-</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;errorCode&#34;</span>: <span style="color:#fe640b">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;errorMsg&#34;</span>: <span style="color:#40a02b">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;bg&#34;</span>: <span style="color:#40a02b">&#34;https://example.com/ENZg076503962.jpg&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;front&#34;</span>: <span style="color:#40a02b">&#34;https://example.com/ENZg076503963.png&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;token&#34;</span>: <span style="color:#40a02b">&#34;eyJhbGci...&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;width&#34;</span>: <span style="color:#fe640b">765</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">&#34;height&#34;</span>: <span style="color:#fe640b">396</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>完成验证码的Request如下</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JSON" data-lang="JSON"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#8839ef">&#34;m&#34;</span>: <span style="color:#40a02b">&#34;[{\&#34;x\&#34;:395,\&#34;y\&#34;:256},{\&#34;x\&#34;:89,\&#34;y\&#34;:273},{\&#34;x\&#34;:670,\&#34;y\&#34;:140}]&#34;</span>,
-</span></span><span style="display:flex;"><span>	<span style="color:#8839ef">&#34;token&#34;</span>: <span style="color:#40a02b">&#34;eyJhbGci...&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">&#34;m&#34;</span>: <span style="color:#40a02b">&#34;[{\&#34;x\&#34;:395,\&#34;y\&#34;:256},{\&#34;x\&#34;:89,\&#34;y\&#34;:273},{\&#34;x\&#34;:670,\&#34;y\&#34;:140}]&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">&#34;token&#34;</span>: <span style="color:#40a02b">&#34;eyJhbGci...&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。</p>
 <h2 id="方案">方案</h2>
@@ -194,10 +200,10 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 <p>于是我使用Python的OpenCV进行图片的识别。</p>
 <h4 id="1提取图片">1.提取图片</h4>
 <p>首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 <code>cv2.imread(front_image)</code> 来加载图片时，会显示一片漆黑：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c75c8ec330.png" width="200" alt="目标图"/>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_FD2sVW.png" width="200" alt="目标图"/>
 <p>即使后来我使用了保留透明通道的加载 <code>cv2.imread(front_path, cv2.IMREAD_UNCHANGED)</code>，依旧是一片漆黑。</p>
 <p>于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c75d9ea07b.png" width="200" alt="目标图"/>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_bI3f6Y.png" width="200" alt="目标图"/>
 <h4 id="2匹配图片">2.匹配图片</h4>
 <p>即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。</p>
 <p>我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。
@@ -247,7 +253,7 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 </span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;&#34;&#34;  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    加载图像  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    背景为jpg格式的普通图像 像素为 765x396
-</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">	目标为png格式的包含透明通道图像 像素为 300x84    
+</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    目标为png格式的包含透明通道图像 像素为 300x84    
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    &#34;&#34;&#34;</span>    
 </span></span><span style="display:flex;"><span>    bg <span style="color:#04a5e5;font-weight:bold">=</span> cv2<span style="color:#04a5e5;font-weight:bold">.</span>imread(bg_path)  
 </span></span><span style="display:flex;"><span>    front <span style="color:#04a5e5;font-weight:bold">=</span> cv2<span style="color:#04a5e5;font-weight:bold">.</span>imread(front_path, cv2<span style="color:#04a5e5;font-weight:bold">.</span>IMREAD_UNCHANGED)  
@@ -255,7 +261,7 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 </span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;&#34;&#34;  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    由于目标图为透明黑色图片，直接加载会导致图像全黑，  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    为了避免全黑情况，创建与图像尺寸相同的白色背景图像，再提取图像的透明度通道，将透明部分的像素值设置为白色
-</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">	这样加载完后的图像就变成了白底黑色目标的图像  
+</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    这样加载完后的图像就变成了白底黑色目标的图像  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    &#34;&#34;&#34;</span>    
 </span></span><span style="display:flex;"><span>    white_front <span style="color:#04a5e5;font-weight:bold">=</span> np<span style="color:#04a5e5;font-weight:bold">.</span>ones_like(front) <span style="color:#04a5e5;font-weight:bold">*</span> <span style="color:#fe640b">255</span>  
 </span></span><span style="display:flex;"><span>    alpha_channel <span style="color:#04a5e5;font-weight:bold">=</span> front[:, :, <span style="color:#fe640b">3</span>]  
@@ -269,14 +275,14 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    为了按序点击，需要提取目标区域的矩形方块  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    由于目标图像较为规律有序，于是计算出3个目标图像像素坐标，直接按像素截取  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">    &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>	rectangle_list <span style="color:#04a5e5;font-weight:bold">=</span> [[<span style="color:#fe640b">9</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">75</span>, <span style="color:#fe640b">75</span>], [<span style="color:#fe640b">109</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">175</span>, <span style="color:#fe640b">75</span>], [<span style="color:#fe640b">209</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">275</span>, <span style="color:#fe640b">75</span>]]  
+</span></span><span style="display:flex;"><span>    rectangle_list <span style="color:#04a5e5;font-weight:bold">=</span> [[<span style="color:#fe640b">9</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">75</span>, <span style="color:#fe640b">75</span>], [<span style="color:#fe640b">109</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">175</span>, <span style="color:#fe640b">75</span>], [<span style="color:#fe640b">209</span>, <span style="color:#fe640b">9</span>, <span style="color:#fe640b">275</span>, <span style="color:#fe640b">75</span>]]  
 </span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> rectangle <span style="color:#04a5e5;font-weight:bold">in</span> rectangle_list:  
 </span></span><span style="display:flex;"><span>        cropped_image <span style="color:#04a5e5;font-weight:bold">=</span> white_front[rectangle[<span style="color:#fe640b">1</span>]:rectangle[<span style="color:#fe640b">3</span>], rectangle[<span style="color:#fe640b">0</span>]:rectangle[<span style="color:#fe640b">2</span>]]  
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>        <span style="color:#40a02b">&#34;&#34;&#34;  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        将背景图片转换为黑白两色的图片，只保留RGB(250-255)的图像  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        如此能保留绝大部分目标图像轮廓
-</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">		将目标图像转换为黑色背景白色轮廓  
+</span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        将目标图像转换为黑色背景白色轮廓  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        如此便与背景的颜色逻辑一致  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>        gray_bg <span style="color:#04a5e5;font-weight:bold">=</span> cv2<span style="color:#04a5e5;font-weight:bold">.</span>cvtColor(bg, cv2<span style="color:#04a5e5;font-weight:bold">.</span>COLOR_BGR2GRAY)  
@@ -292,7 +298,7 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        使用 TM_CCOEFF_NORMED 算法匹配到最佳  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        由于此时的 X,Y 坐标为左上角坐标，需要加20进行偏移处理，获取到点击坐标  
 </span></span></span><span style="display:flex;"><span><span style="color:#40a02b">        &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>		x, y <span style="color:#04a5e5;font-weight:bold">=</span> cv2<span style="color:#04a5e5;font-weight:bold">.</span>minMaxLoc(res)[<span style="color:#fe640b">3</span>]
+</span></span><span style="display:flex;"><span>        x, y <span style="color:#04a5e5;font-weight:bold">=</span> cv2<span style="color:#04a5e5;font-weight:bold">.</span>minMaxLoc(res)[<span style="color:#fe640b">3</span>]
 </span></span><span style="display:flex;"><span>        result<span style="color:#04a5e5;font-weight:bold">.</span>append((x <span style="color:#04a5e5;font-weight:bold">+</span> <span style="color:#fe640b">20</span>, y <span style="color:#04a5e5;font-weight:bold">+</span> <span style="color:#fe640b">20</span>))  
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>    logging<span style="color:#04a5e5;font-weight:bold">.</span>info(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#34;Done process: &#34;</span><span style="color:#04a5e5;font-weight:bold">+</span><span style="color:#04a5e5">str</span>(result)<span style="color:#04a5e5;font-weight:bold">.</span>replace(<span style="color:#40a02b">&#39;</span><span style="color:#1e66f5">\n</span><span style="color:#40a02b">&#39;</span>, <span style="color:#40a02b">&#39; &#39;</span>))  
@@ -300,21 +306,21 @@ rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx,
 </span></span></code></pre></div><h3 id="滑动验证码">滑动验证码</h3>
 <p>滑动验证码与上同理，甚至现在比较常见的一种滑动验证码已经有了通用的代码，如：</p>
 <table>
-<thead>
-<tr>
-<th style="text-align:center">背景图</th>
-<th style="text-align:center">目标图</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><img src="https://images.hive-net.cn/img/2024/05/09/663c75e395f3e.png" width="200" alt="背景图"/></td>
-<td style="text-align:center"><img src="https://images.hive-net.cn/img/2024/05/09/663c75efaae6a.png" width="200" alt="目标图"/></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: center">背景图</th>
+          <th style="text-align: center">目标图</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center"><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_kkAxxu.jpg" width="200" alt="背景图"/></td>
+          <td style="text-align: center"><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_EMkJRC.png" width="200" alt="目标图"/></td>
+      </tr>
+  </tbody>
 </table>
 <p>这种滑动验证码已经是无脑式 <code>matchTemplate()、minMaxLoc()</code> 就可以，非常方便：</p>
-<img src="https://images.hive-net.cn/img/2024/05/09/663c75fb8ee63.png" width="200" alt="背景图"/>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_nOxZxO.png" width="200" alt="背景图"/>
 <p>贴出代码：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">process</span>(bg_path: <span style="color:#04a5e5">str</span>, front_path: <span style="color:#04a5e5">str</span>) <span style="color:#04a5e5;font-weight:bold">-&gt;</span> <span style="color:#fe640b">None</span>:  
 </span></span><span style="display:flex;"><span>  

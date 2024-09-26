@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x09",
       "headline" : "Android crackme_0x09",
-      "description" : "描述 package: com.tlamb96.spetsnazmessenger\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoue.com\/iwnao22p7pda\n题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(\u0026quot;user.home\u0026quot;)来获取设备类型，同时发现还用到System.getenv(\u0026quot;USER\u0026quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在\/res\/values\/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径\/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了\nfunction passCheck() { Java.perform(function () { var System = Java.use(\u0026#39;java.lang.System\u0026#39;); System.getProperty.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;user.home\u0026#39;) return \u0026#39;Russia\u0026#39;; return this.getProperty(name); }; System.getenv.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;USER\u0026#39;) return \u0026#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==\u0026#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。\nfrom z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(\u0026#34;V@]EAASB\\u0012WZF\\u0012e,a$7(\u0026amp;am2(3.",
+      "description" : "描述 package: com.tlamb96.spetsnazmessenger\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoue.com\/iwnao22p7pda\n题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(\u0026quot;user.home\u0026quot;)来获取设备类型，同时发现还用到System.getenv(\u0026quot;USER\u0026quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在\/res\/values\/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径\/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了\nfunction passCheck() { Java.perform(function () { var System = Java.use(\u0026#39;java.lang.System\u0026#39;); System.getProperty.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;user.home\u0026#39;) return \u0026#39;Russia\u0026#39;; return this.getProperty(name); }; System.getenv.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;USER\u0026#39;) return \u0026#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==\u0026#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -43,15 +43,13 @@
   <meta property="og:description" content="描述 package: com.tlamb96.spetsnazmessenger
 目标 找到Flag
 APK下载 https://yhxx.lanzoue.com/iwnao22p7pda
-题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
-function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。
-from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3." />
+题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&quot;user.home&quot;)来获取设备类型，同时发现还用到System.getenv(&quot;USER&quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
+function passCheck() { Java.perform(function () { var System = Java.use(&#39;java.lang.System&#39;); System.getProperty.overload(&#39;java.lang.String&#39;).implementation = function (name) { if (name == &#39;user.home&#39;) return &#39;Russia&#39;; return this.getProperty(name); }; System.getenv.overload(&#39;java.lang.String&#39;).implementation = function (name) { if (name == &#39;USER&#39;) return &#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 " />
   <meta name="description" content="描述 package: com.tlamb96.spetsnazmessenger
 目标 找到Flag
 APK下载 https://yhxx.lanzoue.com/iwnao22p7pda
-题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
-function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。
-from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3." />
+题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&quot;user.home&quot;)来获取设备类型，同时发现还用到System.getenv(&quot;USER&quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
+function passCheck() { Java.perform(function () { var System = Java.use(&#39;java.lang.System&#39;); System.getProperty.overload(&#39;java.lang.String&#39;).implementation = function (name) { if (name == &#39;user.home&#39;) return &#39;Russia&#39;; return this.getProperty(name); }; System.getenv.overload(&#39;java.lang.String&#39;).implementation = function (name) { if (name == &#39;USER&#39;) return &#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 " />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -140,12 +138,12 @@ from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_arr
 <p><a href="https://yhxx.lanzoue.com/iwnao22p7pda">https://yhxx.lanzoue.com/iwnao22p7pda</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。
-<img src="https://images.hive-net.cn/img/2024/06/25/667ab26d0c61a.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_4TKWhe.png" width="200" alt="CrackMe" /></p>
 <p>Jadx-GUI打开找到设备检测的位置，发现用<code>System.getProperty(&quot;user.home&quot;)</code>来获取设备类型，同时发现还用到<code>System.getenv(&quot;USER&quot;)</code>增加了用户白名单检测，白名单用户是<code>R.string.User</code>。
-<img src="https://images.hive-net.cn/img/2024/06/25/667ab2c8acbe4.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_brNfX1.png" width="500" alt="CrackMe" /></p>
 <p>想找用户字符串很简单，Android的字符串资源都存储在<code>/res/values/strings.xml</code>中，可以使用apktool工具解压apk文件查看<code>apktool d base.apk</code>。或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
 打开xml文件后可以看到名为User的字符串值：<code>RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==</code>即为白名单用户。
-<img src="https://images.hive-net.cn/img/2024/06/25/667ab3fd4797b.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_3lZ2zJ.png" width="500" alt="CrackMe" /></p>
 <p>hook以上两个函数就可以过检测了</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passCheck() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span> () {
@@ -167,17 +165,17 @@ from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_arr
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>打开APP没有提示了，显示需要输入用户名密码进入APP
-<img src="https://images.hive-net.cn/img/2024/06/25/667ab4a579940.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_H9wnMc.png" width="200" alt="CrackMe" /></p>
 <p>用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取<code>username</code>，拿到是<code>codenameduchess</code>。密码是在<code>j()</code>方法中对比。
-<img src="https://images.hive-net.cn/img/2024/06/26/667b8bd4a30ae.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lunWnC.png" width="500" alt="CrackMe" /></p>
 <p>打开<code>j()</code>方法，发现是md5对比，md5字符串是从资源里面取<code>password</code>，拿到是<code>84e343a0486ff05530df6c705c8bb4</code>。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是<code>guest</code>。
-<img src="https://images.hive-net.cn/img/2024/06/26/667b8cc8b9900.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_81ZH6J.png" width="500" alt="CrackMe" /></p>
 <p>输入用户名<code>codenameduchess</code>和密码<code>guest</code>进入APP，显示是个聊天页，需要发送正确消息。
-<img src="https://images.hive-net.cn/img/2024/06/26/667b8d9bd0068.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_r3iFvu.png" width="200" alt="CrackMe" /></p>
 <p>用Jadx-GUI继续看APP，找到发送消息页，发现是在<code>i()</code>方法中获得flag，但是<code>i()</code>方法需要用到<code>this.q</code>和<code>this.s</code>。
-<img src="https://images.hive-net.cn/img/2024/07/08/668b9383b899c.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Qk3Q2X.png" width="500" alt="CrackMe" /></p>
 <p>继续看可以找到<code>this.q</code>和<code>this.s</code>是在<code>onSendMessage()</code>方法中生成的，而要生成<code>this.s</code>和<code>this.q</code>又需要用到<code>a()</code>方法和<code>b()</code>方法。
-<img src="https://images.hive-net.cn/img/2024/07/08/668b944299f77.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lhYq8t.png" width="500" alt="CrackMe" /></p>
 <p><code>a()</code>方法比较简单，直接用本地进行还原。</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">z3</span> <span style="color:#179299">import</span> <span style="color:#04a5e5;font-weight:bold">*</span>
 </span></span><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">binascii</span> <span style="color:#179299">import</span> b2a_hex, a2b_hex
@@ -200,9 +198,9 @@ from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_arr
 </span></span><span style="display:flex;"><span>    main()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: Boris, give me the password</span>
-</span></span></code></pre></div><img src="https://images.hive-net.cn/img/2024/07/08/668b9a0f22309.png" width="200" alt="CrackMe" />
+</span></span></code></pre></div><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_gQC9BQ.png" width="200" alt="CrackMe" />
 <p><code>b()</code>方法较<code>a()</code>方法难度提升，同时有不可见字符，直接逆向推导函数会有不可见字符，使用<a href="https://github.com/Z3Prover/z3">Z3-Solver</a>进行推导。
-<img src="https://images.hive-net.cn/img/2024/06/26/667bc907c0a7c.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_FZFjsr.png" width="500" alt="CrackMe" /></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">z3</span> <span style="color:#179299">import</span> <span style="color:#04a5e5;font-weight:bold">*</span>
 </span></span><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">binascii</span> <span style="color:#179299">import</span> b2a_hex, a2b_hex
 </span></span><span style="display:flex;"><span> 
@@ -242,7 +240,7 @@ from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_arr
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: &#34; ay I *P EASE* h ve the  assword &#34;</span>
 </span></span></code></pre></div><p>将密码输入APP，密码正确，密码为<code>ay I *P EASE* h ve the  assword</code>。(由于加密的字符中有许多ascii为0的字符无法正确推导，所以也可以对output中的空格进行替换，得到：<code>May I *PLEASE* hive the password?</code>)
-<img src="https://images.hive-net.cn/img/2024/07/08/668b9b89ef6e9.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_xUCrj8.png" width="200" alt="CrackMe" /></p>
 
         </div>
 

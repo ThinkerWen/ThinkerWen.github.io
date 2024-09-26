@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x07",
       "headline" : "Android crackme_0x07",
-      "description" : "描述 This app holds a secret inside. May include traces of native code.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iMZpZ0mx336d\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js\nfunction passRoot() { Java.perform(function() { let b = Java.use(\u0026#34;sg.vantagepoint.a.b\u0026#34;); b[\u0026#34;a\u0026#34;].implementation = function () { console.log(\u0060b.a is called\u0060); return false; }; b[\u0026#34;b\u0026#34;].implementation = function () { console.log(\u0060b.b is called\u0060); return false; }; b[\u0026#34;c\u0026#34;].implementation = function () { console.log(\u0060b.c is called\u0060); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入this.",
+      "description" : "描述 This app holds a secret inside. May include traces of native code.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iMZpZ0mx336d\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js\nfunction passRoot() { Java.perform(function() { let b = Java.use(\u0026#34;sg.vantagepoint.a.b\u0026#34;); b[\u0026#34;a\u0026#34;].implementation = function () { console.log(\u0060b.a is called\u0060); return false; }; b[\u0026#34;b\u0026#34;].implementation = function () { console.log(\u0060b.b is called\u0060); return false; }; b[\u0026#34;c\u0026#34;].implementation = function () { console.log(\u0060b.c is called\u0060); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -44,12 +44,12 @@
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js
-function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.vantagepoint.a.b&amp;#34;); b[&amp;#34;a&amp;#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&amp;#34;b&amp;#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&amp;#34;c&amp;#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入this." />
+function passRoot() { Java.perform(function() { let b = Java.use(&#34;sg.vantagepoint.a.b&#34;); b[&#34;a&#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&#34;b&#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&#34;c&#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 " />
   <meta name="description" content="描述 This app holds a secret inside. May include traces of native code.
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js
-function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.vantagepoint.a.b&amp;#34;); b[&amp;#34;a&amp;#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&amp;#34;b&amp;#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&amp;#34;c&amp;#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入this." />
+function passRoot() { Java.perform(function() { let b = Java.use(&#34;sg.vantagepoint.a.b&#34;); b[&#34;a&#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&#34;b&#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&#34;c&#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 " />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -138,12 +138,12 @@ function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.van
 <p><a href="https://yhxx.lanzoub.com/iMZpZ0mx336d">https://yhxx.lanzoub.com/iMZpZ0mx336d</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
-<img src="https://images.hive-net.cn/img/2024/06/24/667927fce62ae.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_CBtlsI.jpg" width="200" alt="CrackMe" /></p>
 <p>在GitHub上有个脚本可以过很多root检测<a href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679285b257e6.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ayVJTW.png" width="500" alt="CrackMe" /></p>
 <p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679287d678bb.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_9eH6qL.png" width="500" alt="CrackMe" /></p>
 <p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
@@ -169,13 +169,13 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>打开后APP就可以正常使用，不会提示root了。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679290518402.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VyBx3W.png" width="200" alt="CrackMe" /></p>
 <p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.m.a()</code>方法中进行检查。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679294099978.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_DqaZ5p.png" width="500" alt="CrackMe" /></p>
 <p>进入<code>this.m.a()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到有<code>System.loadLibrary(&quot;foo&quot;)</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。
-<img src="https://images.hive-net.cn/img/2024/06/24/6679297227939.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Y8updd.png" width="500" alt="CrackMe" /></p>
 <p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到其中用到了<code>strncmp()</code>来做字符串对比，所以只需要hook<code>strncmp()</code>即可。同时可以看到字符串长度为23位，这也缩小了hook范围，更加方便。
-<img src="https://images.hive-net.cn/img/2024/06/24/66792a441d21d.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_IpR2e4.png" width="500" alt="CrackMe" /></p>
 <p>写出hook脚本，重启注入APP<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code>，输入<code>01234567890123456789012</code>来查看返回值，可以看到输出为<code>Thanks for all the fish</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
@@ -218,9 +218,9 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
-</span></span></code></pre></div><img src="https://images.hive-net.cn/img/2024/06/24/66792b8e04b57.png" width="500" alt="CrackMe" />
+</span></span></code></pre></div><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_XJFkT6.png" width="500" alt="CrackMe" />
 <p>将密码输入APP，密码正确，密码为<code>Thanks for all the fish</code>
-<img src="https://images.hive-net.cn/img/2024/06/24/66792bf890379.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_jeL0KC.png" width="200" alt="CrackMe" /></p>
 
         </div>
 

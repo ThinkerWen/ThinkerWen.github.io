@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.128.2">
+  <meta name="generator" content="Hugo 0.134.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x03",
       "headline" : "Android crackme_0x03",
-      "description" : "描述 Some hashes, cats and strings generation.\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/iwKDO0mj4kfg\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。\n方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：\nfunction main() { Java.perform( function(){ let Data = Java.use(\u0026#34;net.persianov.crackme0x03.Data\u0026#34;); Data[\u0026#34;isPasswordOk\u0026#34;].implementation = function (str) { console.log(\u0026#39;isPasswordOk is called\u0026#39; \u002b \u0026#39;, \u0026#39; \u002b \u0026#39;str: \u0026#39; \u002b str); let ret = true; console.log(\u0026#39;isPasswordOk ret value is \u0026#39; \u002b ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.",
+      "description" : "描述 Some hashes, cats and strings generation.\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/iwKDO0mj4kfg\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。\n方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：\nfunction main() { Java.perform( function(){ let Data = Java.use(\u0026#34;net.persianov.crackme0x03.Data\u0026#34;); Data[\u0026#34;isPasswordOk\u0026#34;].implementation = function (str) { console.log(\u0026#39;isPasswordOk is called\u0026#39; \u002b \u0026#39;, \u0026#39; \u002b \u0026#39;str: \u0026#39; \u002b str); let ret = true; console.log(\u0026#39;isPasswordOk ret value is \u0026#39; \u002b ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js 随意输入字符串即可拿到flag。 ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -45,13 +45,13 @@
 APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。
 方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：
-function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.persianov.crackme0x03.Data&amp;#34;); Data[&amp;#34;isPasswordOk&amp;#34;].implementation = function (str) { console.log(&amp;#39;isPasswordOk is called&amp;#39; &#43; &amp;#39;, &amp;#39; &#43; &amp;#39;str: &amp;#39; &#43; str); let ret = true; console.log(&amp;#39;isPasswordOk ret value is &amp;#39; &#43; ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net." />
+function main() { Java.perform( function(){ let Data = Java.use(&#34;net.persianov.crackme0x03.Data&#34;); Data[&#34;isPasswordOk&#34;].implementation = function (str) { console.log(&#39;isPasswordOk is called&#39; &#43; &#39;, &#39; &#43; &#39;str: &#39; &#43; str); let ret = true; console.log(&#39;isPasswordOk ret value is &#39; &#43; ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js 随意输入字符串即可拿到flag。 " />
   <meta name="description" content="描述 Some hashes, cats and strings generation.
 目标 找到Flag
 APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。
 方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：
-function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.persianov.crackme0x03.Data&amp;#34;); Data[&amp;#34;isPasswordOk&amp;#34;].implementation = function (str) { console.log(&amp;#39;isPasswordOk is called&amp;#39; &#43; &amp;#39;, &amp;#39; &#43; &amp;#39;str: &amp;#39; &#43; str); let ret = true; console.log(&amp;#39;isPasswordOk ret value is &amp;#39; &#43; ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net." />
+function main() { Java.perform( function(){ let Data = Java.use(&#34;net.persianov.crackme0x03.Data&#34;); Data[&#34;isPasswordOk&#34;].implementation = function (str) { console.log(&#39;isPasswordOk is called&#39; &#43; &#39;, &#39; &#43; &#39;str: &#39; &#43; str); let ret = true; console.log(&#39;isPasswordOk ret value is &#39; &#43; ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js 随意输入字符串即可拿到flag。 " />
   <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
   
 
@@ -140,23 +140,23 @@ function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.per
 <p><a href="https://yhxx.lanzoub.com/iwKDO0mj4kfg">https://yhxx.lanzoub.com/iwKDO0mj4kfg</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a5711c8bc.jpg" width="200" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_VCHkhq.jpg" width="200" alt="CrackMe" />
 用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
 在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
 ②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a6190255d.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_viT1mg.png" width="500" alt="CrackMe" /></p>
 <p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().isPasswordOk(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().isPasswordOk()</code>就可以拿到密码。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a6eab8c7c.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_2eh5dC.png" width="500" alt="CrackMe" /></p>
 <p>在<code>Data().isPasswordOk()</code>可以从①中看到密码长度是6，然后在②中将用户填入的<code>password</code>进行md5加密并与现有的md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>作对比，相等则给出flag。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a7ff54eb1.png" width="500" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_mziUEq.png" width="500" alt="CrackMe" /></p>
 <p>于是现在有两种解法：
 1.找出md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>的明文，即为密码。
 2.让<code>isPasswordOk()</code>函数永远返回true，随便输入6位字符串即可拿到flag。</p>
 <h3 id="方法一">方法一</h3>
 <p>到md5撞库解密的网站输入<code>ac43bb53262e4edd82c0e82a93c84755</code>，得到明文为<code>3#8H1J</code>
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a9747b2c2.png" width="500" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Z4sfSu.png" width="500" alt="CrackMe" />
 输入密码<code>3#8H1J</code>，即可拿到flag。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673aa58956c5.png" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_BziPam.png" width="200" alt="CrackMe" /></p>
 <h3 id="方法二">方法二</h3>
 <p>使用frida对<code>isPasswordOk()</code>函数进行hook，使之永远返回true。
 hook代码如下：</p>
@@ -174,9 +174,9 @@ hook代码如下：</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code>
-<img src="https://images.hive-net.cn/img/2024/06/20/6673d11a6031e.png" width="500" alt="CrackMe" />
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_PEENYe.png" width="500" alt="CrackMe" />
 随意输入字符串即可拿到flag。
-<img src="https://images.hive-net.cn/img/2024/06/20/6673a84da919e.jpg" width="200" alt="CrackMe" /></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_5BHAEL.jpg" width="200" alt="CrackMe" /></p>
 
         </div>
 
