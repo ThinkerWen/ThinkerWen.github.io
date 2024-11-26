@@ -3,7 +3,7 @@ name: Deploy 404fix
 on:
   push:
     branches:
-      - main
+      - even
 
 jobs:
   build:
