@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Years on 一文破晓</title>
+    <link>https://www.404fix.cn/years/</link>
+    <description>Recent content in Years on 一文破晓</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Jun 2024 16:00:52 +0000</lastBuildDate><atom:link href="https://www.404fix.cn/years/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2024</title>
+      <link>https://www.404fix.cn/years/2024/</link>
+      <pubDate>Wed, 26 Jun 2024 16:00:52 +0000</pubDate>
+      
+      <guid>https://www.404fix.cn/years/2024/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>2023</title>
+      <link>https://www.404fix.cn/years/2023/</link>
+      <pubDate>Tue, 20 Jun 2023 20:22:31 +0000</pubDate>
+      
+      <guid>https://www.404fix.cn/years/2023/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
