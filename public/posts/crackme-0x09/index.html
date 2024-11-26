@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.128.2">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://localhost:1313/posts/crackme-0x09/" />
+  <link rel="canonical" href="http://localhost:1313/posts/crackme-0x09/" /><link rel="apple-touch-icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="icon" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  <link rel="shortcut" href="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" /><link rel="alternate" type="application/atom+xml" href="http://localhost:1313/index.xml" title="一文破晓">
+
+  <script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/localhost:1313\/"
+      },
+      "articleSection" : "posts",
+      "name" : "Android crackme_0x09",
+      "headline" : "Android crackme_0x09",
+      "description" : "描述 package: com.tlamb96.spetsnazmessenger\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoue.com\/iwnao22p7pda\n题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(\u0026quot;user.home\u0026quot;)来获取设备类型，同时发现还用到System.getenv(\u0026quot;USER\u0026quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在\/res\/values\/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径\/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了\nfunction passCheck() { Java.perform(function () { var System = Java.use(\u0026#39;java.lang.System\u0026#39;); System.getProperty.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;user.home\u0026#39;) return \u0026#39;Russia\u0026#39;; return this.getProperty(name); }; System.getenv.overload(\u0026#39;java.lang.String\u0026#39;).implementation = function (name) { if (name == \u0026#39;USER\u0026#39;) return \u0026#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==\u0026#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。\nfrom z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(\u0026#34;V@]EAASB\\u0012WZF\\u0012e,a$7(\u0026amp;am2(3.",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2024",
+      "datePublished": "2024-06-26 16:00:52 \u002b0000 UTC",
+      "dateModified" : "2024-06-26 16:00:52 \u002b0000 UTC",
+      "url" : "http:\/\/localhost:1313\/posts\/crackme-0x09\/",
+      "keywords" : [ "CrackMe","逆向", ]
+  }
+</script>
+<title>Android crackme_0x09</title>
+  <meta property="og:title" content="Android crackme_0x09" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="描述 package: com.tlamb96.spetsnazmessenger
+目标 找到Flag
+APK下载 https://yhxx.lanzoue.com/iwnao22p7pda
+题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
+function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。
+from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3." />
+  <meta name="description" content="描述 package: com.tlamb96.spetsnazmessenger
+目标 找到Flag
+APK下载 https://yhxx.lanzoue.com/iwnao22p7pda
+题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了
+function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。
+from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3." />
+  <meta property="og:locale" content="cn" /><meta property="og:image" content="https://www.hive-net.cn/Assets/SiteGlobal/Hive16x16.ico" />
+  
+
+  
+    <style>body{font-family:bree serif,sans-serif;-webkit-font-smoothing:antialiased;margin:0 20px}article{max-width:800px;margin-left:auto;margin-right:auto}a{color:#000;text-decoration:none}a:hover{font-weight:600;text-decoration:underline}.post-ads{margin:50px 0}.markdown-body{font-size:18px;max-width:100%}.markdown-body a{text-decoration:underline;text-decoration-color:#000}.markdown-body blockquote{margin:0;padding:0 1em;color:#57606a;border-left:.25em solid #d0d7de}.markdown-body pre{padding:16px;overflow:auto;font-size:70%;line-height:120%;border-radius:10px}.markdown-body code{padding:.2em .4em;font-size:85%;background-color:#b6b6b6;border-radius:6px}table{border-collapse:collapse;vertical-align:middle;text-align:center}thead,th,td,tr{border:1px solid #b6b6b6}.markdown-body pre>code{padding:0;font-size:100%;background-color:inherit;border:0}.Chinese .markdown-body{line-height:200%}.site-date-catalog{font-size:2rem}.header-title{font-size:2rem;font-weight:700;margin-top:32px;font-family:bungee shade,sans-serif}.header-title a{text-decoration:none}.header-subtitle{color:#666}.header-items{margin:10px 0}.header-item{margin:0 5px}.header-line{width:100%;border-width:2px;border-color:#482936;border-style:solid none none none}.lang-switch{font-weight:600}#posts-list{min-height:600px}.posts-line{font-size:1.2rem;margin:12px 0}.posts-categories{font-size:.8rem;margin:auto;text-align:center}.posts-category{padding:3px 0;border:#000 2px solid;border-radius:5px}.site-footer{margin-top:50px}.site-footer-item{margin-right:12px}.post-header{margin-bottom:50px}.post-title{font-size:2rem;font-weight:600}.post-tags{display:inline;font-weight:600;padding:2px 5px;margin-right:6px;border:#000 2px solid;border-radius:5px}.post-date{font-weight:800;font-style:italic}.post-author{float:right;font-weight:600}.page-content{min-height:60%}.post-content{margin-bottom:50px}.post-content p{hyphens:auto;line-height:1.8;text-justify:ideographic;margin-bottom:1em}.post-content img{max-width:100%;display:block;margin-right:auto;margin-top:6px}.post-content .post-gallery{display:flex;flex-wrap:wrap;gap:6px}.post-content .post-gallery img{margin-right:auto;margin-top:auto;width:calc(50% - 3px)}.related-content{border-width:3px;border-style:solid;border-color:#000;padding:0 10px;margin-bottom:50px;margin-top:100px}.related-content li{margin:5px 0}.taxonomy-term{font-size:3rem}.gallery-img{text-align:center}.gallery-img span{text-align:center}.gallery-img-desc{font-size:.8em;font-weight:800}#disqus_thread{position:relative}#disqus_thread:after{content:"";display:block;height:55px;width:100%;position:absolute;bottom:0;background:#fff}@media screen and (max-width:600px){.header-title,.header-subtitle,.header-items{}.posts-line{font-size:16px}.markdown-body{font-size:16px}.post-title{font-size:2rem}.post-content p{letter-spacing:.05em}.post-content .post-gallery img{width:100%}}@media screen and (max-width:48em){.posts-category{display:none}}</style>
+  
+  
+    <style>.container,.container-fluid{margin-right:auto;margin-left:auto}.container-fluid{padding-right:2rem;padding-left:2rem}.row{box-sizing:border-box;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-flex:0;-ms-flex:0 1 auto;flex:initial;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-.5rem;margin-left:-.5rem}.row.reverse{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse}.col.reverse{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse}.col-xs,.col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9,.col-xs-offset-0,.col-xs-offset-1,.col-xs-offset-10,.col-xs-offset-11,.col-xs-offset-12,.col-xs-offset-2,.col-xs-offset-3,.col-xs-offset-4,.col-xs-offset-5,.col-xs-offset-6,.col-xs-offset-7,.col-xs-offset-8,.col-xs-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-xs{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-xs-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-xs-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-xs-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-xs-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-xs-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-xs-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-xs-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-xs-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-xs-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-xs-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-xs-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-xs-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-xs-offset-0{margin-left:0}.col-xs-offset-1{margin-left:8.33333333%}.col-xs-offset-2{margin-left:16.66666667%}.col-xs-offset-3{margin-left:25%}.col-xs-offset-4{margin-left:33.33333333%}.col-xs-offset-5{margin-left:41.66666667%}.col-xs-offset-6{margin-left:50%}.col-xs-offset-7{margin-left:58.33333333%}.col-xs-offset-8{margin-left:66.66666667%}.col-xs-offset-9{margin-left:75%}.col-xs-offset-10{margin-left:83.33333333%}.col-xs-offset-11{margin-left:91.66666667%}.start-xs{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-xs{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-xs{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-xs{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-xs{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-xs{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-xs{-ms-flex-pack:distribute;justify-content:space-around}.between-xs{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-xs{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-xs{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}@media only screen and (min-width:48em){.container{width:49rem}.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-offset-0,.col-sm-offset-1,.col-sm-offset-10,.col-sm-offset-11,.col-sm-offset-12,.col-sm-offset-2,.col-sm-offset-3,.col-sm-offset-4,.col-sm-offset-5,.col-sm-offset-6,.col-sm-offset-7,.col-sm-offset-8,.col-sm-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-sm{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-sm-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-sm-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-sm-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-sm-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-sm-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-sm-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-sm-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-sm-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-sm-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-sm-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-sm-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-sm-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-sm-offset-0{margin-left:0}.col-sm-offset-1{margin-left:8.33333333%}.col-sm-offset-2{margin-left:16.66666667%}.col-sm-offset-3{margin-left:25%}.col-sm-offset-4{margin-left:33.33333333%}.col-sm-offset-5{margin-left:41.66666667%}.col-sm-offset-6{margin-left:50%}.col-sm-offset-7{margin-left:58.33333333%}.col-sm-offset-8{margin-left:66.66666667%}.col-sm-offset-9{margin-left:75%}.col-sm-offset-10{margin-left:83.33333333%}.col-sm-offset-11{margin-left:91.66666667%}.start-sm{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-sm{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-sm{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-sm{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-sm{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-sm{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-sm{-ms-flex-pack:distribute;justify-content:space-around}.between-sm{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-sm{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-sm{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:64em){.container{width:65rem}.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-offset-0,.col-md-offset-1,.col-md-offset-10,.col-md-offset-11,.col-md-offset-12,.col-md-offset-2,.col-md-offset-3,.col-md-offset-4,.col-md-offset-5,.col-md-offset-6,.col-md-offset-7,.col-md-offset-8,.col-md-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-md{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-md-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-md-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-md-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-md-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-md-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-md-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-md-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-md-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-md-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-md-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-md-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-md-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-md-offset-0{margin-left:0}.col-md-offset-1{margin-left:8.33333333%}.col-md-offset-2{margin-left:16.66666667%}.col-md-offset-3{margin-left:25%}.col-md-offset-4{margin-left:33.33333333%}.col-md-offset-5{margin-left:41.66666667%}.col-md-offset-6{margin-left:50%}.col-md-offset-7{margin-left:58.33333333%}.col-md-offset-8{margin-left:66.66666667%}.col-md-offset-9{margin-left:75%}.col-md-offset-10{margin-left:83.33333333%}.col-md-offset-11{margin-left:91.66666667%}.start-md{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-md{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-md{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-md{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-md{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-md{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-md{-ms-flex-pack:distribute;justify-content:space-around}.between-md{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-md{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-md{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:75em){.container{width:76rem}.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-offset-0,.col-lg-offset-1,.col-lg-offset-10,.col-lg-offset-11,.col-lg-offset-12,.col-lg-offset-2,.col-lg-offset-3,.col-lg-offset-4,.col-lg-offset-5,.col-lg-offset-6,.col-lg-offset-7,.col-lg-offset-8,.col-lg-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-lg{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-lg-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-lg-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-lg-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-lg-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-lg-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-lg-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-lg-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-lg-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-lg-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-lg-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-lg-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-lg-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-lg-offset-0{margin-left:0}.col-lg-offset-1{margin-left:8.33333333%}.col-lg-offset-2{margin-left:16.66666667%}.col-lg-offset-3{margin-left:25%}.col-lg-offset-4{margin-left:33.33333333%}.col-lg-offset-5{margin-left:41.66666667%}.col-lg-offset-6{margin-left:50%}.col-lg-offset-7{margin-left:58.33333333%}.col-lg-offset-8{margin-left:66.66666667%}.col-lg-offset-9{margin-left:75%}.col-lg-offset-10{margin-left:83.33333333%}.col-lg-offset-11{margin-left:91.66666667%}.start-lg{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-lg{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-lg{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-lg{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-lg{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-lg{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-lg{-ms-flex-pack:distribute;justify-content:space-around}.between-lg{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-lg{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-lg{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}</style>
+  
+
+  
+
+  <link href="/index.xml" rel="alternate" type="application/rss+xml"
+    title="一文破晓">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Bungee+Shade" rel="stylesheet">
+  
+  
+
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script>
+</head>
+
+
+<body>
+  <article class="post Chinese" id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">
+          
+<header>
+  <div class="header-title">
+    <a href="/"
+      >Wen</a
+    >
+  </div>
+  <div class="header-subtitle"></div>
+</header>
+<div class="row end-md header-items">
+  
+  <div class="header-item">
+    <a href="https://www.404fix.cn/en/posts/about/" target="_blank">About Me</a>
+  </div>
+  
+  <div class="header-item">
+    <a href="https://github.com/ThinkerWen/" target="_blank">Github</a>
+  </div>
+  
+</div>
+<div class="row">
+  
+  <div class="lang-switch col-xs-3 col-xs-offset-9">
+    <a href="/en/">English</a>
+  </div>
+    
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">Android crackme_0x09</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2024-06-26 16:00:52 UTC">
+                26 Jun 2024
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <h2 id="描述">描述</h2>
+<p>package: com.tlamb96.spetsnazmessenger</p>
+<h3 id="目标">目标</h3>
+<p>找到Flag</p>
+<h3 id="apk下载">APK下载</h3>
+<p><a href="https://yhxx.lanzoue.com/iwnao22p7pda">https://yhxx.lanzoue.com/iwnao22p7pda</a></p>
+<h2 id="题解">题解</h2>
+<p>首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_4TKWhe.png" width="200" alt="CrackMe" /></p>
+<p>Jadx-GUI打开找到设备检测的位置，发现用<code>System.getProperty(&quot;user.home&quot;)</code>来获取设备类型，同时发现还用到<code>System.getenv(&quot;USER&quot;)</code>增加了用户白名单检测，白名单用户是<code>R.string.User</code>。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_brNfX1.png" width="500" alt="CrackMe" /></p>
+<p>想找用户字符串很简单，Android的字符串资源都存储在<code>/res/values/strings.xml</code>中，可以使用apktool工具解压apk文件查看<code>apktool d base.apk</code>。或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
+打开xml文件后可以看到名为User的字符串值：<code>RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==</code>即为白名单用户。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_3lZ2zJ.png" width="500" alt="CrackMe" /></p>
+<p>hook以上两个函数就可以过检测了</p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passCheck() {
+</span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>        <span style="color:#d20f39">var</span> System <span style="color:#04a5e5;font-weight:bold">=</span> Java.use(<span style="color:#40a02b">&#39;java.lang.System&#39;</span>);
+</span></span><span style="display:flex;"><span>        System.getProperty.overload(<span style="color:#40a02b">&#39;java.lang.String&#39;</span>).implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> (name) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">if</span> (name <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#39;user.home&#39;</span>) <span style="color:#8839ef">return</span> <span style="color:#40a02b">&#39;Russia&#39;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#8839ef">this</span>.getProperty(name);
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>        System.getenv.overload(<span style="color:#40a02b">&#39;java.lang.String&#39;</span>).implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> (name) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">if</span> (name <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#39;USER&#39;</span>) <span style="color:#8839ef">return</span> <span style="color:#40a02b">&#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&#39;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#8839ef">this</span>.getProperty(name);
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#d20f39">function</span> main() {
+</span></span><span style="display:flex;"><span>    passCheck();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>setImmediate(main);
+</span></span></code></pre></div><p>打开APP没有提示了，显示需要输入用户名密码进入APP
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_H9wnMc.png" width="200" alt="CrackMe" /></p>
+<p>用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取<code>username</code>，拿到是<code>codenameduchess</code>。密码是在<code>j()</code>方法中对比。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lunWnC.png" width="500" alt="CrackMe" /></p>
+<p>打开<code>j()</code>方法，发现是md5对比，md5字符串是从资源里面取<code>password</code>，拿到是<code>84e343a0486ff05530df6c705c8bb4</code>。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是<code>guest</code>。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_81ZH6J.png" width="500" alt="CrackMe" /></p>
+<p>输入用户名<code>codenameduchess</code>和密码<code>guest</code>进入APP，显示是个聊天页，需要发送正确消息。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_r3iFvu.png" width="200" alt="CrackMe" /></p>
+<p>用Jadx-GUI继续看APP，找到发送消息页，发现是在<code>i()</code>方法中获得flag，但是<code>i()</code>方法需要用到<code>this.q</code>和<code>this.s</code>。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Qk3Q2X.png" width="500" alt="CrackMe" /></p>
+<p>继续看可以找到<code>this.q</code>和<code>this.s</code>是在<code>onSendMessage()</code>方法中生成的，而要生成<code>this.s</code>和<code>this.q</code>又需要用到<code>a()</code>方法和<code>b()</code>方法。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lhYq8t.png" width="500" alt="CrackMe" /></p>
+<p><code>a()</code>方法比较简单，直接用本地进行还原。</p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">z3</span> <span style="color:#179299">import</span> <span style="color:#04a5e5;font-weight:bold">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">binascii</span> <span style="color:#179299">import</span> b2a_hex, a2b_hex
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">question1</span>():
+</span></span><span style="display:flex;"><span>    char_array <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">list</span>(<span style="color:#40a02b">&#34;V@]EAASB</span><span style="color:#1e66f5">\u0012</span><span style="color:#40a02b">WZF</span><span style="color:#1e66f5">\u0012</span><span style="color:#40a02b">e,a$7(&amp;am2(3.</span><span style="color:#1e66f5">\u0003</span><span style="color:#40a02b">&#34;</span>)
+</span></span><span style="display:flex;"><span>    length <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">len</span>(char_array)
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(length <span style="color:#04a5e5;font-weight:bold">//</span> <span style="color:#fe640b">2</span>):
+</span></span><span style="display:flex;"><span>        c <span style="color:#04a5e5;font-weight:bold">=</span> char_array[length <span style="color:#04a5e5;font-weight:bold">-</span> i <span style="color:#04a5e5;font-weight:bold">-</span> <span style="color:#fe640b">1</span>]
+</span></span><span style="display:flex;"><span>        char_array[length <span style="color:#04a5e5;font-weight:bold">-</span> i <span style="color:#04a5e5;font-weight:bold">-</span> <span style="color:#fe640b">1</span>] <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">chr</span>(<span style="color:#04a5e5">ord</span>(char_array[i]) <span style="color:#04a5e5;font-weight:bold">^</span> <span style="color:#04a5e5">ord</span>(<span style="color:#40a02b">&#39;2&#39;</span>))
+</span></span><span style="display:flex;"><span>        char_array[i] <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">chr</span>(<span style="color:#04a5e5">ord</span>(c) <span style="color:#04a5e5;font-weight:bold">^</span> <span style="color:#04a5e5">ord</span>(<span style="color:#40a02b">&#39;A&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#04a5e5">print</span>(<span style="color:#40a02b">&#39;&#39;</span><span style="color:#04a5e5;font-weight:bold">.</span>join(char_array))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">main</span>():
+</span></span><span style="display:flex;"><span>    question1()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">if</span> <span style="color:#dc8a78">__name__</span> <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: Boris, give me the password</span>
+</span></span></code></pre></div><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_gQC9BQ.png" width="200" alt="CrackMe" />
+<p><code>b()</code>方法较<code>a()</code>方法难度提升，同时有不可见字符，直接逆向推导函数会有不可见字符，使用<a href="https://github.com/Z3Prover/z3">Z3-Solver</a>进行推导。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_FZFjsr.png" width="500" alt="CrackMe" /></p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">z3</span> <span style="color:#179299">import</span> <span style="color:#04a5e5;font-weight:bold">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#179299">from</span> <span style="color:#fe640b">binascii</span> <span style="color:#179299">import</span> b2a_hex, a2b_hex
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">question2</span>():
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    r <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;</span><span style="color:#1e66f5">\u0000</span><span style="color:#40a02b">dslp}oQ</span><span style="color:#1e66f5">\u0000</span><span style="color:#40a02b"> dks$|M</span><span style="color:#1e66f5">\u0000</span><span style="color:#40a02b">h +AYQg</span><span style="color:#1e66f5">\u0000</span><span style="color:#40a02b">P*!M$gQ</span><span style="color:#1e66f5">\u0000</span><span style="color:#40a02b">&#34;</span>
+</span></span><span style="display:flex;"><span>    r_result <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">bytearray</span>(a2b_hex(<span style="color:#40a02b">&#39;&#39;</span><span style="color:#04a5e5;font-weight:bold">.</span>join(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#39;</span><span style="color:#40a02b">{</span><span style="color:#04a5e5">ord</span>(c)<span style="color:#40a02b">:</span><span style="color:#40a02b">02x</span><span style="color:#40a02b">}</span><span style="color:#40a02b">&#39;</span> <span style="color:#8839ef">for</span> c <span style="color:#04a5e5;font-weight:bold">in</span> r)))
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#04a5e5">int</span>(<span style="color:#04a5e5">len</span>(r_result) <span style="color:#04a5e5;font-weight:bold">/</span> <span style="color:#fe640b">2</span>)):
+</span></span><span style="display:flex;"><span>        c <span style="color:#04a5e5;font-weight:bold">=</span> r_result[i]
+</span></span><span style="display:flex;"><span>        r_result[i] <span style="color:#04a5e5;font-weight:bold">=</span> r_result[<span style="color:#04a5e5">len</span>(r_result) <span style="color:#04a5e5;font-weight:bold">-</span> i <span style="color:#04a5e5;font-weight:bold">-</span> <span style="color:#fe640b">1</span>]
+</span></span><span style="display:flex;"><span>        r_result[<span style="color:#04a5e5">len</span>(r_result) <span style="color:#04a5e5;font-weight:bold">-</span> i <span style="color:#04a5e5;font-weight:bold">-</span> <span style="color:#fe640b">1</span>] <span style="color:#04a5e5;font-weight:bold">=</span> c
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    s <span style="color:#04a5e5;font-weight:bold">=</span> Solver()
+</span></span><span style="display:flex;"><span>    x <span style="color:#04a5e5;font-weight:bold">=</span> [BitVec(<span style="color:#40a02b">&#34;x</span><span style="color:#40a02b">%s</span><span style="color:#40a02b">&#34;</span> <span style="color:#04a5e5;font-weight:bold">%</span> i, <span style="color:#fe640b">32</span>) <span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#04a5e5">len</span>(r_result))]
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#04a5e5">len</span>(r_result)):
+</span></span><span style="display:flex;"><span>        c <span style="color:#04a5e5;font-weight:bold">=</span> r_result[i]
+</span></span><span style="display:flex;"><span>        s<span style="color:#04a5e5;font-weight:bold">.</span>add(((x[i] <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> (i <span style="color:#04a5e5;font-weight:bold">%</span> <span style="color:#fe640b">8</span>)) <span style="color:#04a5e5;font-weight:bold">^</span> x[i]) <span style="color:#04a5e5;font-weight:bold">==</span> r_result[i])        <span style="color:#9ca0b0;font-style:italic">#z3</span>
+</span></span><span style="display:flex;"><span>        s<span style="color:#04a5e5;font-weight:bold">.</span>add(x[i] <span style="color:#04a5e5;font-weight:bold">&gt;=</span> <span style="color:#fe640b">0</span>, x[i] <span style="color:#04a5e5;font-weight:bold">&lt;=</span> <span style="color:#fe640b">255</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">if</span> (s<span style="color:#04a5e5;font-weight:bold">.</span>check() <span style="color:#04a5e5;font-weight:bold">==</span> sat):
+</span></span><span style="display:flex;"><span>        model <span style="color:#04a5e5;font-weight:bold">=</span> (s<span style="color:#04a5e5;font-weight:bold">.</span>model())
+</span></span><span style="display:flex;"><span>        flag <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#04a5e5">len</span>(r_result)):
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">if</span> (model[x[i]] <span style="color:#04a5e5;font-weight:bold">!=</span> <span style="color:#fe640b">None</span>):
+</span></span><span style="display:flex;"><span>                value <span style="color:#04a5e5;font-weight:bold">=</span> model[x[i]]<span style="color:#04a5e5;font-weight:bold">.</span>as_long()<span style="color:#04a5e5;font-weight:bold">.</span>real
+</span></span><span style="display:flex;"><span>                flag <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#40a02b">&#34; &#34;</span> <span style="color:#8839ef">if</span> value <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#fe640b">0</span> <span style="color:#8839ef">else</span> <span style="color:#04a5e5">chr</span>(value)
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">else</span>:
+</span></span><span style="display:flex;"><span>                flag <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#40a02b">&#34; &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#04a5e5">print</span>(<span style="color:#40a02b">&#39;&#34;&#39;</span> <span style="color:#04a5e5;font-weight:bold">+</span> flag <span style="color:#04a5e5;font-weight:bold">+</span> <span style="color:#40a02b">&#39;&#34;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">main</span>():
+</span></span><span style="display:flex;"><span>    question2()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">if</span> <span style="color:#dc8a78">__name__</span> <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: &#34; ay I *P EASE* h ve the  assword &#34;</span>
+</span></span></code></pre></div><p>将密码输入APP，密码正确，密码为<code>ay I *P EASE* h ve the  assword</code>。(由于加密的字符中有许多ascii为0的字符无法正确推导，所以也可以对output中的空格进行替换，得到：<code>May I *PLEASE* hive the password?</code>)
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_xUCrj8.png" width="200" alt="CrackMe" /></p>
+
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+            <div class="post-tags">
+              <a href="/tags/crackme/">
+                CrackMe
+              </a>
+            </div>
+            
+            <div class="post-tags">
+              <a href="/tags/%E9%80%86%E5%90%91/">
+                逆向
+              </a>
+            </div>
+            
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="col-xs-12">
+              
+            </div>
+          </div>
+
+          
+
+<div class="related-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/crackme-0x08/">Android crackme_0x08</a></li>
+    
+    <li><a href="/posts/crackme-0x07/">Android crackme_0x07</a></li>
+    
+    <li><a href="/posts/crackme-0x06/">Android crackme_0x06</a></li>
+    
+  </ul>
+</div>
+
+
+
+          
+          
+          <div style="height: 50px;"></div>
+          
+          <div class="post-comments">
+            
+          </div>
+          
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  
+
+<script>
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

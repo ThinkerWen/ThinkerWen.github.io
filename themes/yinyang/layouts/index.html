@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" prefix="og: http://ogp.me/ns#">
+{{ partial "head.html" . }}
+
+<body>
+  <article class="posts">
+    <div class="row">
+      <div class="col-xs-12">
+        {{ partial "header.html" . }}
+        <div id="posts-list">
+          {{ $defaultLimit := 10 }}
+          {{ $postLimit := default $defaultLimit .Site.Params.postLimitPerYear }}
+
+          {{ range (where site.RegularPages "Type" "in" site.Params.mainSections).GroupByDate "2006" }}
+          <section>
+            <h1 class="site-date-catalog">{{ .Key }}</h1>
+            {{ $yearCount := 0 }}
+
+            {{ range .Pages }}
+            {{ if lt $yearCount $postLimit }}
+            <div class="row posts-line">
+              <div class="posts-date col-xs-3 col-sm-2">
+                <time datetime="{{ .Date.Format " 2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "Jan 02"}}</time>
+              </div>
+              <div class="posts-title col-xs-9 col-sm-10">
+                <div class="row">
+                  <div class="col-xs-11 col-sm-10">
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                  </div>
+                  <div class="col-xs-1 col-sm-2 posts-categories">
+                    {{ if .Params.categories }}
+                    <div class="posts-category">
+                      <a href="/categories/{{ lower (index .Params.categories 0) }}/">
+                        <strong>{{ index .Params.categories 0 }}</strong>
+                      </a>
+                    </div>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{ $yearCount = add $yearCount 1 }}
+            {{ end }}
+            {{ end }}
+
+            {{ if gt (len .Pages) $postLimit }}
+            <div class="row">
+              <div class="col-xs-12 text-center" style="text-align: center;">
+                <a href="/years/{{ .Key | urlize }}/">查看更多>></a>
+              </div>
+            </div>
+            {{ end }}
+          </section>
+          {{ end }}
+        </div>
+
+        {{ partial "footer.html" . }}
+      </div>
+    </div>
+  </article>
+
+  {{ partial "scripts.html" . }}
+</body>
+
+</html>

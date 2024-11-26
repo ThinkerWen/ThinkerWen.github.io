@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2023 on 一文破晓</title>
+    <link>http://localhost:1313/years/2023/</link>
+    <description>Recent content in 2023 on 一文破晓</description>
+    <generator>Hugo</generator>
+    <language>cn</language>
+    <lastBuildDate>Tue, 20 Jun 2023 20:22:31 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/years/2023/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android crackme_0x05</title>
+      <link>http://localhost:1313/posts/crackme-0x05/</link>
+      <pubDate>Tue, 20 Jun 2023 20:22:31 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x05/</guid>
+      <description>描述 此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。&#xA;目标 注册为企业版程序&#xA;APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf&#xA;题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。&#xA;用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中，所以结合n2现在有两种解法：&#xA;直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x04</title>
+      <link>http://localhost:1313/posts/crackme-0x04/</link>
+      <pubDate>Tue, 20 Jun 2023 16:51:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x04/</guid>
+      <description>描述 使用用户名和注册码来成功注册软件。&#xA;目标 成功注册软件&#xA;APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji&#xA;题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result += hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x03</title>
+      <link>http://localhost:1313/posts/crackme-0x03/</link>
+      <pubDate>Tue, 20 Jun 2023 14:43:51 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x03/</guid>
+      <description>描述 Some hashes, cats and strings generation.&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。&#xA;方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：&#xA;function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.persianov.crackme0x03.Data&amp;#34;); Data[&amp;#34;isPasswordOk&amp;#34;].implementation = function (str) { console.log(&amp;#39;isPasswordOk is called&amp;#39; + &amp;#39;, &amp;#39; + &amp;#39;str: &amp;#39; + str); let ret = true; console.log(&amp;#39;isPasswordOk ret value is &amp;#39; + ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.</description>
+    </item>
+    <item>
+      <title>Android crackme_0x02</title>
+      <link>http://localhost:1313/posts/crackme-0x02/</link>
+      <pubDate>Mon, 19 Jun 2023 19:47:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x02/</guid>
+      <description>描述 What if JD-GUI doesn’t show you the password?&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在/res/values/strings.xml中 可以使用apktool工具解压apk文件查看：&#xA;apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x01</title>
+      <link>http://localhost:1313/posts/crackme-0x01/</link>
+      <pubDate>Mon, 19 Jun 2023 16:13:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x01/</guid>
+      <description>描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。 在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。 </description>
+    </item>
+  </channel>
+</rss>

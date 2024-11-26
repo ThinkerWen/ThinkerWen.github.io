@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>逆向 on 一文破晓</title>
+    <link>http://localhost:1313/categories/%E9%80%86%E5%90%91/</link>
+    <description>Recent content in 逆向 on 一文破晓</description>
+    <generator>Hugo</generator>
+    <language>cn</language>
+    <lastBuildDate>Wed, 26 Jun 2024 16:00:52 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/%E9%80%86%E5%90%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android crackme_0x09</title>
+      <link>http://localhost:1313/posts/crackme-0x09/</link>
+      <pubDate>Wed, 26 Jun 2024 16:00:52 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x09/</guid>
+      <description>描述 package: com.tlamb96.spetsnazmessenger&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoue.com/iwnao22p7pda&#xA;题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设备检测的位置，发现用System.getProperty(&amp;quot;user.home&amp;quot;)来获取设备类型，同时发现还用到System.getenv(&amp;quot;USER&amp;quot;)增加了用户白名单检测，白名单用户是R.string.User。 想找用户字符串很简单，Android的字符串资源都存储在/res/values/strings.xml中，可以使用apktool工具解压apk文件查看apktool d base.apk。或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为User的字符串值：RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==即为白名单用户。 hook以上两个函数就可以过检测了&#xA;function passCheck() { Java.perform(function () { var System = Java.use(&amp;#39;java.lang.System&amp;#39;); System.getProperty.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;user.home&amp;#39;) return &amp;#39;Russia&amp;#39;; return this.getProperty(name); }; System.getenv.overload(&amp;#39;java.lang.String&amp;#39;).implementation = function (name) { if (name == &amp;#39;USER&amp;#39;) return &amp;#39;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&amp;#39;; return this.getProperty(name); }; }); } function main() { passCheck(); } setImmediate(main); 打开APP没有提示了，显示需要输入用户名密码进入APP 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取username，拿到是codenameduchess。密码是在j()方法中对比。 打开j()方法，发现是md5对比，md5字符串是从资源里面取password，拿到是84e343a0486ff05530df6c705c8bb4。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是guest。 输入用户名codenameduchess和密码guest进入APP，显示是个聊天页，需要发送正确消息。 用Jadx-GUI继续看APP，找到发送消息页，发现是在i()方法中获得flag，但是i()方法需要用到this.q和this.s。 继续看可以找到this.q和this.s是在onSendMessage()方法中生成的，而要生成this.s和this.q又需要用到a()方法和b()方法。 a()方法比较简单，直接用本地进行还原。&#xA;from z3 import * from binascii import b2a_hex, a2b_hex def question1(): char_array = list(&amp;#34;V@]EAASB\u0012WZF\u0012e,a$7(&amp;amp;am2(3.</description>
+    </item>
+    <item>
+      <title>Android crackme_0x08</title>
+      <link>http://localhost:1313/posts/crackme-0x08/</link>
+      <pubDate>Tue, 25 Jun 2024 15:14:04 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x08/</guid>
+      <description>描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.&#xA;目标 找到密码&#xA;APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i&#xA;题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js&#xA;function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console.</description>
+    </item>
+    <item>
+      <title>Android crackme_0x07</title>
+      <link>http://localhost:1313/posts/crackme-0x07/</link>
+      <pubDate>Mon, 24 Jun 2024 16:25:21 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x07/</guid>
+      <description>描述 This app holds a secret inside. May include traces of native code.&#xA;目标 找到密码&#xA;APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d&#xA;题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js&#xA;function passRoot() { Java.perform(function() { let b = Java.use(&amp;#34;sg.vantagepoint.a.b&amp;#34;); b[&amp;#34;a&amp;#34;].implementation = function () { console.log(`b.a is called`); return false; }; b[&amp;#34;b&amp;#34;].implementation = function () { console.log(`b.b is called`); return false; }; b[&amp;#34;c&amp;#34;].implementation = function () { console.log(`b.c is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入this.</description>
+    </item>
+    <item>
+      <title>Android crackme_0x06</title>
+      <link>http://localhost:1313/posts/crackme-0x06/</link>
+      <pubDate>Mon, 24 Jun 2024 14:53:53 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x06/</guid>
+      <description>描述 A secret string is hidden somewhere in this app. Find a way to extract it.&#xA;目标 找到密码&#xA;APK下载 https://yhxx.lanzoub.com/iGhc20mreula&#xA;题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable1 -l crack.js&#xA;function passRoot() { Java.perform(function() { let c = Java.use(&amp;#34;sg.vantagepoint.a.c&amp;#34;); c[&amp;#34;a&amp;#34;].implementation = function () { console.log(`c.a is called`); return false; }; c[&amp;#34;b&amp;#34;].implementation = function () { console.log(`c.b is called`); return false; }; c[&amp;#34;c&amp;#34;].implementation = function () { return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 再找到验证密码的地方，看到是在verify()方法中，将用户输入的文本传入a.</description>
+    </item>
+    <item>
+      <title>大麦网回流票监控</title>
+      <link>http://localhost:1313/posts/damai-resale-ticket-monitor/</link>
+      <pubDate>Wed, 27 Mar 2024 16:10:37 +0000</pubDate>
+      <guid>http://localhost:1313/posts/damai-resale-ticket-monitor/</guid>
+      <description>最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。&#xA;最简单的方向就是从网页端入手。&#xA;在这个演唱会页面看到网页端不支持购买，不慌，咱只是看看有没有票不购买，直接抓包随便一个音乐节的票量接口。&#xA;经过抓包得到以下两个链接，分别是&#xA;场次接口：&#xA;https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696836862157&amp;amp;sign=8f6f6d430ae53782832c28c208c9c246&amp;amp;api=mtop.alibaba.damai.detail.getdetail&amp;amp;v=1.2&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A739853478245%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 座次接口：&#xA;https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;amp;appKey=12574478&amp;amp;t=1696837077937&amp;amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;amp;api=mtop.alibaba.detail.subpage.getdetail&amp;amp;v=2.0&amp;amp;H5Request=true&amp;amp;type=originaljson&amp;amp;timeout=10000&amp;amp;dataType=json&amp;amp;valueType=original&amp;amp;forceAntiCreep=true&amp;amp;AntiCreep=true&amp;amp;useH5=true&amp;amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数_m_h5_tk和_m_h5_tk_enc 而这两个接口里的参数大同小异，分别如下&#xA;场次接口：&#xA;座次接口：&#xA;可以看到其中关键参数就是t、sign、data，其他参数都是固定的。&#xA;其中data显而易见，场次接口的itemId就是这个演出的id，其他参数固定；座次接口的itemId是演出id，dataId就是当前场次的id（例如10.21场），其他参数固定。&#xA;接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到sign上，也可以打到对应链接上。&#xA;刷新一下页面触发断点，找到对应的请求发起js文件。&#xA;在这个文件里简单调试下很容易就能找到加密函数&#xA;可以看到这个函数就是将token、c、s、data，以&amp;amp;进行分隔拼接，然后再进行加密得到sign。&#xA;其中token暂时未知，c就是url参数中的t时间戳，s就是url参数中的appKey固定值，data就是url参数中的data的json字符串，简单拼接就行。&#xA;所以现在就剩token未知，在函数上打个断点看看：&#xA;发现这个token很眼熟，回头看看我们请求所需的cookie，这个token就是cookie中_m_h5_tk的前半部分，直接拿过来用就可以。&#xA;我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。&#xA;现在所需要知道的就是_m_h5_tk是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。&#xA;可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的_m_h5_tk，这下大功告成了。&#xA;最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。</description>
+    </item>
+    <item>
+      <title>Python过图形验证码的校验</title>
+      <link>http://localhost:1313/posts/python-bypass-graphical-captcha-verification/</link>
+      <pubDate>Wed, 27 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/python-bypass-graphical-captcha-verification/</guid>
+      <description>背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。&#xA;文章源码地址：点击查看&#xA;验证码如下：&#xA;背景图 目标图 弹出验证码的Response如下：&#xA;{ &amp;#34;data&amp;#34;: { &amp;#34;errorCode&amp;#34;: 0, &amp;#34;errorMsg&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;bg&amp;#34;: &amp;#34;https://example.com/ENZg076503962.jpg&amp;#34;, &amp;#34;front&amp;#34;: &amp;#34;https://example.com/ENZg076503963.png&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34;, &amp;#34;width&amp;#34;: 765, &amp;#34;height&amp;#34;: 396 } } 完成验证码的Request如下&#xA;{ &amp;#34;m&amp;#34;: &amp;#34;[{\&amp;#34;x\&amp;#34;:395,\&amp;#34;y\&amp;#34;:256},{\&amp;#34;x\&amp;#34;:89,\&amp;#34;y\&amp;#34;:273},{\&amp;#34;x\&amp;#34;:670,\&amp;#34;y\&amp;#34;:140}]&amp;#34;, &amp;#34;token&amp;#34;: &amp;#34;eyJhbGci...&amp;#34; } 由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。&#xA;方案 观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。&#xA;要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。&#xA;于是我使用Python的OpenCV进行图片的识别。&#xA;1.提取图片 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 cv2.imread(front_image) 来加载图片时，会显示一片漆黑：&#xA;即使后来我使用了保留透明通道的加载 cv2.imread(front_path, cv2.IMREAD_UNCHANGED)，依旧是一片漆黑。&#xA;于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：&#xA;2.匹配图片 即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。&#xA;我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：&#xA;rectangle_list每一个元素是[x1,y1,x2,y2]&#xA;rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]] for idx, rectangle in enumerate(rectangle_list, start=1): cropped_image = white_front[rectangle[1]:rectangle[3], rectangle[0]:rectangle[2]] 分割后我们将目标图和背景图都转化为灰度，防止颜色碍事：</description>
+    </item>
+    <item>
+      <title>Android crackme_0x05</title>
+      <link>http://localhost:1313/posts/crackme-0x05/</link>
+      <pubDate>Tue, 20 Jun 2023 20:22:31 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x05/</guid>
+      <description>描述 此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。&#xA;目标 注册为企业版程序&#xA;APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf&#xA;题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。&#xA;用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中，所以结合n2现在有两种解法：&#xA;直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x04</title>
+      <link>http://localhost:1313/posts/crackme-0x04/</link>
+      <pubDate>Tue, 20 Jun 2023 16:51:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x04/</guid>
+      <description>描述 使用用户名和注册码来成功注册软件。&#xA;目标 成功注册软件&#xA;APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji&#xA;题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result += hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x03</title>
+      <link>http://localhost:1313/posts/crackme-0x03/</link>
+      <pubDate>Tue, 20 Jun 2023 14:43:51 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x03/</guid>
+      <description>描述 Some hashes, cats and strings generation.&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看Data().isPasswordOk()就可以拿到密码。 在Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的password进行md5加密并与现有的md5字符串ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。 于是现在有两种解法： 1.找出md5字符串ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。&#xA;方法一 到md5撞库解密的网站输入ac43bb53262e4edd82c0e82a93c84755，得到明文为3#8H1J 输入密码3#8H1J，即可拿到flag。 方法二 使用frida对isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：&#xA;function main() { Java.perform( function(){ let Data = Java.use(&amp;#34;net.persianov.crackme0x03.Data&amp;#34;); Data[&amp;#34;isPasswordOk&amp;#34;].implementation = function (str) { console.log(&amp;#39;isPasswordOk is called&amp;#39; + &amp;#39;, &amp;#39; + &amp;#39;str: &amp;#39; + str); let ret = true; console.log(&amp;#39;isPasswordOk ret value is &amp;#39; + ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.</description>
+    </item>
+    <item>
+      <title>Android crackme_0x02</title>
+      <link>http://localhost:1313/posts/crackme-0x02/</link>
+      <pubDate>Mon, 19 Jun 2023 19:47:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x02/</guid>
+      <description>描述 What if JD-GUI doesn’t show you the password?&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在/res/values/strings.xml中 可以使用apktool工具解压apk文件查看：&#xA;apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 </description>
+    </item>
+    <item>
+      <title>Android crackme_0x01</title>
+      <link>http://localhost:1313/posts/crackme-0x01/</link>
+      <pubDate>Mon, 19 Jun 2023 16:13:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/crackme-0x01/</guid>
+      <description>描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.&#xA;目标 找到Flag&#xA;APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i&#xA;题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。 在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。 </description>
+    </item>
+  </channel>
+</rss>

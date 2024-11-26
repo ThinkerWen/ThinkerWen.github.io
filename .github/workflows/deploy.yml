@@ -3,7 +3,7 @@ name: Deploy 404fix
 on:
   push:
     branches:
-      - even
+      - yinyang
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
         PERSONAL_TOKEN: ${{ secrets.GH_PAT }}
         PUBLISH_DIR: ./public
         EXTERNAL_REPOSITORY: ThinkerWen/ThinkerWen.github.io
-        PUBLISH_BRANCH: even_deploy
+        PUBLISH_BRANCH: yinyang_deploy
         CNAME: www.404fix.cn
         user_name: 'ThinkerWen'
         user_email: '296854007@qq.com'
