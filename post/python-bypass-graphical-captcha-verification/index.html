@@ -43,13 +43,13 @@
 <meta property="og:description" content="背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。 文章源码" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/python-bypass-graphical-captcha-verification/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-06-26T16:10:37+00:00" />
-<meta property="article:modified_time" content="2024-06-26T16:10:37+00:00" />
+<meta property="article:published_time" content="2024-01-02T16:10:37+00:00" />
+<meta property="article:modified_time" content="2024-01-02T16:10:37+00:00" />
 
 <meta itemprop="name" content="Python过图形验证码的校验">
-<meta itemprop="description" content="背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。 文章源码"><meta itemprop="datePublished" content="2024-06-26T16:10:37+00:00" />
-<meta itemprop="dateModified" content="2024-06-26T16:10:37+00:00" />
-<meta itemprop="wordCount" content="1802">
+<meta itemprop="description" content="背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。 文章源码"><meta itemprop="datePublished" content="2024-01-02T16:10:37+00:00" />
+<meta itemprop="dateModified" content="2024-01-02T16:10:37+00:00" />
+<meta itemprop="wordCount" content="1811">
 <meta itemprop="keywords" content="逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python过图形验证码的校验"/>
 <meta name="twitter:description" content="背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。 文章源码"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">Python过图形验证码的校验</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2024-06-26 </span>
+        <span class="post-time"> 2024-01-02 </span>
         <div class="post-category">
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
             </div>
@@ -146,8 +150,8 @@
         <li><a href="#背景">背景</a></li>
         <li><a href="#方案">方案</a>
           <ul>
-            <li></li>
-            <li><a href="#滑动验证码">滑动验证码</a></li>
+            <li><a href="#一点击验证码">一、点击验证码</a></li>
+            <li><a href="#二滑动验证码">二、滑动验证码</a></li>
           </ul>
         </li>
       </ul>
@@ -221,6 +225,7 @@
 </div>
 </div><p>由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。</p>
 <h2 id="方案">方案</h2>
+<h3 id="一点击验证码">一、点击验证码</h3>
 <p>观察了下这个验证码不是很难，因为它没有图案扭曲，所以还是比较好过的，同时我也想起了以前过滑动验证码的一个方案（同时给出）。</p>
 <p>要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。</p>
 <p>于是我使用Python的OpenCV进行图片的识别。</p>
@@ -449,7 +454,7 @@
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="滑动验证码">滑动验证码</h3>
+</div><h3 id="二滑动验证码">二、滑动验证码</h3>
 <p>滑动验证码与上同理，甚至现在比较常见的一种滑动验证码已经有了通用的代码，如：</p>
 <table>
 <thead>
@@ -515,7 +520,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2024-06-26
+        2024-01-02
         
     </span>
   </p>

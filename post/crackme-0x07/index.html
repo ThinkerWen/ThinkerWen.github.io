@@ -43,12 +43,12 @@
 <meta property="og:description" content="描述 This app holds a secret inside. May include traces of native code. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/crackme-0x07/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-06-24T16:25:21+00:00" />
-<meta property="article:modified_time" content="2024-06-24T16:25:21+00:00" />
+<meta property="article:published_time" content="2023-07-25T16:25:21+00:00" />
+<meta property="article:modified_time" content="2023-07-25T16:25:21+00:00" />
 
 <meta itemprop="name" content="Android crackme_0x07">
-<meta itemprop="description" content="描述 This app holds a secret inside. May include traces of native code. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要"><meta itemprop="datePublished" content="2024-06-24T16:25:21+00:00" />
-<meta itemprop="dateModified" content="2024-06-24T16:25:21+00:00" />
+<meta itemprop="description" content="描述 This app holds a secret inside. May include traces of native code. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要"><meta itemprop="datePublished" content="2023-07-25T16:25:21+00:00" />
+<meta itemprop="dateModified" content="2023-07-25T16:25:21+00:00" />
 <meta itemprop="wordCount" content="1004">
 <meta itemprop="keywords" content="CrackMe,逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Android crackme_0x07"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">Android crackme_0x07</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2024-06-24 </span>
+        <span class="post-time"> 2023-07-25 </span>
         <div class="post-category">
             <a href="/categories/crackme/"> CrackMe </a>
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
@@ -165,13 +169,13 @@
 <h3 id="apk下载">APK下载</h3>
 <p><a href="https://yhxx.lanzoub.com/iMZpZ0mx336d">https://yhxx.lanzoub.com/iMZpZ0mx336d</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_CBtlsI.jpg" width="200" alt="CrackMe" /></p>
+<p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_CBtlsI.jpg" width="200" alt="CrackMe" />
 <p>在GitHub上有个脚本可以过很多root检测<a href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
-Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ayVJTW.png" width="500" alt="CrackMe" /></p>
-<p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_9eH6qL.png" width="500" alt="CrackMe" /></p>
+Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ayVJTW.png" width="500" alt="CrackMe" />
+<p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_9eH6qL.png" width="500" alt="CrackMe" />
 <p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -225,14 +229,14 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span class="line"><span class="cl"><span class="nx">setImmediate</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>打开后APP就可以正常使用，不会提示root了。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VyBx3W.png" width="200" alt="CrackMe" /></p>
-<p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.m.a()</code>方法中进行检查。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_DqaZ5p.png" width="500" alt="CrackMe" /></p>
-<p>进入<code>this.m.a()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到有<code>System.loadLibrary(&quot;foo&quot;)</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Y8updd.png" width="500" alt="CrackMe" /></p>
-<p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到其中用到了<code>strncmp()</code>来做字符串对比，所以只需要hook<code>strncmp()</code>即可。同时可以看到字符串长度为23位，这也缩小了hook范围，更加方便。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_IpR2e4.png" width="500" alt="CrackMe" /></p>
+</div><p>打开后APP就可以正常使用，不会提示root了。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VyBx3W.png" width="200" alt="CrackMe" />
+<p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.m.a()</code>方法中进行检查。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_DqaZ5p.png" width="500" alt="CrackMe" />
+<p>进入<code>this.m.a()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到有<code>System.loadLibrary(&quot;foo&quot;)</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Y8updd.png" width="500" alt="CrackMe" />
+<p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到其中用到了<code>strncmp()</code>来做字符串对比，所以只需要hook<code>strncmp()</code>即可。同时可以看到字符串长度为23位，这也缩小了hook范围，更加方便。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_IpR2e4.png" width="500" alt="CrackMe" />
 <p>写出hook脚本，重启注入APP<code>frida -U --no-pause -f owasp.mstg.uncrackable2 -l crack.js</code>，输入<code>01234567890123456789012</code>来查看返回值，可以看到输出为<code>Thanks for all the fish</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -323,9 +327,8 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span></code></pre></td></tr></table>
 </div>
 </div><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_XJFkT6.png" width="500" alt="CrackMe" />
-<p>将密码输入APP，密码正确，密码为<code>Thanks for all the fish</code>
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_jeL0KC.png" width="200" alt="CrackMe" /></p>
-
+<p>将密码输入APP，密码正确，密码为<code>Thanks for all the fish</code></p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_jeL0KC.png" width="200" alt="CrackMe" />
     </div>
 
     <div class="post-copyright">
@@ -336,7 +339,7 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2024-06-24
+        2023-07-25
         
     </span>
   </p>

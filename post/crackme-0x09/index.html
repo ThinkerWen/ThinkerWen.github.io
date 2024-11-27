@@ -43,12 +43,12 @@
 <meta property="og:description" content="描述 package: com.tlamb96.spetsnazmessenger 目标 找到Flag APK下载 https://yhxx.lanzoue.com/iwnao22p7pda 题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/crackme-0x09/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-06-26T16:00:52+00:00" />
-<meta property="article:modified_time" content="2024-06-26T16:00:52+00:00" />
+<meta property="article:published_time" content="2023-08-10T16:00:52+00:00" />
+<meta property="article:modified_time" content="2023-08-10T16:00:52+00:00" />
 
 <meta itemprop="name" content="Android crackme_0x09">
-<meta itemprop="description" content="描述 package: com.tlamb96.spetsnazmessenger 目标 找到Flag APK下载 https://yhxx.lanzoue.com/iwnao22p7pda 题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设"><meta itemprop="datePublished" content="2024-06-26T16:00:52+00:00" />
-<meta itemprop="dateModified" content="2024-06-26T16:00:52+00:00" />
+<meta itemprop="description" content="描述 package: com.tlamb96.spetsnazmessenger 目标 找到Flag APK下载 https://yhxx.lanzoue.com/iwnao22p7pda 题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设"><meta itemprop="datePublished" content="2023-08-10T16:00:52+00:00" />
+<meta itemprop="dateModified" content="2023-08-10T16:00:52+00:00" />
 <meta itemprop="wordCount" content="1359">
 <meta itemprop="keywords" content="CrackMe,逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Android crackme_0x09"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">Android crackme_0x09</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2024-06-26 </span>
+        <span class="post-time"> 2023-08-10 </span>
         <div class="post-category">
             <a href="/categories/crackme/"> CrackMe </a>
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
@@ -165,13 +169,13 @@
 <h3 id="apk下载">APK下载</h3>
 <p><a href="https://yhxx.lanzoue.com/iwnao22p7pda">https://yhxx.lanzoue.com/iwnao22p7pda</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_4TKWhe.png" width="200" alt="CrackMe" /></p>
-<p>Jadx-GUI打开找到设备检测的位置，发现用<code>System.getProperty(&quot;user.home&quot;)</code>来获取设备类型，同时发现还用到<code>System.getenv(&quot;USER&quot;)</code>增加了用户白名单检测，白名单用户是<code>R.string.User</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_brNfX1.png" width="500" alt="CrackMe" /></p>
+<p>首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_4TKWhe.png" width="200" alt="CrackMe" />
+<p>Jadx-GUI打开找到设备检测的位置，发现用<code>System.getProperty(&quot;user.home&quot;)</code>来获取设备类型，同时发现还用到<code>System.getenv(&quot;USER&quot;)</code>增加了用户白名单检测，白名单用户是<code>R.string.User</code>。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_brNfX1.png" width="500" alt="CrackMe" />
 <p>想找用户字符串很简单，Android的字符串资源都存储在<code>/res/values/strings.xml</code>中，可以使用apktool工具解压apk文件查看<code>apktool d base.apk</code>。或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
-打开xml文件后可以看到名为User的字符串值：<code>RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==</code>即为白名单用户。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_3lZ2zJ.png" width="500" alt="CrackMe" /></p>
+打开xml文件后可以看到名为User的字符串值：<code>RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==</code>即为白名单用户。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_3lZ2zJ.png" width="500" alt="CrackMe" />
 <p>hook以上两个函数就可以过检测了</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -217,18 +221,18 @@
 </span></span><span class="line"><span class="cl"><span class="nx">setImmediate</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>打开APP没有提示了，显示需要输入用户名密码进入APP
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_H9wnMc.png" width="200" alt="CrackMe" /></p>
-<p>用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取<code>username</code>，拿到是<code>codenameduchess</code>。密码是在<code>j()</code>方法中对比。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lunWnC.png" width="500" alt="CrackMe" /></p>
-<p>打开<code>j()</code>方法，发现是md5对比，md5字符串是从资源里面取<code>password</code>，拿到是<code>84e343a0486ff05530df6c705c8bb4</code>。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是<code>guest</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_81ZH6J.png" width="500" alt="CrackMe" /></p>
-<p>输入用户名<code>codenameduchess</code>和密码<code>guest</code>进入APP，显示是个聊天页，需要发送正确消息。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_r3iFvu.png" width="200" alt="CrackMe" /></p>
-<p>用Jadx-GUI继续看APP，找到发送消息页，发现是在<code>i()</code>方法中获得flag，但是<code>i()</code>方法需要用到<code>this.q</code>和<code>this.s</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Qk3Q2X.png" width="500" alt="CrackMe" /></p>
-<p>继续看可以找到<code>this.q</code>和<code>this.s</code>是在<code>onSendMessage()</code>方法中生成的，而要生成<code>this.s</code>和<code>this.q</code>又需要用到<code>a()</code>方法和<code>b()</code>方法。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lhYq8t.png" width="500" alt="CrackMe" /></p>
+</div><p>打开APP没有提示了，显示需要输入用户名密码进入APP</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_H9wnMc.png" width="200" alt="CrackMe" />
+<p>用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取<code>username</code>，拿到是<code>codenameduchess</code>。密码是在<code>j()</code>方法中对比。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lunWnC.png" width="500" alt="CrackMe" />
+<p>打开<code>j()</code>方法，发现是md5对比，md5字符串是从资源里面取<code>password</code>，拿到是<code>84e343a0486ff05530df6c705c8bb4</code>。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是<code>guest</code>。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_81ZH6J.png" width="500" alt="CrackMe" />
+<p>输入用户名<code>codenameduchess</code>和密码<code>guest</code>进入APP，显示是个聊天页，需要发送正确消息。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_r3iFvu.png" width="200" alt="CrackMe" />
+<p>用Jadx-GUI继续看APP，找到发送消息页，发现是在<code>i()</code>方法中获得flag，但是<code>i()</code>方法需要用到<code>this.q</code>和<code>this.s</code>。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Qk3Q2X.png" width="500" alt="CrackMe" />
+<p>继续看可以找到<code>this.q</code>和<code>this.s</code>是在<code>onSendMessage()</code>方法中生成的，而要生成<code>this.s</code>和<code>this.q</code>又需要用到<code>a()</code>方法和<code>b()</code>方法。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_lhYq8t.png" width="500" alt="CrackMe" />
 <p><code>a()</code>方法比较简单，直接用本地进行还原。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -279,8 +283,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_gQC9BQ.png" width="200" alt="CrackMe" />
-<p><code>b()</code>方法较<code>a()</code>方法难度提升，同时有不可见字符，直接逆向推导函数会有不可见字符，使用<a href="https://github.com/Z3Prover/z3">Z3-Solver</a>进行推导。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_FZFjsr.png" width="500" alt="CrackMe" /></p>
+<p><code>b()</code>方法较<code>a()</code>方法难度提升，同时有不可见字符，直接逆向推导函数会有不可见字符，使用<a href="https://github.com/Z3Prover/z3">Z3-Solver</a>进行推导。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_FZFjsr.png" width="500" alt="CrackMe" />
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -363,9 +367,8 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># output: &#34; ay I *P EASE* h ve the  assword &#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>将密码输入APP，密码正确，密码为<code>ay I *P EASE* h ve the  assword</code>。(由于加密的字符中有许多ascii为0的字符无法正确推导，所以也可以对output中的空格进行替换，得到：<code>May I *PLEASE* hive the password?</code>)
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_xUCrj8.png" width="200" alt="CrackMe" /></p>
-
+</div><p>将密码输入APP，密码正确，密码为<code>ay I *P EASE* h ve the  assword</code>。(由于加密的字符中有许多ascii为0的字符无法正确推导，所以也可以对output中的空格进行替换，得到：<code>May I *PLEASE* hive the password?</code>)</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_xUCrj8.png" width="200" alt="CrackMe" />
     </div>
 
     <div class="post-copyright">
@@ -376,7 +379,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2024-06-26
+        2023-08-10
         
     </span>
   </p>

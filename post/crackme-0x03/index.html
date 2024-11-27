@@ -43,13 +43,13 @@
 <meta property="og:description" content="描述 Some hashes, cats and strings generation. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/crackme-0x03/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-06-20T14:43:51+00:00" />
-<meta property="article:modified_time" content="2023-06-20T14:43:51+00:00" />
+<meta property="article:published_time" content="2023-04-21T14:43:51+00:00" />
+<meta property="article:modified_time" content="2023-04-21T14:43:51+00:00" />
 
 <meta itemprop="name" content="Android crackme_0x03">
-<meta itemprop="description" content="描述 Some hashes, cats and strings generation. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开"><meta itemprop="datePublished" content="2023-06-20T14:43:51+00:00" />
-<meta itemprop="dateModified" content="2023-06-20T14:43:51+00:00" />
-<meta itemprop="wordCount" content="782">
+<meta itemprop="description" content="描述 Some hashes, cats and strings generation. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开"><meta itemprop="datePublished" content="2023-04-21T14:43:51+00:00" />
+<meta itemprop="dateModified" content="2023-04-21T14:43:51+00:00" />
+<meta itemprop="wordCount" content="802">
 <meta itemprop="keywords" content="CrackMe,逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Android crackme_0x03"/>
 <meta name="twitter:description" content="描述 Some hashes, cats and strings generation. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">Android crackme_0x03</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2023-06-20 </span>
+        <span class="post-time"> 2023-04-21 </span>
         <div class="post-category">
             <a href="/categories/crackme/"> CrackMe </a>
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
@@ -170,24 +174,24 @@
 <h3 id="apk下载">APK下载</h3>
 <p><a href="https://yhxx.lanzoub.com/iwKDO0mj4kfg">https://yhxx.lanzoub.com/iwKDO0mj4kfg</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
+<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_VCHkhq.jpg" width="200" alt="CrackMe" />
-用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
-在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
-②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_viT1mg.png" width="500" alt="CrackMe" /></p>
-<p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().isPasswordOk(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().isPasswordOk()</code>就可以拿到密码。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_2eh5dC.png" width="500" alt="CrackMe" /></p>
-<p>在<code>Data().isPasswordOk()</code>可以从①中看到密码长度是6，然后在②中将用户填入的<code>password</code>进行md5加密并与现有的md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>作对比，相等则给出flag。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_mziUEq.png" width="500" alt="CrackMe" /></p>
+用Jadx-GUI打开APK看一下源码，在`MainActivity`中找到了`SUBMIT`按钮绑定的`onClick`函数。
+在①中通过`FlagGuard().getFlag()`函数来根据获取文本框中输入的`password`得到`flag`。
+②中`Flag`不为空则展示`Congratulations!`和`Flag`。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_viT1mg.png" width="500" alt="CrackMe" />
+<p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().isPasswordOk(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().isPasswordOk()</code>就可以拿到密码。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_2eh5dC.png" width="500" alt="CrackMe" />
+<p>在<code>Data().isPasswordOk()</code>可以从①中看到密码长度是6，然后在②中将用户填入的<code>password</code>进行md5加密并与现有的md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>作对比，相等则给出flag。</p>
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_mziUEq.png" width="500" alt="CrackMe" />
 <p>于是现在有两种解法：
 1.找出md5字符串<code>ac43bb53262e4edd82c0e82a93c84755</code>的明文，即为密码。
 2.让<code>isPasswordOk()</code>函数永远返回true，随便输入6位字符串即可拿到flag。</p>
 <h3 id="方法一">方法一</h3>
-<p>到md5撞库解密的网站输入<code>ac43bb53262e4edd82c0e82a93c84755</code>，得到明文为<code>3#8H1J</code>
+<p>到md5撞库解密的网站输入<code>ac43bb53262e4edd82c0e82a93c84755</code>，得到明文为<code>3#8H1J</code></p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Z4sfSu.png" width="500" alt="CrackMe" />
-输入密码<code>3#8H1J</code>，即可拿到flag。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_BziPam.png" width="200" alt="CrackMe" /></p>
+输入密码`3#8H1J`，即可拿到flag。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_BziPam.png" width="200" alt="CrackMe" />
 <h3 id="方法二">方法二</h3>
 <p>使用frida对<code>isPasswordOk()</code>函数进行hook，使之永远返回true。
 hook代码如下：</p>
@@ -223,11 +227,10 @@ hook代码如下：</p>
 </span></span><span class="line"><span class="cl"><span class="nx">setImmediate</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code>
+</div><p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code></p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_PEENYe.png" width="500" alt="CrackMe" />
 随意输入字符串即可拿到flag。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_5BHAEL.jpg" width="200" alt="CrackMe" /></p>
-
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_5BHAEL.jpg" width="200" alt="CrackMe" />
     </div>
 
     <div class="post-copyright">
@@ -238,7 +241,7 @@ hook代码如下：</p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2023-06-20
+        2023-04-21
         
     </span>
   </p>

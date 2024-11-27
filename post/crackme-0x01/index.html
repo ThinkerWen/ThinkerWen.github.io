@@ -43,13 +43,13 @@
 <meta property="og:description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/crackme-0x01/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2023-06-19T16:13:54+00:00" />
-<meta property="article:modified_time" content="2023-06-19T16:13:54+00:00" />
+<meta property="article:published_time" content="2023-04-19T16:13:54+00:00" />
+<meta property="article:modified_time" content="2023-04-19T16:13:54+00:00" />
 
 <meta itemprop="name" content="Android crackme_0x01">
-<meta itemprop="description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用"><meta itemprop="datePublished" content="2023-06-19T16:13:54+00:00" />
-<meta itemprop="dateModified" content="2023-06-19T16:13:54+00:00" />
-<meta itemprop="wordCount" content="423">
+<meta itemprop="description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用"><meta itemprop="datePublished" content="2023-04-19T16:13:54+00:00" />
+<meta itemprop="dateModified" content="2023-04-19T16:13:54+00:00" />
+<meta itemprop="wordCount" content="461">
 <meta itemprop="keywords" content="CrackMe,逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Android crackme_0x01"/>
 <meta name="twitter:description" content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">Android crackme_0x01</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2023-06-19 </span>
+        <span class="post-time"> 2023-04-19 </span>
         <div class="post-category">
             <a href="/categories/crackme/"> CrackMe </a>
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
@@ -165,19 +169,18 @@
 <h3 id="apk下载">APK下载</h3>
 <p><a href="https://yhxx.lanzoub.com/izxhl0mj4k7i">https://yhxx.lanzoub.com/izxhl0mj4k7i</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
+<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_4YgT7u.jpg" width="200" alt="CrackMe" />
-用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
-在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
-②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
+用Jadx-GUI打开APK看一下源码，在`MainActivity`中找到了`SUBMIT`按钮绑定的`onClick`函数。
+在①中通过`FlagGuard().getFlag()`函数来根据获取文本框中输入的`password`得到`flag`。
+②中`Flag`不为空则展示`Congratulations!`和`Flag`。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_jrayxU.png" width="500" alt="CrackMe" />
-进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData()</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。
+进入`FlagGuard().getFlag()`，发现只要传入的`str`(即输入的`password`)与`Data().getData()`相等就会返回②所计算出的flag，现在只需要看`Data().getData()`就可以拿到密码。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_20_WkaZbD.png" width="500" alt="CrackMe" />
-进入<code>Data().getData()</code>，发现函数直接返回了<code>password</code>字符串<code>s3cr37_p4ssw0rd_1337</code>。
+进入`Data().getData()`，发现函数直接返回了`password`字符串`s3cr37_p4ssw0rd_1337`。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_yg83W4.png" width="500" alt="CrackMe" />
-在文本框输入<code>s3cr37_p4ssw0rd_1337</code>即可拿到<code>flag</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_lmlltf.jpg" width="200" alt="CrackMe" /></p>
-
+在文本框输入`s3cr37_p4ssw0rd_1337`即可拿到`flag`。
+<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_lmlltf.jpg" width="200" alt="CrackMe" />
     </div>
 
     <div class="post-copyright">
@@ -188,7 +191,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2023-06-19
+        2023-04-19
         
     </span>
   </p>
@@ -206,7 +209,11 @@
             <span class="prev-text nav-default">Android crackme_0x02</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
-        
+        <a class="next" href="/post/about/">
+            <span class="next-text nav-default">关于我</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>

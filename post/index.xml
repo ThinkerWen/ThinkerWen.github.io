@@ -6,11 +6,11 @@
     <description>Recent content in Posts on 一文破晓</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Jun 2024 16:10:37 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Jan 2024 16:10:37 +0000</lastBuildDate><atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>大麦网回流票监控</title>
       <link>http://localhost:1313/post/damai-resale-ticket-monitor/</link>
-      <pubDate>Thu, 27 Jun 2024 16:10:37 +0000</pubDate>
+      <pubDate>Sat, 20 Jan 2024 16:10:37 +0000</pubDate>
       
       <guid>http://localhost:1313/post/damai-resale-ticket-monitor/</guid>
       <description>最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。 最简单的方向就是从网页端入手。 在这个演唱会页面看到网页端</description>
@@ -19,7 +19,7 @@
     <item>
       <title>Python过图形验证码的校验</title>
       <link>http://localhost:1313/post/python-bypass-graphical-captcha-verification/</link>
-      <pubDate>Wed, 26 Jun 2024 16:10:37 +0000</pubDate>
+      <pubDate>Tue, 02 Jan 2024 16:10:37 +0000</pubDate>
       
       <guid>http://localhost:1313/post/python-bypass-graphical-captcha-verification/</guid>
       <description>背景 最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。 文章源码</description>
@@ -28,7 +28,7 @@
     <item>
       <title>Android crackme_0x09</title>
       <link>http://localhost:1313/post/crackme-0x09/</link>
-      <pubDate>Wed, 26 Jun 2024 16:00:52 +0000</pubDate>
+      <pubDate>Thu, 10 Aug 2023 16:00:52 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x09/</guid>
       <description>描述 package: com.tlamb96.spetsnazmessenger 目标 找到Flag APK下载 https://yhxx.lanzoue.com/iwnao22p7pda 题解 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。 Jadx-GUI打开找到设</description>
@@ -37,7 +37,7 @@
     <item>
       <title>Android crackme_0x08</title>
       <link>http://localhost:1313/post/crackme-0x08/</link>
-      <pubDate>Tue, 25 Jun 2024 15:14:04 +0000</pubDate>
+      <pubDate>Thu, 27 Jul 2023 15:14:04 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x08/</guid>
       <description>描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了</description>
@@ -46,7 +46,7 @@
     <item>
       <title>Android crackme_0x07</title>
       <link>http://localhost:1313/post/crackme-0x07/</link>
-      <pubDate>Mon, 24 Jun 2024 16:25:21 +0000</pubDate>
+      <pubDate>Tue, 25 Jul 2023 16:25:21 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x07/</guid>
       <description>描述 This app holds a secret inside. May include traces of native code. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iMZpZ0mx336d 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要</description>
@@ -55,7 +55,7 @@
     <item>
       <title>Android crackme_0x06</title>
       <link>http://localhost:1313/post/crackme-0x06/</link>
-      <pubDate>Mon, 24 Jun 2024 14:53:53 +0000</pubDate>
+      <pubDate>Mon, 24 Jul 2023 14:53:53 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x06/</guid>
       <description>描述 A secret string is hidden somewhere in this app. Find a way to extract it. 目标 找到密码 APK下载 https://yhxx.lanzoub.com/iGhc20mreula 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root</description>
@@ -64,7 +64,7 @@
     <item>
       <title>Android crackme_0x05</title>
       <link>http://localhost:1313/post/crackme-0x05/</link>
-      <pubDate>Tue, 20 Jun 2023 20:22:31 +0000</pubDate>
+      <pubDate>Sat, 29 Apr 2023 20:22:31 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x05/</guid>
       <description>描述 此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。 目标 注册为企业版程序 APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf 题解 首先打开APP看一下，可以</description>
@@ -73,7 +73,7 @@
     <item>
       <title>Android crackme_0x04</title>
       <link>http://localhost:1313/post/crackme-0x04/</link>
-      <pubDate>Tue, 20 Jun 2023 16:51:29 +0000</pubDate>
+      <pubDate>Tue, 25 Apr 2023 16:51:29 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x04/</guid>
       <description>描述 使用用户名和注册码来成功注册软件。 目标 成功注册软件 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji 题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用J</description>
@@ -82,7 +82,7 @@
     <item>
       <title>Android crackme_0x03</title>
       <link>http://localhost:1313/post/crackme-0x03/</link>
-      <pubDate>Tue, 20 Jun 2023 14:43:51 +0000</pubDate>
+      <pubDate>Fri, 21 Apr 2023 14:43:51 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x03/</guid>
       <description>描述 Some hashes, cats and strings generation. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开</description>
@@ -91,7 +91,7 @@
     <item>
       <title>Android crackme_0x02</title>
       <link>http://localhost:1313/post/crackme-0x02/</link>
-      <pubDate>Mon, 19 Jun 2023 19:47:20 +0000</pubDate>
+      <pubDate>Thu, 20 Apr 2023 19:47:20 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x02/</guid>
       <description>描述 What if JD-GUI doesn’t show you the password? 目标 找到Flag APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Ja</description>
@@ -100,10 +100,19 @@
     <item>
       <title>Android crackme_0x01</title>
       <link>http://localhost:1313/post/crackme-0x01/</link>
-      <pubDate>Mon, 19 Jun 2023 16:13:54 +0000</pubDate>
+      <pubDate>Wed, 19 Apr 2023 16:13:54 +0000</pubDate>
       
       <guid>http://localhost:1313/post/crackme-0x01/</guid>
       <description>描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools. 目标 找到Flag APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>http://localhost:1313/post/about/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/about/</guid>
+      <description>👋 嗨, 我是 Wen 🛰 我的微信: Rem_wife 🐱 我的GitHub: ThinkerWen 📸 我的Instgram: Jason.wxw 🌈 我的Tiktok: DesignerWang 📬 我的邮箱: wxw126mail@126.com 🌎 我的网站：https://w</description>
     </item>
     
   </channel>

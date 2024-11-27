@@ -43,12 +43,12 @@
 <meta property="og:description" content="最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。 最简单的方向就是从网页端入手。 在这个演唱会页面看到网页端" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/damai-resale-ticket-monitor/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2024-06-27T16:10:37+00:00" />
-<meta property="article:modified_time" content="2024-06-27T16:10:37+00:00" />
+<meta property="article:published_time" content="2024-01-20T16:10:37+00:00" />
+<meta property="article:modified_time" content="2024-01-20T16:10:37+00:00" />
 
 <meta itemprop="name" content="大麦网回流票监控">
-<meta itemprop="description" content="最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。 最简单的方向就是从网页端入手。 在这个演唱会页面看到网页端"><meta itemprop="datePublished" content="2024-06-27T16:10:37+00:00" />
-<meta itemprop="dateModified" content="2024-06-27T16:10:37+00:00" />
+<meta itemprop="description" content="最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。 最简单的方向就是从网页端入手。 在这个演唱会页面看到网页端"><meta itemprop="datePublished" content="2024-01-20T16:10:37+00:00" />
+<meta itemprop="dateModified" content="2024-01-20T16:10:37+00:00" />
 <meta itemprop="wordCount" content="907">
 <meta itemprop="keywords" content="逆向," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="大麦网回流票监控"/>
@@ -85,6 +85,8 @@
         <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
         <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/about/">
+        <li class="mobile-menu-item">关于我</li>
       </a>
   </ul>
 
@@ -113,6 +115,8 @@
         <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="/categories/">分类</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/about/">关于我</a>
       </li>
   </ul>
 </nav>
@@ -128,7 +132,7 @@
       <h1 class="post-title">大麦网回流票监控</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2024-06-27 </span>
+        <span class="post-time"> 2024-01-20 </span>
         <div class="post-category">
             <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
             </div>
@@ -166,9 +170,9 @@
 <pre tabindex="0" class="chroma"><code class="language-HTTP" data-lang="HTTP"><span class="line"><span class="cl"><span class="err">https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&amp;appKey=12574478&amp;t=1696837077937&amp;sign=2000a8d025a2b8ff407be20a671b5e48&amp;api=mtop.alibaba.detail.subpage.getdetail&amp;v=2.0&amp;H5Request=true&amp;type=originaljson&amp;timeout=10000&amp;dataType=json&amp;valueType=original&amp;forceAntiCreep=true&amp;AntiCreep=true&amp;useH5=true&amp;data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数<code>_m_h5_tk</code>和<code>_m_h5_tk_enc</code>
+</div><p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数<code>_m_h5_tk</code>和<code>_m_h5_tk_enc</code></p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VGAgxj.png" width="500" alt="大麦" />
-而这两个接口里的参数大同小异，分别如下</p>
+而这两个接口里的参数大同小异，分别如下
 <p>场次接口：</p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_zIjBAS.png" width="500" alt="大麦" />
 <p>座次接口：</p>
@@ -202,7 +206,7 @@
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2024-06-27
+        2024-01-20
         
     </span>
   </p>
