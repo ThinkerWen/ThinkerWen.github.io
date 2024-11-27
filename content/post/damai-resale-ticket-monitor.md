@@ -1,6 +1,6 @@
 ---
 title: 大麦网回流票监控
-date: 2024-06-27 16:10:37
+date: 2024-01-20 16:10:37
 tags: ['逆向']
 categories: ["逆向"]
 years: ["2024"]
@@ -29,6 +29,7 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&ap
 ```
 
 经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数`_m_h5_tk`和`_m_h5_tk_enc`
+
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VGAgxj.png" width="500" alt="大麦" />
 而这两个接口里的参数大同小异，分别如下
 

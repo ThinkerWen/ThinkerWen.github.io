@@ -1,8 +1,8 @@
 ---
 title: '关于我'
-date: 2024-03-27
-years: ["2024"]
-draft: true
+date: 2023-01-01
+years: ["2023"]
+draft: false
 ---
 
 <div style="width: 100%; text-align: center">
