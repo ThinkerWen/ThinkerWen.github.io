@@ -172,7 +172,7 @@
 </div>
 </div><p>经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数<code>_m_h5_tk</code>和<code>_m_h5_tk_enc</code></p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_VGAgxj.png" width="500" alt="大麦" />
-而这两个接口里的参数大同小异，分别如下
+<p>而这两个接口里的参数大同小异，分别如下</p>
 <p>场次接口：</p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_zIjBAS.png" width="500" alt="大麦" />
 <p>座次接口：</p>
@@ -196,6 +196,7 @@
 <p>可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的<code>_m_h5_tk</code>，这下大功告成了。</p>
 <p>最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。</p>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ygrH9y.jpg" width="200" alt="微信推送" />
+
     </div>
 
     <div class="post-copyright">
