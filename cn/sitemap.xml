@@ -2,130 +2,114 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.404fix.cn/years/2024/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x09/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://www.404fix.cn/en/years/2024/"
+                href="http://localhost:1313/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://www.404fix.cn/years/2024/"
+                href="http://localhost:1313/categories/"
                 />
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x09/</loc>
+    <loc>http://localhost:1313/categories/crackme/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/categories/</loc>
+    <loc>http://localhost:1313/tags/crackme/</loc>
+    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://www.404fix.cn/en/categories/"
+                href="http://localhost:1313/en/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://www.404fix.cn/categories/"
+                href="http://localhost:1313/posts/"
                 />
   </url><url>
-    <loc>https://www.404fix.cn/tags/crackme/</loc>
-    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
-  </url><url>
-    <loc>https://www.404fix.cn/categories/crackme/</loc>
-    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
-  </url><url>
-    <loc>https://www.404fix.cn/posts/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://www.404fix.cn/en/posts/"
+                href="http://localhost:1313/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://www.404fix.cn/posts/"
+                href="http://localhost:1313/tags/"
                 />
   </url><url>
-    <loc>https://www.404fix.cn/tags/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://www.404fix.cn/en/tags/"
+                href="http://localhost:1313/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="cn"
-                href="https://www.404fix.cn/tags/"
+                href="http://localhost:1313/"
                 />
   </url><url>
-    <loc>https://www.404fix.cn/years/</loc>
-    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://www.404fix.cn/en/years/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://www.404fix.cn/years/"
-                />
-  </url><url>
-    <loc>https://www.404fix.cn/</loc>
-    <lastmod>2024-06-26T16:00:52+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://www.404fix.cn/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="cn"
-                href="https://www.404fix.cn/"
-                />
-  </url><url>
-    <loc>https://www.404fix.cn/tags/%E9%80%86%E5%90%91/</loc>
+    <loc>http://localhost:1313/categories/%E9%80%86%E5%90%91/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/categories/%E9%80%86%E5%90%91/</loc>
+    <loc>http://localhost:1313/tags/%E9%80%86%E5%90%91/</loc>
     <lastmod>2024-06-26T16:00:52+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x08/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x08/</loc>
     <lastmod>2024-06-25T15:14:04+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x07/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x07/</loc>
     <lastmod>2024-06-24T16:25:21+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x06/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x06/</loc>
     <lastmod>2024-06-24T14:53:53+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/damai-resale-ticket-monitor/</loc>
+    <loc>http://localhost:1313/posts/damai-resale-ticket-monitor/</loc>
     <lastmod>2024-03-27T16:10:37+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/python-bypass-graphical-captcha-verification/</loc>
+    <loc>http://localhost:1313/posts/python-bypass-graphical-captcha-verification/</loc>
     <lastmod>2024-03-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/years/2023/</loc>
+    <loc>http://localhost:1313/posts/about/</loc>
+    <lastmod>2024-03-27T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/en/posts/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="cn"
+                href="http://localhost:1313/posts/about/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/posts/crackme-0x05/</loc>
     <lastmod>2023-06-20T20:22:31+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x05/</loc>
-    <lastmod>2023-06-20T20:22:31+00:00</lastmod>
-  </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x04/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x04/</loc>
     <lastmod>2023-06-20T16:51:29+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x03/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x03/</loc>
     <lastmod>2023-06-20T14:43:51+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x02/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x02/</loc>
     <lastmod>2023-06-19T19:47:20+00:00</lastmod>
   </url><url>
-    <loc>https://www.404fix.cn/posts/crackme-0x01/</loc>
+    <loc>http://localhost:1313/posts/crackme-0x01/</loc>
     <lastmod>2023-06-19T16:13:54+00:00</lastmod>
   </url>
 </urlset>
