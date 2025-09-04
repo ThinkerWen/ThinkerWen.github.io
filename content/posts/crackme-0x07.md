@@ -1,8 +1,7 @@
 ---
 title: Android crackme_0x07
 date: 2024-06-24 16:25:21
-tags: ['CrackMe', '逆向']
-categories: ['CrackMe', '逆向']
+categories: ['CrackMe']
 years: ["2024"]
 ---
 

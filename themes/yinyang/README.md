@@ -20,7 +20,7 @@
 From the root of your site:
 
 ```shell
-git clone git@github.com:joway/hugo-theme-yinyang.git themes/yinyang
+git submodule add https://github.com/joway/hugo-theme-yinyang.git themes/yinyang
 ```
 
 Change `config.toml`:
@@ -38,7 +38,7 @@ theme = "yinyang"
 headTitle = "Joway Wang"
 ```
 
-If there is no `headTitle` in params, use `.Site.Author.name`.
+If there is no `headTitle` in params, use `.Site.Params.author.name`.
 
 ### Main section
 
@@ -143,12 +143,8 @@ DefaultContentLanguage = "cn"
     languageName = "Chinese"
     weight = 2
 
-[taxonomies]
-year = "years"
-
 [params]
 mainSections = ["posts"]
-postLimitPerYear = 10 # Number of articles combined limit for the current year
 headTitle = "Joway Wang"
 disqus = "joway" # disqus account name
 extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script>'

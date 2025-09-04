@@ -1,7 +1,8 @@
 ---
 title: '关于我'
-date: 2024-03-27
-years: ["2024"]
+date: 2000-01-21
+years: ["2000"]
+categories: ['Me']
 draft: true
 ---
 

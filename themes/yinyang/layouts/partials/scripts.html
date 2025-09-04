@@ -1,4 +1,3 @@
-<!-- <script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script> -->
 {{ if and .Site.Params.lazyImage (not .IsHome) -}}
 <script src="{{ .Site.Params.staticPrefix }}{{ "js/lazyload.min.js" | relURL }}"></script>
 <script>
@@ -8,9 +7,25 @@
 </script>
 {{ end }}
 <script>
-  // var posts = document.getElementById('posts-list');
-  // posts && quicklink({
-    // el: posts,
-    // priority: true,
-  // });
+  // remove disqus ads
+  document.addEventListener("DOMContentLoaded", function() {
+    const disqus = document.getElementById('disqus_thread');
+    if (!disqus) {
+      return;
+    }
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        const iframes = disqus.getElementsByTagName('iframe');
+        if (iframes.length > 1) {
+          const commentsIframe = iframes[1];
+          while (disqus.firstChild) {
+            disqus.removeChild(disqus.firstChild);
+          }
+          disqus.appendChild(commentsIframe);
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(disqus, { childList: true, subtree: true });
+  });
 </script>

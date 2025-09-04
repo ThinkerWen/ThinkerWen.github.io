@@ -1,8 +1,7 @@
 ---
 title: Android crackme_0x08
 date: 2024-06-25 15:14:04
-tags: ['CrackMe', '逆向']
-categories: ['CrackMe', '逆向']
+categories: ['CrackMe']
 years: ["2024"]
 ---
 

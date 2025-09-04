@@ -1,8 +1,7 @@
 ---
 title: 大麦网回流票监控
 date: 2024-03-27 16:10:37
-tags: ['逆向']
-categories: ["逆向"]
+categories: ['Reverse']
 years: ["2024"]
 ---
 

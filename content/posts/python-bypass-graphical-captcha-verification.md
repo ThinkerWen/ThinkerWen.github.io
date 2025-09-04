@@ -1,8 +1,7 @@
 ---
 title: Python过图形验证码的校验
 date: 2024-03-27
-tags: ['逆向']
-categories: ["逆向"]
+categories: ['OpenCV']
 years: ["2024"]
 ---
 

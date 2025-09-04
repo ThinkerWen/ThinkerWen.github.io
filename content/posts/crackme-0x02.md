@@ -1,8 +1,7 @@
 ---
 title: Android crackme_0x02
 date: 2023-06-19 19:47:20
-tags: ['CrackMe', '逆向']
-categories: ['CrackMe', '逆向']
+categories: ['CrackMe']
 years: ["2023"]
 ---
 
