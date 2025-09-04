@@ -3,7 +3,6 @@ title: '关于我'
 date: 2000-01-21
 years: ["2000"]
 categories: ['Me']
-draft: true
 ---
 
 <div style="width: 100%; text-align: center">
