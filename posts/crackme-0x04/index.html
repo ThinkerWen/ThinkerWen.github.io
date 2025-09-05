@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.102.1" />
+  <meta name="generator" content="Hugo 0.149.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,14 +50,14 @@
     content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
-题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 "
+题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&#39;utf-8&#39;)) bytes_hash = md5.digest() hexstr = &#39;&#39;.join(f&#39;{b:02x}&#39; for b in bytes_hash) return hexstr result = str() user_name = &#34;cracker&#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&#34;The {user_name}&#39;s password is: {result}&#34;) # Output: # The cracker&#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 "
   />
   <meta
     name="description"
     content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
 APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
-题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&amp;#39;utf-8&amp;#39;)) bytes_hash = md5.digest() hexstr = &amp;#39;&amp;#39;.join(f&amp;#39;{b:02x}&amp;#39; for b in bytes_hash) return hexstr result = str() user_name = &amp;#34;cracker&amp;#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&amp;#34;The {user_name}&amp;#39;s password is: {result}&amp;#34;) # Output: # The cracker&amp;#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 "
+题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。 import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(&#39;utf-8&#39;)) bytes_hash = md5.digest() hexstr = &#39;&#39;.join(f&#39;{b:02x}&#39; for b in bytes_hash) return hexstr result = str() user_name = &#34;cracker&#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result &#43;= hexstr[i] print(f&#34;The {user_name}&#39;s password is: {result}&#34;) # Output: # The cracker&#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功 "
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
@@ -149,24 +149,24 @@ APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Foj31S.png" width="500" alt="CrackMe" /></p>
 <p>在<code>checkSN()</code>中将<code>username</code>进行md5加密，然后经过简单的字符串拼接计算出注册码<code>sn</code>，由于并不困难，所以只需本地实现一下计算过程就行。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_LL1HKk.png" width="500" alt="CrackMe" /></p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> hashlib
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">hashlib</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">def</span> md5_hash(input_string):
-</span></span><span style="display:flex;"><span>    md5 = hashlib.md5()
-</span></span><span style="display:flex;"><span>    md5.update(input_string.encode(<span style="color:#0ff;font-weight:bold">&#39;utf-8&#39;</span>))
-</span></span><span style="display:flex;"><span>    bytes_hash = md5.digest()
-</span></span><span style="display:flex;"><span>    hexstr = <span style="color:#0ff;font-weight:bold">&#39;&#39;</span>.join(<span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#39;</span><span style="color:#0ff;font-weight:bold">{</span>b<span style="color:#0ff;font-weight:bold">:</span><span style="color:#0ff;font-weight:bold">02x</span><span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#39;</span> <span style="color:#fff;font-weight:bold">for</span> b in bytes_hash)
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> hexstr
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">md5_hash</span>(input_string):
+</span></span><span style="display:flex;"><span>    md5 <span style="color:#04a5e5;font-weight:bold">=</span> hashlib<span style="color:#04a5e5;font-weight:bold">.</span>md5()
+</span></span><span style="display:flex;"><span>    md5<span style="color:#04a5e5;font-weight:bold">.</span>update(input_string<span style="color:#04a5e5;font-weight:bold">.</span>encode(<span style="color:#40a02b">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>    bytes_hash <span style="color:#04a5e5;font-weight:bold">=</span> md5<span style="color:#04a5e5;font-weight:bold">.</span>digest()
+</span></span><span style="display:flex;"><span>    hexstr <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;&#39;</span><span style="color:#04a5e5;font-weight:bold">.</span>join(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#39;</span><span style="color:#40a02b">{</span>b<span style="color:#40a02b">:</span><span style="color:#40a02b">02x</span><span style="color:#40a02b">}</span><span style="color:#40a02b">&#39;</span> <span style="color:#8839ef">for</span> b <span style="color:#04a5e5;font-weight:bold">in</span> bytes_hash)
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">return</span> hexstr
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>result = <span style="color:#fff;font-weight:bold">str</span>()
-</span></span><span style="display:flex;"><span>user_name = <span style="color:#0ff;font-weight:bold">&#34;cracker&#34;</span>
-</span></span><span style="display:flex;"><span>hexstr = md5_hash(user_name)
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> i in <span style="color:#fff;font-weight:bold">range</span>(<span style="color:#ff0;font-weight:bold">0</span>, <span style="color:#fff;font-weight:bold">len</span>(hexstr), <span style="color:#ff0;font-weight:bold">2</span>):
-</span></span><span style="display:flex;"><span>    result += hexstr[i]
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(<span style="color:#0ff;font-weight:bold">f</span><span style="color:#0ff;font-weight:bold">&#34;The </span><span style="color:#0ff;font-weight:bold">{</span>user_name<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#39;s password is: </span><span style="color:#0ff;font-weight:bold">{</span>result<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span>)
+</span></span><span style="display:flex;"><span>result <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">str</span>()
+</span></span><span style="display:flex;"><span>user_name <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;cracker&#34;</span>
+</span></span><span style="display:flex;"><span>hexstr <span style="color:#04a5e5;font-weight:bold">=</span> md5_hash(user_name)
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#fe640b">0</span>, <span style="color:#04a5e5">len</span>(hexstr), <span style="color:#fe640b">2</span>):
+</span></span><span style="display:flex;"><span>    result <span style="color:#04a5e5;font-weight:bold">+=</span> hexstr[i]
+</span></span><span style="display:flex;"><span><span style="color:#04a5e5">print</span>(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#34;The </span><span style="color:#40a02b">{</span>user_name<span style="color:#40a02b">}</span><span style="color:#40a02b">&#39;s password is: </span><span style="color:#40a02b">{</span>result<span style="color:#40a02b">}</span><span style="color:#40a02b">&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># Output:</span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># The cracker&#39;s password is: 26b525207d9b7886</span>
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># Output:</span>
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># The cracker&#39;s password is: 26b525207d9b7886</span>
 </span></span></code></pre></div><p>将得到的用户名和注册码填入APP即可注册成功
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_aXmJrb.png" width="200" alt="CrackMe" /></p>
 

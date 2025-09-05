@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.102.1" />
+  <meta name="generator" content="Hugo 0.149.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x08",
       "headline" : "Android crackme_0x08",
-      "description" : "描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iVOZH0n1ra1i\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js\nfunction passRoot() { Java.perform(function() { let RootDetection = Java.use(\u0026#34;sg.vantagepoint.util.RootDetection\u0026#34;); RootDetection[\u0026#34;checkRoot1\u0026#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[\u0026#34;checkRoot2\u0026#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[\u0026#34;checkRoot3\u0026#34;].implementation = function () { console.",
+      "description" : "描述 The crackme from hell! A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iVOZH0n1ra1i\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js\nfunction passRoot() { Java.perform(function() { let RootDetection = Java.use(\u0026#34;sg.vantagepoint.util.RootDetection\u0026#34;); RootDetection[\u0026#34;checkRoot1\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot1 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot2\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot2 is called\u0060); return false; }; RootDetection[\u0026#34;checkRoot3\u0026#34;].implementation = function () { console.log(\u0060RootDetection.checkRoot3 is called\u0060); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -51,7 +51,7 @@
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js
-function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console."
+function passRoot() { Java.perform(function() { let RootDetection = Java.use(&#34;sg.vantagepoint.util.RootDetection&#34;); RootDetection[&#34;checkRoot1&#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&#34;checkRoot2&#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&#34;checkRoot3&#34;].implementation = function () { console.log(`RootDetection.checkRoot3 is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 "
   />
   <meta
     name="description"
@@ -59,7 +59,7 @@ function passRoot() { Java.perform(function() { let RootDetection = Java.use(&am
 目标 找到密码
 APK下载 https://yhxx.lanzoub.com/iVOZH0n1ra1i
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。 写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js
-function passRoot() { Java.perform(function() { let RootDetection = Java.use(&amp;#34;sg.vantagepoint.util.RootDetection&amp;#34;); RootDetection[&amp;#34;checkRoot1&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&amp;#34;checkRoot2&amp;#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&amp;#34;checkRoot3&amp;#34;].implementation = function () { console."
+function passRoot() { Java.perform(function() { let RootDetection = Java.use(&#34;sg.vantagepoint.util.RootDetection&#34;); RootDetection[&#34;checkRoot1&#34;].implementation = function () { console.log(`RootDetection.checkRoot1 is called`); return false; }; RootDetection[&#34;checkRoot2&#34;].implementation = function () { console.log(`RootDetection.checkRoot2 is called`); return false; }; RootDetection[&#34;checkRoot3&#34;].implementation = function () { console.log(`RootDetection.checkRoot3 is called`); return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。 "
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
@@ -153,25 +153,25 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 <p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_RbWsDv.png" width="500" alt="CrackMe" /></p>
 <p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> passRoot() {
-</span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#fff;font-weight:bold">function</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">let</span> RootDetection = Java.use(<span style="color:#0ff;font-weight:bold">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot1&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot1 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
+</span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> RootDetection <span style="color:#04a5e5;font-weight:bold">=</span> Java.use(<span style="color:#40a02b">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot1&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot1 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot2&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot2 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot2&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot2 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot3&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot3 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot3&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot3 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>    })
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> main() {
+</span></span><span style="display:flex;"><span><span style="color:#d20f39">function</span> main() {
 </span></span><span style="display:flex;"><span>    passRoot();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -185,66 +185,66 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 <p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到验证方法主要用到了<code>v8</code>,<code>v9</code>两个参数，且在②中做了一些简单的对比，当字节长度为24且内容都相等的时候则会在③return true验证成功。
 可以看到<code>v9</code>在<code>sub_10E0</code>中做了处理，<code>v8</code>作为循环的index在<code>qword_15038</code>数组上遍历，那么现在的任务就是找到<code>v9</code>和<code>qword_15038</code>的内容，然后还原对比算法。
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_HJ8pTe.png" width="500" alt="CrackMe" /></p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> passRoot() {
-</span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#fff;font-weight:bold">function</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">let</span> RootDetection = Java.use(<span style="color:#0ff;font-weight:bold">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot1&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot1 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
+</span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> RootDetection <span style="color:#04a5e5;font-weight:bold">=</span> Java.use(<span style="color:#40a02b">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot1&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot1 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot2&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot2 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot2&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot2 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#0ff;font-weight:bold">&#34;checkRoot3&#34;</span>].implementation = <span style="color:#fff;font-weight:bold">function</span> () {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">`RootDetection.checkRoot3 is called`</span>);
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>        RootDetection[<span style="color:#40a02b">&#34;checkRoot3&#34;</span>].implementation <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">`RootDetection.checkRoot3 is called`</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">return</span> <span style="color:#fe640b">false</span>;
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>    })
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">// hook sub_10E0 函数，入参就是v9的地址，找到地址就可以监控地址上值的变化
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">function</span> hookSub10E0() {
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> module_obj = <span style="color:#fff;font-weight:bold">null</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> modules = Process.enumerateModules();
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">let</span> i=<span style="color:#ff0;font-weight:bold">0</span>; i&lt;modules.length; i++) {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> (modules[i].name == <span style="color:#0ff;font-weight:bold">&#34;libfoo.so&#34;</span>) {
-</span></span><span style="display:flex;"><span>            module_obj = modules[i];
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic">// hook sub_10E0 函数，入参就是v9的地址，找到地址就可以监控地址上值的变化
+</span></span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"></span><span style="color:#d20f39">function</span> hookSub10E0() {
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> module_obj <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">null</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> modules <span style="color:#04a5e5;font-weight:bold">=</span> Process.enumerateModules();
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> (<span style="color:#d20f39">let</span> i<span style="color:#04a5e5;font-weight:bold">=</span><span style="color:#fe640b">0</span>; i<span style="color:#04a5e5;font-weight:bold">&lt;</span>modules.length; i<span style="color:#04a5e5;font-weight:bold">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">if</span> (modules[i].name <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#34;libfoo.so&#34;</span>) {
+</span></span><span style="display:flex;"><span>            module_obj <span style="color:#04a5e5;font-weight:bold">=</span> modules[i];
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> sub_10E0_addr = module_obj.base.add(<span style="color:#ff0;font-weight:bold">0x10E0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> sub_10E0_addr <span style="color:#04a5e5;font-weight:bold">=</span> module_obj.base.add(<span style="color:#fe640b">0x10E0</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    Interceptor.attach(sub_10E0_addr, {
-</span></span><span style="display:flex;"><span>        onEnter: <span style="color:#fff;font-weight:bold">function</span> (args) {
-</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">this</span>.argPtr = args[<span style="color:#ff0;font-weight:bold">0</span>];
+</span></span><span style="display:flex;"><span>        onEnter<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#d20f39">function</span> (args) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">this</span>.argPtr <span style="color:#04a5e5;font-weight:bold">=</span> args[<span style="color:#fe640b">0</span>];
 </span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        onLeave: <span style="color:#fff;font-weight:bold">function</span> (retval) {
-</span></span><span style="display:flex;"><span>            console.log(<span style="color:#0ff;font-weight:bold">&#39;v9:\n&#39;</span>);
-</span></span><span style="display:flex;"><span>            console.log(hexdump(<span style="color:#fff;font-weight:bold">this</span>.argPtr, {
-</span></span><span style="display:flex;"><span>                offset: <span style="color:#ff0;font-weight:bold">0</span>,
-</span></span><span style="display:flex;"><span>                length: <span style="color:#ff0;font-weight:bold">24</span>,
-</span></span><span style="display:flex;"><span>                header: <span style="color:#fff;font-weight:bold">true</span>,
-</span></span><span style="display:flex;"><span>                ansi: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>        onLeave<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#d20f39">function</span> (retval) {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#40a02b">&#39;v9:\n&#39;</span>);
+</span></span><span style="display:flex;"><span>            console.log(hexdump(<span style="color:#8839ef">this</span>.argPtr, {
+</span></span><span style="display:flex;"><span>                offset<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#fe640b">0</span>,
+</span></span><span style="display:flex;"><span>                length<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#fe640b">24</span>,
+</span></span><span style="display:flex;"><span>                header<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#fe640b">true</span>,
+</span></span><span style="display:flex;"><span>                ansi<span style="color:#04a5e5;font-weight:bold">:</span> <span style="color:#fe640b">true</span>
 </span></span><span style="display:flex;"><span>            }));
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 在 qword_15038 的地址上拿24为就是数组内容
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">function</span> getV8() {
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> module_obj = <span style="color:#fff;font-weight:bold">null</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> modules = Process.enumerateModules();
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> (<span style="color:#fff;font-weight:bold">let</span> i=<span style="color:#ff0;font-weight:bold">0</span>; i&lt;modules.length; i++) {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> (modules[i].name == <span style="color:#0ff;font-weight:bold">&#34;libfoo.so&#34;</span>) {
-</span></span><span style="display:flex;"><span>            module_obj = modules[i];
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic">// 在 qword_15038 的地址上拿24为就是数组内容
+</span></span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"></span><span style="color:#d20f39">function</span> getV8() {
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> module_obj <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">null</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> modules <span style="color:#04a5e5;font-weight:bold">=</span> Process.enumerateModules();
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> (<span style="color:#d20f39">let</span> i<span style="color:#04a5e5;font-weight:bold">=</span><span style="color:#fe640b">0</span>; i<span style="color:#04a5e5;font-weight:bold">&lt;</span>modules.length; i<span style="color:#04a5e5;font-weight:bold">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">if</span> (modules[i].name <span style="color:#04a5e5;font-weight:bold">==</span> <span style="color:#40a02b">&#34;libfoo.so&#34;</span>) {
+</span></span><span style="display:flex;"><span>            module_obj <span style="color:#04a5e5;font-weight:bold">=</span> modules[i];
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> qword_15038_addr = module_obj.base.add(<span style="color:#ff0;font-weight:bold">0x15038</span>);
-</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">`v8: </span><span style="color:#0ff;font-weight:bold">${</span>Memory.readUtf8String(qword_15038_addr,<span style="color:#ff0;font-weight:bold">24</span>)<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">let</span> qword_15038_addr <span style="color:#04a5e5;font-weight:bold">=</span> module_obj.base.add(<span style="color:#fe640b">0x15038</span>);
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#40a02b">`v8: </span><span style="color:#40a02b">${</span>Memory.readUtf8String(qword_15038_addr,<span style="color:#fe640b">24</span>)<span style="color:#40a02b">}</span><span style="color:#40a02b">`</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> main() {
+</span></span><span style="display:flex;"><span><span style="color:#d20f39">function</span> main() {
 </span></span><span style="display:flex;"><span>    passRoot();
 </span></span><span style="display:flex;"><span>    hookSub10E0();
 </span></span><span style="display:flex;"><span>    getV8();
@@ -254,18 +254,18 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span></code></pre></div><p>找到了<code>v8</code>的内容：<code>pizzapizzapizzapizzapizz</code>和<code>qword_15038</code>的内容：<code>1d0811130f1749150d0003195a1d1315080e5a0017081314</code>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Msv0Yq.png" width="500" alt="CrackMe" /></p>
 <p>还原算法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> binascii
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">binascii</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>xorkey = <span style="color:#0ff;font-weight:bold">&#34;pizzapizzapizzapizzapizz&#34;</span>
-</span></span><span style="display:flex;"><span>secret_key = binascii.unhexlify(<span style="color:#0ff;font-weight:bold">&#34;1d0811130f1749150d0003195a1d1315080e5a0017081314&#34;</span>.encode(<span style="color:#0ff;font-weight:bold">&#39;utf-8&#39;</span>)).decode(<span style="color:#0ff;font-weight:bold">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>xorkey <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;pizzapizzapizzapizzapizz&#34;</span>
+</span></span><span style="display:flex;"><span>secret_key <span style="color:#04a5e5;font-weight:bold">=</span> binascii<span style="color:#04a5e5;font-weight:bold">.</span>unhexlify(<span style="color:#40a02b">&#34;1d0811130f1749150d0003195a1d1315080e5a0017081314&#34;</span><span style="color:#04a5e5;font-weight:bold">.</span>encode(<span style="color:#40a02b">&#39;utf-8&#39;</span>))<span style="color:#04a5e5;font-weight:bold">.</span>decode(<span style="color:#40a02b">&#34;utf-8&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>password = <span style="color:#fff;font-weight:bold">str</span>()
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> i in <span style="color:#fff;font-weight:bold">range</span>(<span style="color:#ff0;font-weight:bold">24</span>):
-</span></span><span style="display:flex;"><span>    password += <span style="color:#fff;font-weight:bold">chr</span>((<span style="color:#fff;font-weight:bold">ord</span>(xorkey[i]) ^ <span style="color:#fff;font-weight:bold">ord</span>(secret_key[i])))
+</span></span><span style="display:flex;"><span>password <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">str</span>()
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">for</span> i <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">range</span>(<span style="color:#fe640b">24</span>):
+</span></span><span style="display:flex;"><span>    password <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#04a5e5">chr</span>((<span style="color:#04a5e5">ord</span>(xorkey[i]) <span style="color:#04a5e5;font-weight:bold">^</span> <span style="color:#04a5e5">ord</span>(secret_key[i])))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">print</span>(password)
+</span></span><span style="display:flex;"><span><span style="color:#04a5e5">print</span>(password)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f"># output: making owasp great again</span>
+</span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: making owasp great again</span>
 </span></span></code></pre></div><p>将密码输入APP，密码正确，密码为<code>making owasp great again</code>
 <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_RywvLN.png" width="200" alt="CrackMe" /></p>
 
