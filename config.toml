@@ -30,7 +30,7 @@ name = "Travel"
 link = "/travel"
 [[params.socials]]
 name = "About"
-link = "/posts/about"
+link = "/about"
 [[params.socials]]
 name = "Github"
 link = "https://github.com/ThinkerWen/"
