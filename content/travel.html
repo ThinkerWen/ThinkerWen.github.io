@@ -1,0 +1,629 @@
+<style>
+#chartdiv {
+  overflow: auto;
+}
+
+#mapdiv {
+  width: 100%;
+  height: 600px;
+}
+</style>
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<script>
+am5.ready(function() {
+
+var mainColor = am5.color(0xc83830);
+var secondaryColor = am5.color(0xd9cec8);
+var visitedCountryColor = am5.color(0xadd8e6);
+var pointSeries;
+
+// 中文国家名称到ISO代码的映射
+var countryMapping = {
+  "中国": "CN",
+  "日本": "JP"
+};
+
+// 中国省份名称到ISO代码的映射
+var chinaProvinceMapping = {
+  "北京": "CN",
+  "天津": "CN", 
+  "河北": "CN",
+  "山西": "CN",
+  "内蒙古": "CN",
+  "辽宁": "CN",
+  "吉林": "CN",
+  "黑龙江": "CN",
+  "上海": "CN",
+  "江苏": "CN",
+  "浙江": "CN",
+  "安徽": "CN",
+  "福建": "CN",
+  "江西": "CN",
+  "山东": "CN",
+  "河南": "CN",
+  "湖北": "CN",
+  "湖南": "CN",
+  "广东": "CN",
+  "广西": "CN",
+  "海南": "CN",
+  "重庆": "CN",
+  "四川": "CN",
+  "贵州": "CN",
+  "云南": "CN",
+  "西藏": "CN",
+  "陕西": "CN",
+  "甘肃": "CN",
+  "青海": "CN",
+  "宁夏": "CN",
+  "新疆": "CN",
+  "香港": "CN",
+  "澳门": "CN",
+  "台湾": "CN"
+};
+
+var data = [
+  {
+    "country": "中国",
+    "province": "北京",
+    "city": "北京市",
+    "date": new Date("2024-01-15"),
+    "link": null,
+    "coordinates": [116.4074, 39.9042]
+  },
+  {
+    "country": "中国",
+    "province": "上海",
+    "city": "上海市",
+    "date": new Date("2024-02-20"),
+    "link": null,
+    "coordinates": [121.4737, 31.2304]
+  },
+  {
+    "country": "中国",
+    "province": "天津",
+    "city": "天津市",
+    "date": new Date("2024-01-20"),
+    "link": null,
+    "coordinates": [117.1901, 39.0841]
+  },
+  {
+    "country": "中国",
+    "province": "河北",
+    "city": "保定市",
+    "date": new Date("2024-01-25"),
+    "link": null,
+    "coordinates": [115.4822, 38.8736]
+  },
+  {
+    "country": "中国",
+    "province": "河北",
+    "city": "秦皇岛市",
+    "date": new Date("2024-02-01"),
+    "link": null,
+    "coordinates": [119.5319, 39.9424]
+  },
+  {
+    "country": "中国",
+    "province": "河北",
+    "city": "廊坊市",
+    "date": new Date("2024-02-05"),
+    "link": null,
+    "coordinates": [116.7037, 39.5236]
+  },
+  {
+    "country": "中国",
+    "province": "江苏",
+    "city": "南京市",
+    "date": new Date("2024-03-01"),
+    "link": null,
+    "coordinates": [118.7969, 32.0603]
+  },
+  {
+    "country": "中国",
+    "province": "江苏",
+    "city": "苏州市",
+    "date": new Date("2024-03-05"),
+    "link": null,
+    "coordinates": [120.6197, 31.2989]
+  },
+  {
+    "country": "中国",
+    "province": "浙江",
+    "city": "杭州市",
+    "date": new Date("2024-03-10"),
+    "link": null,
+    "coordinates": [120.1551, 30.2741]
+  },
+  {
+    "country": "中国",
+    "province": "浙江",
+    "city": "嘉兴市",
+    "date": new Date("2024-03-12"),
+    "link": null,
+    "coordinates": [120.7506, 30.7467]
+  },
+  {
+    "country": "中国",
+    "province": "广东",
+    "city": "广州市",
+    "date": new Date("2024-04-01"),
+    "link": null,
+    "coordinates": [113.2644, 23.1291]
+  },
+  {
+    "country": "中国",
+    "province": "广东",
+    "city": "深圳市",
+    "date": new Date("2024-04-03"),
+    "link": null,
+    "coordinates": [114.0579, 22.5431]
+  },
+  {
+    "country": "中国",
+    "province": "广东",
+    "city": "佛山市",
+    "date": new Date("2024-04-05"),
+    "link": null,
+    "coordinates": [113.1220, 23.0288]
+  },
+  {
+    "country": "中国",
+    "province": "广东",
+    "city": "珠海市",
+    "date": new Date("2024-04-07"),
+    "link": null,
+    "coordinates": [113.5767, 22.2711]
+  },
+  {
+    "country": "中国",
+    "province": "海南",
+    "city": "海口市",
+    "date": new Date("2024-04-10"),
+    "link": null,
+    "coordinates": [110.3312, 20.0311]
+  },
+  {
+    "country": "中国",
+    "province": "海南",
+    "city": "三亚市",
+    "date": new Date("2024-04-12"),
+    "link": null,
+    "coordinates": [109.5080, 18.2479]
+  },
+  {
+    "country": "中国",
+    "province": "湖南",
+    "city": "长沙市",
+    "date": new Date("2024-05-01"),
+    "link": null,
+    "coordinates": [112.9388, 28.2282]
+  },
+  {
+    "country": "中国",
+    "province": "湖南",
+    "city": "张家界市",
+    "date": new Date("2024-05-03"),
+    "link": null,
+    "coordinates": [110.4791, 29.1274]
+  },
+  {
+    "country": "中国",
+    "province": "河南",
+    "city": "郑州市",
+    "date": new Date("2024-05-10"),
+    "link": null,
+    "coordinates": [113.6254, 34.7466]
+  },
+  {
+    "country": "中国",
+    "province": "山东",
+    "city": "济南市",
+    "date": new Date("2024-05-15"),
+    "link": null,
+    "coordinates": [117.0009, 36.6758]
+  },
+  {
+    "country": "中国",
+    "province": "山东",
+    "city": "淄博市",
+    "date": new Date("2024-05-17"),
+    "link": null,
+    "coordinates": [118.0371, 36.8064]
+  },
+  {
+    "country": "中国",
+    "province": "山东",
+    "city": "泰安市",
+    "date": new Date("2024-05-19"),
+    "link": null,
+    "coordinates": [117.1264, 36.1965]
+  },
+  {
+    "country": "中国",
+    "province": "山东",
+    "city": "烟台市",
+    "date": new Date("2024-05-21"),
+    "link": null,
+    "coordinates": [121.3914, 37.5393]
+  },
+  {
+    "country": "中国",
+    "province": "四川",
+    "city": "成都市",
+    "date": new Date("2024-06-01"),
+    "link": null,
+    "coordinates": [104.0668, 30.5728]
+  },
+  {
+    "country": "中国",
+    "province": "甘肃",
+    "city": "嘉峪关市",
+    "date": new Date("2024-06-10"),
+    "link": null,
+    "coordinates": [98.2773, 39.7865]
+  },
+  {
+    "country": "中国",
+    "province": "甘肃",
+    "city": "兰州市",
+    "date": new Date("2024-06-12"),
+    "link": null,
+    "coordinates": [103.8343, 36.0611]
+  },
+  {
+    "country": "中国",
+    "province": "甘肃",
+    "city": "武威市",
+    "date": new Date("2024-06-14"),
+    "link": null,
+    "coordinates": [102.6380, 37.9289]
+  },
+  {
+    "country": "中国",
+    "province": "宁夏",
+    "city": "银川市",
+    "date": new Date("2024-06-20"),
+    "link": null,
+    "coordinates": [106.2309, 38.4872]
+  },
+  {
+    "country": "中国",
+    "province": "陕西",
+    "city": "咸阳市",
+    "date": new Date("2024-07-01"),
+    "link": null,
+    "coordinates": [108.7093, 34.3336]
+  },
+  {
+    "country": "中国",
+    "province": "新疆",
+    "city": "乌鲁木齐市",
+    "date": new Date("2024-07-10"),
+    "link": null,
+    "coordinates": [87.6168, 43.7928]
+  },
+  {
+    "country": "中国",
+    "province": "新疆",
+    "city": "乌苏市",
+    "date": new Date("2024-07-12"),
+    "link": null,
+    "coordinates": [84.6739, 44.4316]
+  },
+  {
+    "country": "中国",
+    "province": "青海",
+    "city": "西宁市",
+    "date": new Date("2024-07-15"),
+    "link": null,
+    "coordinates": [101.7782, 36.6171]
+  },
+  {
+    "country": "中国",
+    "province": "香港",
+    "city": "香港市",
+    "date": new Date("2024-08-01"),
+    "link": null,
+    "coordinates": [114.1694, 22.3193]
+  },
+  {
+    "country": "中国",
+    "province": "澳门",
+    "city": "澳门市",
+    "date": new Date("2024-08-03"),
+    "link": null,
+    "coordinates": [113.5491, 22.1987]
+  },
+  {
+    "country": "日本",
+    "province": "东京都",
+    "city": "东京",
+    "date": new Date("2024-03-10"),
+    "link": null,
+    "coordinates": [139.6917, 35.6895]
+  },
+  {
+    "country": "日本",
+    "province": "大阪府",
+    "city": "大阪",
+    "date": new Date("2024-03-12"),
+    "link": null,
+    "coordinates": [135.5023, 34.6937]
+  },
+  {
+    "country": "日本",
+    "province": "奈良县",
+    "city": "奈良",
+    "date": new Date("2024-03-14"),
+    "link": null,
+    "coordinates": [135.8051, 34.6851]
+  },
+  {
+    "country": "日本",
+    "province": "静冈县",
+    "city": "富士山",
+    "date": new Date("2024-03-16"),
+    "link": null,
+    "coordinates": [138.7274, 35.3606]
+  }
+]
+
+function getAllCountryInfo(countryCode) {
+  var countryName = "";
+  var cities = [];
+  var provinces = [];
+  
+  data.forEach(function(item) {
+    if (countryMapping[item.country] === countryCode) {
+      countryName = item.country;
+      if (cities.indexOf(item.city) === -1) {
+        cities.push(item.city);
+      }
+      if (item.province && provinces.indexOf(item.province) === -1) {
+        provinces.push(item.province);
+      }
+    }
+  });
+  
+  return countryName ? { name: countryName, cities: cities, provinces: provinces } : null;
+}
+
+function getCountryInfo(countryCode) {
+  var countryName = "";
+  var cities = [];
+  var provinces = [];
+  
+  data.forEach(function(item) {
+    if (item.country !== "中国" && countryMapping[item.country] === countryCode) {
+      countryName = item.country;
+      if (cities.indexOf(item.city) === -1) {
+        cities.push(item.city);
+      }
+      if (item.province && provinces.indexOf(item.province) === -1) {
+        provinces.push(item.province);
+      }
+    }
+  });
+  
+  return countryName ? { name: countryName, cities: cities, provinces: provinces } : null;
+}
+
+function getChinaProvinceInfo(provinceName) {
+  var cities = [];
+  data.forEach(function(item) {
+    if (item.country === "中国") {
+      if (!provinceName || item.province === provinceName) {
+        cities.push(item.city);
+      }
+    }
+  });
+  
+  return provinceName ? { name: provinceName, cities: cities } : null;
+}
+
+makeMapChart();
+
+
+function makeMapChart() {
+  var root = am5.Root.new("mapdiv");
+
+  root._logo.dispose();
+
+  root.setThemes([
+    am5themes_Animated.new(root)
+  ]);
+
+  var chart = root.container.children.push(am5map.MapChart.new(root, {
+    panX: "translateX",
+    panY: "translateY",
+    projection: am5map.geoMercator(),
+    homeGeoPoint: { longitude: 110, latitude: 35 },
+    homeZoomLevel: 5
+  }));
+
+  var polygonSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {
+    geoJSON: am5geodata_worldLow
+  }));
+
+  polygonSeries.mapPolygons.template.setAll({
+    fill: secondaryColor,
+    stroke: am5.color(0xffffff),
+    strokeWidth: 1,
+    strokeOpacity: 0.5
+  });
+
+  polygonSeries.mapPolygons.template.adapters.add("fill", function(fill, target) {
+    var dataItem = target.dataItem;
+    if (dataItem) {
+      var regionId = dataItem.get("id");
+      var visitedCountries = [];
+      
+      data.forEach(function(item) {
+        var countryCode = countryMapping[item.country];
+        if (countryCode && visitedCountries.indexOf(countryCode) === -1) {
+          visitedCountries.push(countryCode);
+        }
+      });
+      
+      if (visitedCountries.indexOf(regionId) > -1) {
+        return visitedCountryColor;
+      }
+    }
+    return fill;
+  });
+
+  polygonSeries.events.on("datavalidated", function () {
+    console.log("Map data loaded, checking available regions...");
+    
+    var allRegionIds = [];
+    polygonSeries.mapPolygons.each(function(polygon) {
+      var regionId = polygon.dataItem.get("id");
+      allRegionIds.push(regionId);
+    });
+    console.log("地图中所有可用的区域ID:", allRegionIds.sort());
+    
+    var visitedCountries = [];
+    
+    data.forEach(function(item) {
+      var countryCode = countryMapping[item.country];
+      if (countryCode && visitedCountries.indexOf(countryCode) === -1) {
+        visitedCountries.push(countryCode);
+      }
+    });
+
+    console.log("访问过的国家:", visitedCountries);
+
+    var foundRegions = [];
+    polygonSeries.mapPolygons.each(function(polygon) {
+      var regionId = polygon.dataItem.get("id");
+      
+      if (visitedCountries.indexOf(regionId) > -1) {
+        foundRegions.push(regionId);
+        console.log("正在为区域着色:", regionId);
+        
+        var fillColor = visitedCountryColor;
+        
+        polygon.set("fill", fillColor);
+        polygon.set("fillOpacity", 1);
+        
+        polygon.states.create("default", {
+          fill: fillColor,
+          fillOpacity: 1
+        });
+        
+        polygon.states.create("hover", {
+          fill: am5.color(0x87ceeb),
+          fillOpacity: 1
+        });
+      }
+    });
+    
+    console.log("成功着色的区域:", foundRegions);
+    console.log("访问颜色 - 国家色:", visitedCountryColor.toString());
+
+    chart.goHome();
+  });
+
+  pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {
+    calculateAggregates: true,
+    idField: "city"
+  }));
+
+  var circleTemplate = am5.Template.new(root, {});
+
+  pointSeries.bullets.push(function (root, series, dataItem) {
+    var container = am5.Container.new(root, {});
+    var circle = container.children.push(am5.Circle.new(root, {
+      radius: 4,
+      fill: mainColor,
+      stroke: mainColor,
+      strokeWidth: 1,
+      strokeOpacity: 0.8,
+      fillOpacity: 0.7,
+      layer: 30,
+      tooltipY: 0
+    }, circleTemplate));
+
+    circle.adapters.add("tooltipText", function(text, target) {
+      var dataItem = target.dataItem;
+      if (dataItem && dataItem.dataContext) {
+        var data = dataItem.dataContext;
+        var tooltip = "[bold fontSize: 16px]" + data.city + "[/]\n国家: " + data.country;
+        if (data.province) {
+          tooltip += "\n省份: " + data.province;
+        }
+        tooltip += "\n访问日期: " + new Date(data.date).toLocaleDateString('zh-CN');
+        return tooltip;
+      }
+      return text;
+    });
+
+    circle.states.create("hover", {
+      scale: 1.4,
+      fillOpacity:1
+    });
+
+    circle.events.on("click", function(ev) {
+      var dataItem = ev.target.dataItem;
+      if (dataItem && dataItem.dataContext.link) {
+        window.open(dataItem.dataContext.link, '_blank');
+      }
+    });
+
+    circle.adapters.add("cursorOverStyle", function(cursor, target) {
+      var dataItem = target.dataItem;
+      if (dataItem && dataItem.dataContext.link) {
+        return "pointer";
+      }
+      return "default";
+    });    
+
+
+    var label = container.children.push(am5.Label.new(root, {
+      text: "{city}",
+      fontSize: 13,
+      centerY: am5.p50,
+      centerX: am5.p100,
+      populateText: true,
+      layer: 30,
+      paddingRight: 4
+    }));
+
+    label.adapters.add("dx", function (dy, target) {
+      return -circle.get("radius");
+    });
+
+    return am5.Bullet.new(root, {
+      sprite: container,
+      locationX: 0,
+      locationY: 0.5
+    })
+  })
+
+  // 处理数据，将坐标转换为正确的格式
+  var processedData = data.map(function(item) {
+    return {
+      ...item,
+      geometry: { 
+        type: "Point", 
+        coordinates: item.coordinates 
+      }
+    };
+  });
+
+  pointSeries.data.setAll(processedData);
+
+  chart.appear(1000, 100);
+}
+
+});
+</script>
+
+<div id="chartdiv">
+  <div id="mapdiv"></div>
+</div>

@@ -31,3 +31,6 @@ link = "/posts/about"
 [[params.socials]]
 name = "Github"
 link = "https://github.com/ThinkerWen/"
+[[params.socials]]
+  name = "Travel"
+  link = "/travel"
