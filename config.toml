@@ -26,11 +26,11 @@ favicon = "/assets/images/favicon.png"
 extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script><script src="/assets/js/code.js"></script>'
 extraCSSFiles = ["/assets/css/code.css"]
 [[params.socials]]
-name = "About Me"
+name = "Travel"
+link = "/travel"
+[[params.socials]]
+name = "About"
 link = "/posts/about"
 [[params.socials]]
 name = "Github"
 link = "https://github.com/ThinkerWen/"
-[[params.socials]]
-  name = "Travel"
-  link = "/travel"
