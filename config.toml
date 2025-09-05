@@ -10,7 +10,6 @@ DefaultContentLanguage = "cn"
       unsafe = true
   [markup.highlight]
     guessSyntax = true
-    noClasses = true
     style = "catppuccin-latte"
     tabWidth = 2
 
@@ -24,7 +23,8 @@ mainSections = ["posts"]
 headTitle = "Wen"
 disqus = "Wen"
 favicon = "/assets/images/favicon.png"
-extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script>'
+extraHead = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script><script src="/assets/js/code.js"></script>'
+extraCSSFiles = ["/assets/css/code.css"]
 [[params.socials]]
 name = "About Me"
 link = "/posts/about"
