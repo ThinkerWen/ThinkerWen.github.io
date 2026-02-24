@@ -34,3 +34,6 @@ link = "/about"
 [[params.socials]]
 name = "Github"
 link = "https://github.com/ThinkerWen/"
+[[params.socials]]
+name = "Me"
+link = "https://www.hive-net.cn/"
