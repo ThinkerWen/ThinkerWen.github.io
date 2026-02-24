@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x05",
       "headline" : "Android crackme_0x05",
-      "description" : "描述 此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。\n目标 注册为企业版程序\nAPK下载 https:\/\/yhxx.lanzoub.com\/i5cyV0mrazaf\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。\n用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取\/sdcard\/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到\/sdcard\/reg.dat中，所以结合n2现在有两种解法：\n直接将b2db1185c9e5b88d9b70d7b3278a4947输入到\/sdcard\/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 ",
+      "description" : "描述 此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。\n目标 注册为企业版程序\nAPK下载 https:\/\/yhxx.lanzoub.com\/i5cyV0mrazaf\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。\n用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work()\n先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。\n我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。\n打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法\n我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取\/sdcard\/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。\n再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到\/sdcard\/reg.dat中\n所以结合n2现在有两种解法：\n直接将b2db1185c9e5b88d9b70d7b3278a4947输入到\/sdcard\/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -51,8 +51,15 @@
 目标 注册为企业版程序
 APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。
-用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中，所以结合n2现在有两种解法：
-直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 "
+用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work()
+先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。
+我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。
+打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法
+我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。
+再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中
+所以结合n2现在有两种解法：
+直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了
+"
   />
   <meta
     name="description"
@@ -60,8 +67,15 @@ APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf
 目标 注册为企业版程序
 APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册。
-用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work() 先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。 我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。 打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法 我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。 再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中，所以结合n2现在有两种解法：
-直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了 "
+用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过MyApp.m来判断APP的注册状态。 在②中判断注册状态，如果未注册则执行③的doRegister()，如果已经注册则执行MyApp.work()
+先看一下MyApp.m参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为hack的so，并在onCreate()中调用了native方法initSN()。 且在别处没有找到其他修改MyApp.m的地方，那么大概率就在so中进行操作的，并且MyApp.work()函数也是native函数。
+我们再看输入注册码后的doRegister(),他将输入的注册码sn作为参数传入到了MyApp.saveSN()中，且MyApp.saveSN()也是native函数，所以我们只需要看hack的so即可。
+打开IDA工具找对应的native方法。 找到work()方法对应的native方法n3后发现想要注册为企业版，则使用到了n1方法
+我们再去看n1，n1对应的是initSN()方法，它在打开APP时读取/sdcard/reg.dat，将其中的内容与4种md5字符串做对比，来设置MyApp.m的值。 而我们要注册为企业版，所以需要MyApp.m为3，即内容需要和b2db1185c9e5b88d9b70d7b3278a4947相等。
+再看saveSN()对应的n2方法，它将输入的字符串做md5加密然后存储到/sdcard/reg.dat中
+所以结合n2现在有两种解法：
+直接将b2db1185c9e5b88d9b70d7b3278a4947输入到/sdcard/reg.dat中即可 找到b2db1185c9e5b88d9b70d7b3278a4947对应的明文即为注册码 到md5撞库解密的网站输入b2db1185c9e5b88d9b70d7b3278a4947，得到明文为32345678 输入注册码保存成功，再打开APP则已经注册为企业版了
+"
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
@@ -152,32 +166,32 @@ APK下载 https://yhxx.lanzoub.com/i5cyV0mrazaf
 <p><a href="https://yhxx.lanzoub.com/i5cyV0mrazaf">https://yhxx.lanzoub.com/i5cyV0mrazaf</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入注册码来进行注册。</p>
-<div style="display: flex; align-items: flex-start; gap: 10px;">  <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_iR3MXN.jpg" width="200" alt="CrackMe" /> <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_D08Sbk.png" width="200" alt="CrackMe" /></div>
+<div style="display: flex; align-items: flex-start; gap: 10px;">  <img src="https://www.hive-net.cn/funtools/i/USyXWpnm" width="200" alt="CrackMe" /> <img src="https://www.hive-net.cn/funtools/i/GmfgHQgS" width="200" alt="CrackMe" /></div>
 <p>用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过<code>MyApp.m</code>来判断APP的注册状态。
-在②中判断注册状态，如果未注册则执行③的<code>doRegister()</code>，如果已经注册则执行<code>MyApp.work()</code>
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_jB6Upw.png" width="500" alt="CrackMe" /></p>
+在②中判断注册状态，如果未注册则执行③的<code>doRegister()</code>，如果已经注册则执行<code>MyApp.work()</code></p>
+<img src="https://www.hive-net.cn/funtools/i/GqIvNPCL" width="500" alt="CrackMe" />
 <p>先看一下<code>MyApp.m</code>参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为<code>hack</code>的so，并在<code>onCreate()</code>中调用了native方法<code>initSN()</code>。
-且在别处没有找到其他修改<code>MyApp.m</code>的地方，那么大概率就在so中进行操作的，并且<code>MyApp.work()</code>函数也是native函数。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_tRTpDm.png" width="500" alt="CrackMe" /></p>
-<p>我们再看输入注册码后的<code>doRegister()</code>,他将输入的注册码sn作为参数传入到了<code>MyApp.saveSN()</code>中，且<code>MyApp.saveSN()</code>也是native函数，所以我们只需要看<code>hack</code>的so即可。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_km8XwF.png" width="500" alt="CrackMe" /></p>
+且在别处没有找到其他修改<code>MyApp.m</code>的地方，那么大概率就在so中进行操作的，并且<code>MyApp.work()</code>函数也是native函数。</p>
+<img src="https://www.hive-net.cn/funtools/i/tk61aoLw" width="500" alt="CrackMe" />
+<p>我们再看输入注册码后的<code>doRegister()</code>,他将输入的注册码sn作为参数传入到了<code>MyApp.saveSN()</code>中，且<code>MyApp.saveSN()</code>也是native函数，所以我们只需要看<code>hack</code>的so即可。</p>
+<img src="https://www.hive-net.cn/funtools/i/5dUhb9ar" width="500" alt="CrackMe" />
 <p>打开IDA工具找对应的native方法。
-找到<code>work()</code>方法对应的native方法<code>n3</code>后发现想要注册为企业版，则使用到了<code>n1</code>方法
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_XFKD1t.png" width="500" alt="CrackMe" /></p>
+找到<code>work()</code>方法对应的native方法<code>n3</code>后发现想要注册为企业版，则使用到了<code>n1</code>方法</p>
+<img src="https://www.hive-net.cn/funtools/i/8kggjzUm" width="500" alt="CrackMe" />
 <p>我们再去看<code>n1</code>，<code>n1</code>对应的是<code>initSN()</code>方法，它在打开APP时读取<code>/sdcard/reg.dat</code>，将其中的内容与4种md5字符串做对比，来设置<code>MyApp.m</code>的值。
-而我们要注册为企业版，所以需要<code>MyApp.m</code>为3，即内容需要和<code>b2db1185c9e5b88d9b70d7b3278a4947</code>相等。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_rB4WSu.png" width="500" alt="CrackMe" /></p>
-<p>再看<code>saveSN()</code>对应的<code>n2</code>方法，它将输入的字符串做md5加密然后存储到<code>/sdcard/reg.dat</code>中，所以结合n2现在有两种解法：</p>
+而我们要注册为企业版，所以需要<code>MyApp.m</code>为3，即内容需要和<code>b2db1185c9e5b88d9b70d7b3278a4947</code>相等。</p>
+<img src="https://www.hive-net.cn/funtools/i/XC0IdPS5" width="500" alt="CrackMe" />
+<p>再看<code>saveSN()</code>对应的<code>n2</code>方法，它将输入的字符串做md5加密然后存储到<code>/sdcard/reg.dat</code>中</p>
+<img src="https://www.hive-net.cn/funtools/i/EWg1yJwX" width="500" alt="CrackMe" />
+<p>所以结合n2现在有两种解法：</p>
 <ol>
 <li>直接将<code>b2db1185c9e5b88d9b70d7b3278a4947</code>输入到<code>/sdcard/reg.dat</code>中即可</li>
-<li>找到<code>b2db1185c9e5b88d9b70d7b3278a4947</code>对应的明文即为注册码
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_ZrsTIV.png" width="500" alt="CrackMe" /></li>
+<li>找到<code>b2db1185c9e5b88d9b70d7b3278a4947</code>对应的明文即为注册码</li>
+<li>到md5撞库解密的网站输入<code>b2db1185c9e5b88d9b70d7b3278a4947</code>，得到明文为<code>32345678</code></li>
 </ol>
-<p>到md5撞库解密的网站输入<code>b2db1185c9e5b88d9b70d7b3278a4947</code>，得到明文为<code>32345678</code>
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_p7InGw.png" width="500" alt="CrackMe" /></p>
-<p>输入注册码保存成功，再打开APP则已经注册为企业版了
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_V0qGyT.png" width="200" alt="CrackMe" /></p>
-
+<img src="https://www.hive-net.cn/funtools/i/FSVo48a2" width="500" alt="CrackMe" />
+<p>输入注册码保存成功，再打开APP则已经注册为企业版了</p>
+<img src="https://www.hive-net.cn/funtools/i/1yZi0R6X" width="200" alt="CrackMe" />
         </div>
 
         <div class="row middle-xs">

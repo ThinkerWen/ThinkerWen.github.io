@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x02",
       "headline" : "Android crackme_0x02",
-      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/ikyBX0mj4kab\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在\/res\/values\/strings.xml中 可以使用apktool工具解压apk文件查看：\napktool d base.apk cd base cat res\/values\/strings.xml 或者直接在Jadx-GUI的路径\/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 ",
+      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/ikyBX0mj4kab\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。\n进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。\n追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？\nAndroid的字符串资源都存储在 \/res\/values\/strings.xml中 可以使用apktool工具解压apk文件查看：\napktool d base.apk cd base cat res\/values\/strings.xml 或者直接在Jadx-GUI的路径 \/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。\n在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -50,16 +50,30 @@
     content="描述 What if JD-GUI doesn’t show you the password?
 目标 找到Flag
 APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在/res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
-apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 "
+题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
+用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
+进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
+进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。
+追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
+Android的字符串资源都存储在 /res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
+apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径 /资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。
+在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。
+"
   />
   <meta
     name="description"
     content="描述 What if JD-GUI doesn’t show you the password?
 目标 找到Flag
 APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password和ApplicationContext得到flag。 ②中Flag不为空则展示Congratulations!和Flag。 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData(context)相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。 进入Data().getData()，发现函数需要获取到ApplicationContext中的字符串来当做password。 追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？ Android的字符串资源都存储在/res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
-apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径/资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。 在文本框输入s0m3_0th3r_s3cr3t_passw0rd即可拿到flag。 "
+题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
+用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
+进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
+进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。
+追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
+Android的字符串资源都存储在 /res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
+apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径 /资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。
+在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。
+"
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
@@ -149,29 +163,28 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
 <h3 id="apk下载">APK下载</h3>
 <p><a href="https://yhxx.lanzoub.com/ikyBX0mj4kab">https://yhxx.lanzoub.com/ikyBX0mj4kab</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_p6FPzk.jpg" width="200" alt="CrackMe" /></p>
-<p>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
-在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>和<code>ApplicationContext</code>得到<code>flag</code>。
-②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_NxCeGq.png" width="500" alt="CrackMe" /></p>
-<p>进入<code>FlagGuard().getFlag()</code>，发现只要传入的<code>str</code>(即输入的<code>password</code>)与<code>Data().getData(context)</code>相等就会返回②所计算出的flag，现在只需要看<code>Data().getData()</code>就可以拿到密码。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_RdI1TZ.png" width="500" alt="CrackMe" /></p>
-<p>进入<code>Data().getData()</code>，发现函数需要获取到<code>ApplicationContext</code>中的字符串来当做<code>password</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_Vl7Dh2.png" width="500" alt="CrackMe" /></p>
-<p>追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_ZWwZ6G.png" width="500" alt="CrackMe" /></p>
-<p>Android的字符串资源都存储在<code>/res/values/strings.xml</code>中
+<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
+<img src="https://www.hive-net.cn/funtools/i/FOuTazdY" width="200" alt="CrackMe" />
+<p>用Jadx-GUI打开APK看一下源码，在 <code>MainActivity</code>中找到了 <code>SUBMIT</code>按钮绑定的 <code>onClick</code>函数。
+在①中通过 <code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的 <code>password</code>和 <code>ApplicationContext</code>得到 <code>flag</code>。
+②中 <code>Flag</code>不为空则展示 <code>Congratulations!</code>和 <code>Flag</code>。</p>
+<img src="https://www.hive-net.cn/funtools/i/oc0P7sEg" width="500" alt="CrackMe" />
+<p>进入 <code>FlagGuard().getFlag()</code>，发现只要传入的 <code>str</code>(即输入的 <code>password</code>)与 <code>Data().getData(context)</code>相等就会返回②所计算出的flag，现在只需要看 <code>Data().getData()</code>就可以拿到密码。</p>
+<img src="https://www.hive-net.cn/funtools/i/THJJqDOx" width="500" alt="CrackMe" />
+<p>进入 <code>Data().getData()</code>，发现函数需要获取到 <code>ApplicationContext</code>中的字符串来当做 <code>password</code>。</p>
+<img src="https://www.hive-net.cn/funtools/i/dADaMlEz" width="500" alt="CrackMe" />
+<p>追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？</p>
+<img src="https://www.hive-net.cn/funtools/i/aHwcfv5p" width="500" alt="CrackMe" />
+<p>Android的字符串资源都存储在 <code>/res/values/strings.xml</code>中
 可以使用apktool工具解压apk文件查看：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apktool d base.apk
 </span></span><span style="display:flex;"><span><span style="color:#04a5e5">cd</span> base
 </span></span><span style="display:flex;"><span>cat res/values/strings.xml
-</span></span></code></pre></div><p>或者直接在Jadx-GUI的路径<code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
-打开xml文件后可以看到名为secret的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code>即为密码。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_njHdXe.png" width="500" alt="CrackMe" /></p>
-<p>在文本框输入<code>s0m3_0th3r_s3cr3t_passw0rd</code>即可拿到<code>flag</code>。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_25_TTVqqg.jpg" width="200" alt="CrackMe" /></p>
-
+</span></span></code></pre></div><p>或者直接在Jadx-GUI的路径 <code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
+打开xml文件后可以看到名为secret的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code>即为密码。</p>
+<img src="https://www.hive-net.cn/funtools/i/3dASb0Qf" width="500" alt="CrackMe" />
+<p>在文本框输入 <code>s0m3_0th3r_s3cr3t_passw0rd</code>即可拿到 <code>flag</code>。</p>
+<img src="https://www.hive-net.cn/funtools/i/YllrqwcG" width="200" alt="CrackMe" />
         </div>
 
         <div class="row middle-xs">
