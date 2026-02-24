@@ -20,16 +20,20 @@ A secret string is hidden somewhere in this app. Find a way to extract it.
 ## 题解
 
 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_n6eVfl.jpg" width="200" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/r1ZnKKfL" width="200" alt="CrackMe" />
 
 在GitHub上有个脚本可以过很多root检测[https://github.com/AshenOneYe/FridaAntiRootDetection](https://github.com/AshenOneYe/FridaAntiRootDetection)，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_ilmmHs.png" width="500" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/ozLq64b3" width="500" alt="CrackMe" />
 
 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_dWVV5d.png" width="500" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/BUSMd9HM" width="500" alt="CrackMe" />
 
 写好hook的代码，使用frida重启注入`frida -U --no-pause -f owasp.mstg.uncrackable1 -l crack.js`
+
 ```JavaScript
 function passRoot() {
     Java.perform(function() {
@@ -56,15 +60,19 @@ setImmediate(main);
 ```
 
 打开后APP就可以正常使用，不会提示root了。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_eYkFku.jpg" width="200" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/8PFaNnV7" width="200" alt="CrackMe" />
 
 再找到验证密码的地方，看到是在`verify()`方法中，将用户输入的文本传入`a.a()`方法中进行检查。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_7413I6.png" width="500" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/LqQUrUHA" width="500" alt="CrackMe" />
 
 进入`a.a()`方法，可以看到加密的方法还是比较简单的，本地还原一下就行。
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_rmNKQ7.png" width="500" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/bnr5Rh3C" width="500" alt="CrackMe" />
 
 将加密函数进行本地还原，输出结果为`I want to believe`
+
 ```Python
 from base64 import b64decode
 from Crypto.Cipher import AES
@@ -92,4 +100,5 @@ print(get_string())
 ```
 
 将密码输入APP，密码正确，密码为`I want to believe`
-<img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_Waysx6.jpg" width="200" alt="CrackMe" />
+
+<img src="https://www.hive-net.cn/funtools/i/3vAkiZhr" width="200" alt="CrackMe" />
