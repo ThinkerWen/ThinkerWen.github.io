@@ -6,15 +6,15 @@ categories: ['Me']
 ---
 
 <div style="width: 100%; text-align: center">
-    <img src="https://cloud.hive-net.cn/gallery-api/fs/show-gallery/2024_09_26_nU0FIX.jpg" width="100" alt="AboutMe" style="border-radius: 50%; border: 5px solid #e1cea0;"/>
+    <img src="https://www.hive-net.cn/funtools/i/W4QrdXHm" width="100" alt="AboutMe" style="border-radius: 50%; border: 5px solid #e1cea0;"/>
 </div>
 
 - 👋 嗨, 我是 Wen
-- 🛰 我的微信: Rem_wife
+- 🛰 我的微信: EurekaNomi
 - 🐱 我的GitHub: <a href="https://github.com/ThinkerWen/" >ThinkerWen</a>
 - 📸 我的Instgram: <a href="https://www.instagram.com/jason.wxw/" >Jason.wxw</a>
 - 🌈 我的Tiktok: <a href="https://www.tiktok.com/@friday.wang/" >DesignerWang</a>
-- 📬 我的邮箱: wxw126mail@126.com
+- 📬 我的邮箱: admin@404fix.cn
 - 🌎 我的网站：[https://www.404fix.cn](https://www.404fix.cn/)
 - ✨ 我的微信公众号: 夜寒信息
 
