@@ -15,7 +15,7 @@ years: ["2024"]
 
 |                                      背景图                                      |                                      目标图                                      |
 | :------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-| <img src="https://www.hive-net.cn/funtools/i/A4si1YAa" width="500" alt="背景图"> | <img src="https://www.hive-net.cn/funtools/i/WX5IWLXM" width="500" alt="目标图"> |
+| <img src="https://drive.404fix.cn/i/A4si1YAa.png" width="500" alt="背景图"> | <img src="https://drive.404fix.cn/i/WX5IWLXM.png" width="500" alt="目标图"> |
 
 **弹出验证码的Response如下：**
 
@@ -58,13 +58,13 @@ years: ["2024"]
 
 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 `cv2.imread(front_image)` 来加载图片时，会显示一片漆黑：
 
-<img src="https://www.hive-net.cn/funtools/i/nHxdiat7" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/nHxdiat7.png" width="200" alt="目标图"/>
 
 即使后来我使用了保留透明通道的加载 `cv2.imread(front_path, cv2.IMREAD_UNCHANGED)`，依旧是一片漆黑。
 
 于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：
 
-<img src="https://www.hive-net.cn/funtools/i/tEjMjXpw" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/tEjMjXpw.png" width="200" alt="目标图"/>
 
 #### 2.匹配图片
 
@@ -201,11 +201,11 @@ def ProcessCaptcha(bg_path: str, front_path: str):
 
 | 背景图 | 目标图 |
 | :----: | :----: |
-|    <img src="https://www.hive-net.cn/funtools/i/DQ7OakdF" width="200" alt="背景图">    |    <img src="https://www.hive-net.cn/funtools/i/svdGRljX" height="50" alt="目标图">    |
+|    <img src="https://drive.404fix.cn/i/DQ7OakdF.png" width="200" alt="背景图">    |    <img src="https://drive.404fix.cn/i/svdGRljX.png" height="50" alt="目标图">    |
 
 这种滑动验证码已经是无脑式 `matchTemplate()、minMaxLoc()` 就可以，非常方便：
 
-<img src="https://www.hive-net.cn/funtools/i/tXhll7ur" width="200" alt="背景图"/>
+<img src="https://drive.404fix.cn/i/tXhll7ur.png" width="200" alt="背景图"/>
 
 贴出代码：
 

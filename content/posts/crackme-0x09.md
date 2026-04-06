@@ -21,16 +21,16 @@ package: com.tlamb96.spetsnazmessenger
 
 首先打开APP看一下，检测到只能运行在俄罗斯版的设备上，需要先过设备检测。
 
-<img src="https://www.hive-net.cn/funtools/i/2gwf7VBk" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/2gwf7VBk.png" width="200" alt="CrackMe" />
 
 Jadx-GUI打开找到设备检测的位置，发现用`System.getProperty("user.home")`来获取设备类型，同时发现还用到`System.getenv("USER")`增加了用户白名单检测，白名单用户是`R.string.User`。
 
-<img src="https://www.hive-net.cn/funtools/i/CEG0e7Pq" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/CEG0e7Pq.png" width="500" alt="CrackMe" />
 
 想找用户字符串很简单，Android的字符串资源都存储在`/res/values/strings.xml`中，可以使用apktool工具解压apk文件查看`apktool d base.apk`。或者直接在Jadx-GUI的路径`/资源文件/resources.arsc/res/values/strings.xml`中查看。
 打开xml文件后可以看到名为User的字符串值：`RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==`即为白名单用户。
 
-<img src="https://www.hive-net.cn/funtools/i/Zcgkykgi" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/Zcgkykgi.png" width="500" alt="CrackMe" />
 
 hook以上两个函数就可以过检测了
 
@@ -58,27 +58,27 @@ setImmediate(main);
 
 打开APP没有提示了，显示需要输入用户名密码进入APP
 
-<img src="https://www.hive-net.cn/funtools/i/1zfVomZM" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/1zfVomZM.png" width="200" alt="CrackMe" />
 
 用Jadx-GUI继续看APP，找到登陆页，发现用户名依旧是从资源里面取`username`，拿到是`codenameduchess`。密码是在`j()`方法中对比。
 
-<img src="https://www.hive-net.cn/funtools/i/BMwnvytA" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/BMwnvytA.png" width="500" alt="CrackMe" />
 
 打开`j()`方法，发现是md5对比，md5字符串是从资源里面取`password`，拿到是`84e343a0486ff05530df6c705c8bb4`。这是一个非标准md5，需要进行补0，直接去百度搜md5原文，或者hook j()方法，搜索得到明文是`guest`。
 
-<img src="https://www.hive-net.cn/funtools/i/ukiQsgk4" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/ukiQsgk4.png" width="500" alt="CrackMe" />
 
 输入用户名`codenameduchess`和密码`guest`进入APP，显示是个聊天页，需要发送正确消息。
 
-<img src="https://www.hive-net.cn/funtools/i/kVgoaMOD" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/kVgoaMOD.png" width="200" alt="CrackMe" />
 
 用Jadx-GUI继续看APP，找到发送消息页，发现是在`i()`方法中获得flag，但是`i()`方法需要用到`this.q`和`this.s`。
 
-<img src="https://www.hive-net.cn/funtools/i/BbDXf2Dq" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/BbDXf2Dq.png" width="500" alt="CrackMe" />
 
 继续看可以找到`this.q`和`this.s`是在`onSendMessage()`方法中生成的，而要生成`this.s`和`this.q`又需要用到`a()`方法和`b()`方法。
 
-<img src="https://www.hive-net.cn/funtools/i/cOYm8OQU" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/cOYm8OQU.png" width="500" alt="CrackMe" />
 
 `a()`方法比较简单，直接用本地进行还原。
 
@@ -106,11 +106,11 @@ if __name__ == "__main__":
 # output: Boris, give me the password
 ```
 
-<img src="https://www.hive-net.cn/funtools/i/raYpGaVZ" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/raYpGaVZ.png" width="200" alt="CrackMe" />
 
 `b()`方法较`a()`方法难度提升，同时有不可见字符，直接逆向推导函数会有不可见字符，使用[Z3-Solver](https://github.com/Z3Prover/z3)进行推导。
 
-<img src="https://www.hive-net.cn/funtools/i/rePF0nfK" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/rePF0nfK.png" width="500" alt="CrackMe" />
 
 ```Python
 from z3 import *
@@ -155,4 +155,4 @@ if __name__ == "__main__":
 
 将密码输入APP，密码正确，密码为`ay I *P EASE* h ve the  assword`。(由于加密的字符中有许多ascii为0的字符无法正确推导，所以也可以对output中的空格进行替换，得到：`May I *PLEASE* hive the password?`)
 
-<img src="https://www.hive-net.cn/funtools/i/gqqWia2c" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/gqqWia2c.png" width="200" alt="CrackMe" />
