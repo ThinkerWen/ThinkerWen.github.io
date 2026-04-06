@@ -15,7 +15,7 @@ A secret string is hidden somewhere in this app. Find a way to extract it.
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/iGhc20mreula](https://yhxx.lanzoub.com/iGhc20mreula)
+[点击下载](http://drive.404fix.cn/f/GHwfGwciBZ)
 
 ## 题解
 

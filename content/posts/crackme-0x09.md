@@ -15,7 +15,7 @@ package: com.tlamb96.spetsnazmessenger
 
 ### APK下载
 
-[https://yhxx.lanzoue.com/iwnao22p7pda](https://yhxx.lanzoue.com/iwnao22p7pda)
+[点击下载](http://drive.404fix.cn/f/ARiehMr47Z)
 
 ## 题解
 

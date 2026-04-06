@@ -15,7 +15,7 @@ The crackme from hell! A secret string is hidden somewhere in this app. Find a w
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/iVOZH0n1ra1i](https://yhxx.lanzoub.com/iVOZH0n1ra1i)
+[点击下载](http://drive.404fix.cn/f/0vSw0mRGFX)
 
 ## 题解
 

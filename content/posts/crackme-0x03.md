@@ -15,7 +15,7 @@ Some hashes, cats and strings generation.
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/iwKDO0mj4kfg](https://yhxx.lanzoub.com/iwKDO0mj4kfg)
+[点击下载](http://drive.404fix.cn/f/RtTYjxvwNi)
 
 ## 题解
 

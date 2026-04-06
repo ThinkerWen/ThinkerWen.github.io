@@ -15,7 +15,7 @@ years: ["2023"]
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/i3Acs0mqhnji](https://yhxx.lanzoub.com/i3Acs0mqhnji)
+[点击下载](http://drive.404fix.cn/f/T2yKhL6Zqbe)
 
 ## 题解
 

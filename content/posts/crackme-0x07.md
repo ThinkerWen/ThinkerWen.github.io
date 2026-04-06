@@ -15,7 +15,7 @@ This app holds a secret inside. May include traces of native code.
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/iMZpZ0mx336d](https://yhxx.lanzoub.com/iMZpZ0mx336d)
+[点击下载](http://drive.404fix.cn/f/nznLrjsJja)
 
 ## 题解
 

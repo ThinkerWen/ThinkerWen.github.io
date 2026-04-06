@@ -15,7 +15,7 @@ What if JD-GUI doesn’t show you the password?
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/ikyBX0mj4kab](https://yhxx.lanzoub.com/ikyBX0mj4kab)
+[点击下载](http://drive.404fix.cn/f/52dqwkfXW1)
 
 ## 题解
 

@@ -15,7 +15,7 @@ The very basic crackme challenge. Gives you chance to get familiar with all Andr
 
 ### APK下载
 
-[https://yhxx.lanzoub.com/izxhl0mj4k7i](https://yhxx.lanzoub.com/izxhl0mj4k7i)
+[点击下载](http://drive.404fix.cn/f/ulzCZpIwee)
 
 ## 题解
 
