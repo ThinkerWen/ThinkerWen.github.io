@@ -170,23 +170,23 @@ function main() { Java.perform( function(){ let Data = Java.use(&#34;net.persian
 <p><a href="https://yhxx.lanzoub.com/iwKDO0mj4kfg">https://yhxx.lanzoub.com/iwKDO0mj4kfg</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
-<img src="https://www.hive-net.cn/funtools/i/rSSFyzVC" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/rSSFyzVC.png" width="200" alt="CrackMe" />
 <p>用Jadx-GUI打开APK看一下源码，在<code>MainActivity</code>中找到了<code>SUBMIT</code>按钮绑定的<code>onClick</code>函数。
 在①中通过<code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的<code>password</code>得到<code>flag</code>。
 ②中<code>Flag</code>不为空则展示<code>Congratulations!</code>和<code>Flag</code>。</p>
-<img src="https://www.hive-net.cn/funtools/i/5y6norE8" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/5y6norE8.png" width="500" alt="CrackMe" />
 <p>进入 <code>FlagGuard().getFlag()</code>，发现只要传入的 <code>str</code>(即输入的 <code>password</code>)与 <code>Data().isPasswordOk(context)</code>相等就会返回②所计算出的flag，现在只需要看 <code>Data().isPasswordOk()</code>就可以拿到密码。</p>
-<img src="https://www.hive-net.cn/funtools/i/QPac5zvh" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/QPac5zvh.png" width="500" alt="CrackMe" />
 <p>在 <code>Data().isPasswordOk()</code>可以从①中看到密码长度是6，然后在②中将用户填入的 <code>password</code>进行md5加密并与现有的md5字符串 <code>ac43bb53262e4edd82c0e82a93c84755</code>作对比，相等则给出flag。</p>
-<img src="https://www.hive-net.cn/funtools/i/OCk4pKTr" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/OCk4pKTr.png" width="500" alt="CrackMe" />
 <p>于是现在有两种解法：
 1.找出md5字符串 <code>ac43bb53262e4edd82c0e82a93c84755</code>的明文，即为密码。
 2.让 <code>isPasswordOk()</code>函数永远返回true，随便输入6位字符串即可拿到flag。</p>
 <h3 id="方法一">方法一</h3>
 <p>到md5撞库解密的网站输入 <code>ac43bb53262e4edd82c0e82a93c84755</code>，得到明文为 <code>3#8H1J</code></p>
-<img src="https://www.hive-net.cn/funtools/i/p91jeltk" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/p91jeltk.png" width="500" alt="CrackMe" />
 <p>输入密码<code>3#8H1J</code>，即可拿到flag。</p>
-<img src="https://www.hive-net.cn/funtools/i/B0v0pwT9" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/B0v0pwT9.png" width="200" alt="CrackMe" />
 <h3 id="方法二">方法二</h3>
 <p>使用frida对 <code>isPasswordOk()</code>函数进行hook，使之永远返回true。
 hook代码如下：</p>
@@ -204,9 +204,10 @@ hook代码如下：</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>重启app注入js <code>frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js</code></p>
-<img src="https://www.hive-net.cn/funtools/i/pSjq2p5H" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/pSjq2p5H.png" width="500" alt="CrackMe" />
 <p>随意输入字符串即可拿到flag。</p>
-<img src="https://www.hive-net.cn/funtools/i/Rcfrx7Ds" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/Rcfrx7Ds.png" width="200" alt="CrackMe" />
+
         </div>
 
         <div class="row middle-xs">

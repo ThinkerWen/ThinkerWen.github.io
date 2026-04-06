@@ -187,8 +187,8 @@ res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: center"><img src="https://www.hive-net.cn/funtools/i/A4si1YAa" width="500" alt="背景图"></td>
-          <td style="text-align: center"><img src="https://www.hive-net.cn/funtools/i/WX5IWLXM" width="500" alt="目标图"></td>
+          <td style="text-align: center"><img src="https://drive.404fix.cn/i/A4si1YAa.png" width="500" alt="背景图"></td>
+          <td style="text-align: center"><img src="https://drive.404fix.cn/i/WX5IWLXM.png" width="500" alt="目标图"></td>
       </tr>
   </tbody>
 </table>
@@ -217,10 +217,10 @@ res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_
 <p>于是我使用Python的OpenCV进行图片的识别。</p>
 <h4 id="1提取图片">1.提取图片</h4>
 <p>首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 <code>cv2.imread(front_image)</code> 来加载图片时，会显示一片漆黑：</p>
-<img src="https://www.hive-net.cn/funtools/i/nHxdiat7" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/nHxdiat7.png" width="200" alt="目标图"/>
 <p>即使后来我使用了保留透明通道的加载 <code>cv2.imread(front_path, cv2.IMREAD_UNCHANGED)</code>，依旧是一片漆黑。</p>
 <p>于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：</p>
-<img src="https://www.hive-net.cn/funtools/i/tEjMjXpw" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/tEjMjXpw.png" width="200" alt="目标图"/>
 <h4 id="2匹配图片">2.匹配图片</h4>
 <p>即然提取出了目标图片，那么就开始下一步，将目标图的位置找出来。</p>
 <p>我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。
@@ -331,13 +331,13 @@ res = cv2.matchTemplate(gray_front, gray_bg, cv2.TM_CCOEFF_NORMED) min_val, max_
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: center"><img src="https://www.hive-net.cn/funtools/i/DQ7OakdF" width="200" alt="背景图"></td>
-          <td style="text-align: center"><img src="https://www.hive-net.cn/funtools/i/svdGRljX" height="50" alt="目标图"></td>
+          <td style="text-align: center"><img src="https://drive.404fix.cn/i/DQ7OakdF.png" width="200" alt="背景图"></td>
+          <td style="text-align: center"><img src="https://drive.404fix.cn/i/svdGRljX.png" height="50" alt="目标图"></td>
       </tr>
   </tbody>
 </table>
 <p>这种滑动验证码已经是无脑式 <code>matchTemplate()、minMaxLoc()</code> 就可以，非常方便：</p>
-<img src="https://www.hive-net.cn/funtools/i/tXhll7ur" width="200" alt="背景图"/>
+<img src="https://drive.404fix.cn/i/tXhll7ur.png" width="200" alt="背景图"/>
 <p>贴出代码：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">process</span>(bg_path: <span style="color:#04a5e5">str</span>, front_path: <span style="color:#04a5e5">str</span>) <span style="color:#04a5e5;font-weight:bold">-&gt;</span> <span style="color:#fe640b">None</span>:  
 </span></span><span style="display:flex;"><span>  

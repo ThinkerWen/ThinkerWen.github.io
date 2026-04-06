@@ -162,12 +162,12 @@ function passRoot() { Java.perform(function() { let RootDetection = Java.use(&#3
 <p><a href="https://yhxx.lanzoub.com/iVOZH0n1ra1i">https://yhxx.lanzoub.com/iVOZH0n1ra1i</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。</p>
-<img src="https://www.hive-net.cn/funtools/i/wzXBYkwr" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/wzXBYkwr.png" width="200" alt="CrackMe" />
 <p>在GitHub上有个脚本可以过很多root检测<a href="https://github.com/AshenOneYe/FridaAntiRootDetection">https://github.com/AshenOneYe/FridaAntiRootDetection</a>，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。</p>
-<img src="https://www.hive-net.cn/funtools/i/P8rucHrE" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/P8rucHrE.png" width="500" alt="CrackMe" />
 <p>点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。</p>
-<img src="https://www.hive-net.cn/funtools/i/uzCC7l3N" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/uzCC7l3N.png" width="500" alt="CrackMe" />
 <p>写好hook的代码，使用frida重启注入<code>frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
@@ -193,14 +193,14 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>打开后APP就可以正常使用，不会提示root了。</p>
-<img src="https://www.hive-net.cn/funtools/i/yEFYaLhq" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/yEFYaLhq.png" width="200" alt="CrackMe" />
 <p>再找到验证密码的地方，看到是在<code>verify()</code>方法中，将用户输入的文本传入<code>this.check.check_code()</code>方法中进行检查。</p>
-<img src="https://www.hive-net.cn/funtools/i/7aKTuKgU" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/7aKTuKgU.png" width="500" alt="CrackMe" />
 <p>进入<code>this.check.check_code()</code>方法，发现用到的关键方法<code>bar()</code>是一个返回值为bool的native方法。在<code>MainActivity</code>中看到在<code>verifyLibs()</code>中加载了<code>libfoo.so</code>，于是去<code>libfoo.so</code>中找<code>bar()</code>方法。</p>
-<img src="https://www.hive-net.cn/funtools/i/9XAJJmUY" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/9XAJJmUY.png" width="500" alt="CrackMe" />
 <p>用ida打开<code>libfoo.so</code>，通过字符串很容易找到静态注册的<code>bar()</code>方法，可以看到验证方法主要用到了<code>v8</code>,<code>v9</code>两个参数，且在②中做了一些简单的对比，当字节长度为24且内容都相等的时候则会在③return true验证成功。
 可以看到<code>v9</code>在<code>sub_10E0</code>中做了处理，<code>v8</code>作为循环的index在<code>qword_15038</code>数组上遍历，那么现在的任务就是找到<code>v9</code>和<code>qword_15038</code>的内容，然后还原对比算法。</p>
-<img src="https://www.hive-net.cn/funtools/i/HDmmbieQ" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/HDmmbieQ.png" width="500" alt="CrackMe" />
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-JavaScript" data-lang="JavaScript"><span style="display:flex;"><span><span style="color:#d20f39">function</span> passRoot() {
 </span></span><span style="display:flex;"><span>    Java.perform(<span style="color:#d20f39">function</span>() {
 </span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> RootDetection <span style="color:#04a5e5;font-weight:bold">=</span> Java.use(<span style="color:#40a02b">&#34;sg.vantagepoint.util.RootDetection&#34;</span>);
@@ -268,7 +268,7 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>setImmediate(main);
 </span></span></code></pre></div><p>找到了<code>v8</code>的内容：<code>pizzapizzapizzapizzapizz</code>和<code>qword_15038</code>的内容：<code>1d0811130f1749150d0003195a1d1315080e5a0017081314</code></p>
-<img src="https://www.hive-net.cn/funtools/i/kZsamrbw" width="500" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/kZsamrbw.png" width="500" alt="CrackMe" />
 <p>还原算法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-Python" data-lang="Python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">binascii</span>
 </span></span><span style="display:flex;"><span>
@@ -283,7 +283,8 @@ Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#9ca0b0;font-style:italic"># output: making owasp great again</span>
 </span></span></code></pre></div><p>将密码输入APP，密码正确，密码为<code>making owasp great again</code></p>
-<img src="https://www.hive-net.cn/funtools/i/vS4UP7wu" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/vS4UP7wu.png" width="200" alt="CrackMe" />
+
         </div>
 
         <div class="row middle-xs">
