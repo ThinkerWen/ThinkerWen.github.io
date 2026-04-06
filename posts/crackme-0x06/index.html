@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x06",
       "headline" : "Android crackme_0x06",
-      "description" : "描述 A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 https:\/\/yhxx.lanzoub.com\/iGhc20mreula\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。\n在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。\n点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。\n写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable1 -l crack.js\nfunction passRoot() { Java.perform(function() { let c = Java.use(\u0026#34;sg.vantagepoint.a.c\u0026#34;); c[\u0026#34;a\u0026#34;].implementation = function () { console.log(\u0060c.a is called\u0060); return false; }; c[\u0026#34;b\u0026#34;].implementation = function () { console.log(\u0060c.b is called\u0060); return false; }; c[\u0026#34;c\u0026#34;].implementation = function () { return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。\n",
+      "description" : "描述 A secret string is hidden somewhere in this app. Find a way to extract it.\n目标 找到密码\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。\n在GitHub上有个脚本可以过很多root检测https:\/\/github.com\/AshenOneYe\/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。\n点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。\n写好hook的代码，使用frida重启注入frida -U --no-pause -f owasp.mstg.uncrackable1 -l crack.js\nfunction passRoot() { Java.perform(function() { let c = Java.use(\u0026#34;sg.vantagepoint.a.c\u0026#34;); c[\u0026#34;a\u0026#34;].implementation = function () { console.log(\u0060c.a is called\u0060); return false; }; c[\u0026#34;b\u0026#34;].implementation = function () { console.log(\u0060c.b is called\u0060); return false; }; c[\u0026#34;c\u0026#34;].implementation = function () { return false; }; }) } function main() { passRoot(); } setImmediate(main); 打开后APP就可以正常使用，不会提示root了。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -49,7 +49,7 @@
     property="og:description"
     content="描述 A secret string is hidden somewhere in this app. Find a way to extract it.
 目标 找到密码
-APK下载 https://yhxx.lanzoub.com/iGhc20mreula
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
@@ -61,7 +61,7 @@ function passRoot() { Java.perform(function() { let c = Java.use(&#34;sg.vantage
     name="description"
     content="描述 A secret string is hidden somewhere in this app. Find a way to extract it.
 目标 找到密码
-APK下载 https://yhxx.lanzoub.com/iGhc20mreula
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
 在GitHub上有个脚本可以过很多root检测https://github.com/AshenOneYe/FridaAntiRootDetection，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。 Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
 点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
@@ -159,7 +159,7 @@ function passRoot() { Java.perform(function() { let c = Java.use(&#34;sg.vantage
 <h3 id="目标">目标</h3>
 <p>找到密码</p>
 <h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/iGhc20mreula">https://yhxx.lanzoub.com/iGhc20mreula</a></p>
+<p><a href="http://drive.404fix.cn/f/GHwfGwciBZ">点击下载</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。</p>
 <img src="https://drive.404fix.cn/i/r1ZnKKfL.png" width="200" alt="CrackMe" />

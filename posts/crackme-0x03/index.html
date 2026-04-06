@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x03",
       "headline" : "Android crackme_0x03",
-      "description" : "描述 Some hashes, cats and strings generation.\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/iwKDO0mj4kfg\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看 Data().isPasswordOk()就可以拿到密码。\n在 Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的 password进行md5加密并与现有的md5字符串 ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。\n于是现在有两种解法： 1.找出md5字符串 ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让 isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。\n方法一 到md5撞库解密的网站输入 ac43bb53262e4edd82c0e82a93c84755，得到明文为 3#8H1J\n输入密码3#8H1J，即可拿到flag。\n方法二 使用frida对 isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：\nfunction main() { Java.perform( function(){ let Data = Java.use(\u0026#34;net.persianov.crackme0x03.Data\u0026#34;); Data[\u0026#34;isPasswordOk\u0026#34;].implementation = function (str) { console.log(\u0026#39;isPasswordOk is called\u0026#39; \u002b \u0026#39;, \u0026#39; \u002b \u0026#39;str: \u0026#39; \u002b str); let ret = true; console.log(\u0026#39;isPasswordOk ret value is \u0026#39; \u002b ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js\n",
+      "description" : "描述 Some hashes, cats and strings generation.\n目标 找到Flag\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看 Data().isPasswordOk()就可以拿到密码。\n在 Data().isPasswordOk()可以从①中看到密码长度是6，然后在②中将用户填入的 password进行md5加密并与现有的md5字符串 ac43bb53262e4edd82c0e82a93c84755作对比，相等则给出flag。\n于是现在有两种解法： 1.找出md5字符串 ac43bb53262e4edd82c0e82a93c84755的明文，即为密码。 2.让 isPasswordOk()函数永远返回true，随便输入6位字符串即可拿到flag。\n方法一 到md5撞库解密的网站输入 ac43bb53262e4edd82c0e82a93c84755，得到明文为 3#8H1J\n输入密码3#8H1J，即可拿到flag。\n方法二 使用frida对 isPasswordOk()函数进行hook，使之永远返回true。 hook代码如下：\nfunction main() { Java.perform( function(){ let Data = Java.use(\u0026#34;net.persianov.crackme0x03.Data\u0026#34;); Data[\u0026#34;isPasswordOk\u0026#34;].implementation = function (str) { console.log(\u0026#39;isPasswordOk is called\u0026#39; \u002b \u0026#39;, \u0026#39; \u002b \u0026#39;str: \u0026#39; \u002b str); let ret = true; console.log(\u0026#39;isPasswordOk ret value is \u0026#39; \u002b ret); return ret; }; }) } setImmediate(main); 重启app注入js frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -49,7 +49,7 @@
     property="og:description"
     content="描述 Some hashes, cats and strings generation.
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。
 进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看 Data().isPasswordOk()就可以拿到密码。
@@ -65,7 +65,7 @@ function main() { Java.perform( function(){ let Data = Java.use(&#34;net.persian
     name="description"
     content="描述 Some hashes, cats and strings generation.
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/iwKDO0mj4kfg
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。
 进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().isPasswordOk(context)相等就会返回②所计算出的flag，现在只需要看 Data().isPasswordOk()就可以拿到密码。
@@ -167,7 +167,7 @@ function main() { Java.perform( function(){ let Data = Java.use(&#34;net.persian
 <h3 id="目标">目标</h3>
 <p>找到Flag</p>
 <h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/iwKDO0mj4kfg">https://yhxx.lanzoub.com/iwKDO0mj4kfg</a></p>
+<p><a href="http://drive.404fix.cn/f/RtTYjxvwNi">点击下载</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
 <img src="https://drive.404fix.cn/i/rSSFyzVC.png" width="200" alt="CrackMe" />

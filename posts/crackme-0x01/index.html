@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x01",
       "headline" : "Android crackme_0x01",
-      "description" : "描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/izxhl0mj4k7i\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。\n进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。\n进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。\n在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。\n",
+      "description" : "描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.\n目标 找到Flag\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。\n进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。\n进入Data().getData()，发现函数直接返回了password字符串s3cr37_p4ssw0rd_1337。\n在文本框输入s3cr37_p4ssw0rd_1337即可拿到flag。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -49,7 +49,7 @@
     property="og:description"
     content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。
 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。
@@ -61,7 +61,7 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
     name="description"
     content="描述 The very basic crackme challenge. Gives you chance to get familiar with all Android RE tools.
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在MainActivity中找到了SUBMIT按钮绑定的onClick函数。 在①中通过FlagGuard().getFlag()函数来根据获取文本框中输入的password得到flag。 ②中Flag不为空则展示Congratulations!和Flag。
 进入FlagGuard().getFlag()，发现只要传入的str(即输入的password)与Data().getData()相等就会返回②所计算出的flag，现在只需要看Data().getData()就可以拿到密码。
@@ -159,7 +159,7 @@ APK下载 https://yhxx.lanzoub.com/izxhl0mj4k7i
 <h3 id="目标">目标</h3>
 <p>找到Flag</p>
 <h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/izxhl0mj4k7i">https://yhxx.lanzoub.com/izxhl0mj4k7i</a></p>
+<p><a href="http://drive.404fix.cn/f/ulzCZpIwee">点击下载</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
 <img src="https://drive.404fix.cn/i/Ek19DFSk.png" width="200" alt="CrackMe" />

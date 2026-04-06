@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x04",
       "headline" : "Android crackme_0x04",
-      "description" : "描述 使用用户名和注册码来成功注册软件。\n目标 成功注册软件\nAPK下载 https:\/\/yhxx.lanzoub.com\/i3Acs0mqhnji\n题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。\n用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。\n在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。\nimport hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(\u0026#39;utf-8\u0026#39;)) bytes_hash = md5.digest() hexstr = \u0026#39;\u0026#39;.join(f\u0026#39;{b:02x}\u0026#39; for b in bytes_hash) return hexstr result = str() user_name = \u0026#34;cracker\u0026#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result \u002b= hexstr[i] print(f\u0026#34;The {user_name}\u0026#39;s password is: {result}\u0026#34;) # Output: # The cracker\u0026#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功\n",
+      "description" : "描述 使用用户名和注册码来成功注册软件。\n目标 成功注册软件\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。\n用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。\n在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。\nimport hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_string.encode(\u0026#39;utf-8\u0026#39;)) bytes_hash = md5.digest() hexstr = \u0026#39;\u0026#39;.join(f\u0026#39;{b:02x}\u0026#39; for b in bytes_hash) return hexstr result = str() user_name = \u0026#34;cracker\u0026#34; hexstr = md5_hash(user_name) for i in range(0, len(hexstr), 2): result \u002b= hexstr[i] print(f\u0026#34;The {user_name}\u0026#39;s password is: {result}\u0026#34;) # Output: # The cracker\u0026#39;s password is: 26b525207d9b7886 将得到的用户名和注册码填入APP即可注册成功\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -49,7 +49,7 @@
     property="og:description"
     content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
-APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。
 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。
 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。
@@ -60,7 +60,7 @@ import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_
     name="description"
     content="描述 使用用户名和注册码来成功注册软件。
 目标 成功注册软件
-APK下载 https://yhxx.lanzoub.com/i3Acs0mqhnji
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。
 用Jadx-GUI打开APK看一下源码，通过onClick()绑定的函数发现注册按钮是通过调用checkSN()函数来判断是否成功注册的，传入参数为用户名和注册码。
 在checkSN()中将username进行md5加密，然后经过简单的字符串拼接计算出注册码sn，由于并不困难，所以只需本地实现一下计算过程就行。
@@ -157,7 +157,7 @@ import hashlib def md5_hash(input_string): md5 = hashlib.md5() md5.update(input_
 <h3 id="目标">目标</h3>
 <p>成功注册软件</p>
 <h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/i3Acs0mqhnji">https://yhxx.lanzoub.com/i3Acs0mqhnji</a></p>
+<p><a href="http://drive.404fix.cn/f/T2yKhL6Zqbe">点击下载</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。</p>
 <img src="https://drive.404fix.cn/i/B0k94DVl.png" width="200" alt="CrackMe" />

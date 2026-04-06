@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x02",
       "headline" : "Android crackme_0x02",
-      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到Flag\nAPK下载 https:\/\/yhxx.lanzoub.com\/ikyBX0mj4kab\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。\n进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。\n追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？\nAndroid的字符串资源都存储在 \/res\/values\/strings.xml中 可以使用apktool工具解压apk文件查看：\napktool d base.apk cd base cat res\/values\/strings.xml 或者直接在Jadx-GUI的路径 \/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。\n在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。\n",
+      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到Flag\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。\n进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。\n追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？\nAndroid的字符串资源都存储在 \/res\/values\/strings.xml中 可以使用apktool工具解压apk文件查看：\napktool d base.apk cd base cat res\/values\/strings.xml 或者直接在Jadx-GUI的路径 \/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。\n在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -49,7 +49,7 @@
     property="og:description"
     content="描述 What if JD-GUI doesn’t show you the password?
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
 进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
@@ -64,7 +64,7 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
     name="description"
     content="描述 What if JD-GUI doesn’t show you the password?
 目标 找到Flag
-APK下载 https://yhxx.lanzoub.com/ikyBX0mj4kab
+APK下载 点击下载
 题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
 用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
 进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
@@ -165,7 +165,7 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
 <h3 id="目标">目标</h3>
 <p>找到Flag</p>
 <h3 id="apk下载">APK下载</h3>
-<p><a href="https://yhxx.lanzoub.com/ikyBX0mj4kab">https://yhxx.lanzoub.com/ikyBX0mj4kab</a></p>
+<p><a href="http://drive.404fix.cn/f/52dqwkfXW1">点击下载</a></p>
 <h2 id="题解">题解</h2>
 <p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
 <img src="https://drive.404fix.cn/i/FOuTazdY.png" width="200" alt="CrackMe" />
