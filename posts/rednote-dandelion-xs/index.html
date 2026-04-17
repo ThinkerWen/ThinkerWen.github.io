@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.149.0">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="https://www.404fix.cn/posts/rednote-dandelion-xs/" />
+  <link rel="canonical" href="https://www.404fix.cn/posts/rednote-dandelion-xs/" /><link rel="apple-touch-icon" href="/assets/images/favicon.png" />
+  <link rel="icon" href="/assets/images/favicon.png" />
+  <link rel="shortcut" href="/assets/images/favicon.png" /><link
+    rel="alternate"
+    type="application/atom+xml"
+    href="https://www.404fix.cn/index.xml"
+    title="一文破晓"
+  />
+
+  <script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "https:\/\/www.404fix.cn\/"
+      },
+      "articleSection" : "posts",
+      "name" : "小红书蒲公英 x-s, x-t 加密",
+      "headline" : "小红书蒲公英 x-s, x-t 加密",
+      "description" : "最近做的项目和小红书的蒲公英投放平台有关，在请求接口的时候遇到了 x-s 和 x-t 的加密，总体解决难度不大，记录一下，最后附代码。\n一、思路 先对要抓的接口进行抓包分析，可以看到有 4 个看起来比较关键的参数 x-b3-traceid、x-s、x-t、x-s-common。我们重放请求找出关键的加密参数，发现 x-b3-traceid 和 x-s-common 对请求是否成功影响不大，只有 x-s 和 x-t 是关键参数，且要同时出现才能成功。\n然后我们直接打开控制台，去搜 x-t，找对应的加密 JS 代码。这个加密代码也是比较好找到的，很容易定位到 x-t 的生成方法。现在直接在关键位置打上断点，可以看到这个 x-t 的生成方法。给它在外部入参和内部方法上都打上断点。\n很直观地可以看到，x-t 就是当前的时间戳了，那么关键点也就是在 x-s 上面。可以看到这个 x-s 的生成主要依赖两个关键方法：\n内部匿名 function R 方法 只要还原这两个方法的具体逻辑就可以。先看外层的 R 方法。R 方法主要依赖 4 个关键参数：f、p、u、c，依次看这几个参数是什么：\nf 就是 x-t，也就是时间戳 p 在浏览器环境下是固定的 test u 可以通过打断点看到，其实就是当前请求的 url-path c 是 stringify 后的请求 post-data，在 get 请求中它为空字符串 最后将这几个参数拼接成字符串就好了。\n然后我们再看内部匿名 function 的入参，也就是 R 方法的返回值了，断点一进去就可以看出来，它是一个 MD5 字符串我们拿刚才的几个参数去验证一下。刚才的几个参数拼完之后是这样的：1776436465654test\/api\/solar\/user\/info\n显而易见的，我们 R 方法是还原成功了现在开始看匿名 function 方法。其实也能通过特征看出来，这个匿名 function 方法是一个自定义码表的 Base64。我们直接手动还原一下，到控制台跑一下刚才的加密。 ",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2026",
+      "datePublished": "2026-04-17 16:03:10 \u002b0000 UTC",
+      "dateModified" : "2026-04-17 16:03:10 \u002b0000 UTC",
+      "url" : "https:\/\/www.404fix.cn\/posts\/rednote-dandelion-xs\/",
+      "keywords" : [  ]
+  }
+</script>
+<title>小红书蒲公英 x-s, x-t 加密</title>
+  <meta property="og:title" content="小红书蒲公英 x-s, x-t 加密" />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:description"
+    content="最近做的项目和小红书的蒲公英投放平台有关，在请求接口的时候遇到了 x-s 和 x-t 的加密，总体解决难度不大，记录一下，最后附代码。
+一、思路 先对要抓的接口进行抓包分析，可以看到有 4 个看起来比较关键的参数 x-b3-traceid、x-s、x-t、x-s-common。我们重放请求找出关键的加密参数，发现 x-b3-traceid 和 x-s-common 对请求是否成功影响不大，只有 x-s 和 x-t 是关键参数，且要同时出现才能成功。
+然后我们直接打开控制台，去搜 x-t，找对应的加密 JS 代码。这个加密代码也是比较好找到的，很容易定位到 x-t 的生成方法。现在直接在关键位置打上断点，可以看到这个 x-t 的生成方法。给它在外部入参和内部方法上都打上断点。
+很直观地可以看到，x-t 就是当前的时间戳了，那么关键点也就是在 x-s 上面。可以看到这个 x-s 的生成主要依赖两个关键方法：
+内部匿名 function R 方法 只要还原这两个方法的具体逻辑就可以。先看外层的 R 方法。R 方法主要依赖 4 个关键参数：f、p、u、c，依次看这几个参数是什么：
+f 就是 x-t，也就是时间戳 p 在浏览器环境下是固定的 test u 可以通过打断点看到，其实就是当前请求的 url-path c 是 stringify 后的请求 post-data，在 get 请求中它为空字符串 最后将这几个参数拼接成字符串就好了。
+然后我们再看内部匿名 function 的入参，也就是 R 方法的返回值了，断点一进去就可以看出来，它是一个 MD5 字符串我们拿刚才的几个参数去验证一下。刚才的几个参数拼完之后是这样的：1776436465654test/api/solar/user/info
+显而易见的，我们 R 方法是还原成功了现在开始看匿名 function 方法。其实也能通过特征看出来，这个匿名 function 方法是一个自定义码表的 Base64。我们直接手动还原一下，到控制台跑一下刚才的加密。 "
+  />
+  <meta
+    name="description"
+    content="最近做的项目和小红书的蒲公英投放平台有关，在请求接口的时候遇到了 x-s 和 x-t 的加密，总体解决难度不大，记录一下，最后附代码。
+一、思路 先对要抓的接口进行抓包分析，可以看到有 4 个看起来比较关键的参数 x-b3-traceid、x-s、x-t、x-s-common。我们重放请求找出关键的加密参数，发现 x-b3-traceid 和 x-s-common 对请求是否成功影响不大，只有 x-s 和 x-t 是关键参数，且要同时出现才能成功。
+然后我们直接打开控制台，去搜 x-t，找对应的加密 JS 代码。这个加密代码也是比较好找到的，很容易定位到 x-t 的生成方法。现在直接在关键位置打上断点，可以看到这个 x-t 的生成方法。给它在外部入参和内部方法上都打上断点。
+很直观地可以看到，x-t 就是当前的时间戳了，那么关键点也就是在 x-s 上面。可以看到这个 x-s 的生成主要依赖两个关键方法：
+内部匿名 function R 方法 只要还原这两个方法的具体逻辑就可以。先看外层的 R 方法。R 方法主要依赖 4 个关键参数：f、p、u、c，依次看这几个参数是什么：
+f 就是 x-t，也就是时间戳 p 在浏览器环境下是固定的 test u 可以通过打断点看到，其实就是当前请求的 url-path c 是 stringify 后的请求 post-data，在 get 请求中它为空字符串 最后将这几个参数拼接成字符串就好了。
+然后我们再看内部匿名 function 的入参，也就是 R 方法的返回值了，断点一进去就可以看出来，它是一个 MD5 字符串我们拿刚才的几个参数去验证一下。刚才的几个参数拼完之后是这样的：1776436465654test/api/solar/user/info
+显而易见的，我们 R 方法是还原成功了现在开始看匿名 function 方法。其实也能通过特征看出来，这个匿名 function 方法是一个自定义码表的 Base64。我们直接手动还原一下，到控制台跑一下刚才的加密。 "
+  />
+  <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
+  
+  
+  <style>:root{--bg-color:#ffffff;--text-color:#000000;--link-color:#000000;--border-color:#482936;--secondary-text:#666666;--code-bg:#f6f8fa;--blockquote-color:#57606a;--blockquote-border:#d0d7de;--disqus-bg:white}[data-theme=dark]{--bg-color:#1a1a1a;--text-color:#e0e0e0;--link-color:#b0b0b0;--border-color:#8b5a7a;--secondary-text:#aaaaaa;--code-bg:#2d2d2d;--blockquote-color:#a0a0a0;--blockquote-border:#404040;--disqus-bg:#1a1a1a}body{font-family:bree serif,sans-serif;-webkit-font-smoothing:antialiased;margin:0 20px;background-color:var(--bg-color);color:var(--text-color)}article{max-width:800px;margin-left:auto;margin-right:auto}a{color:var(--link-color);text-decoration:none}a:hover{font-weight:600;text-decoration:underline}.post-ads{margin:50px 0}.markdown-body{font-size:18px;max-width:100%}.markdown-body a{text-decoration:underline;text-decoration-color:var(--link-color)}.markdown-body blockquote{margin:0;padding:0 1em;color:var(--blockquote-color);border-left:.25em solid var(--blockquote-border)}.markdown-body pre{padding:16px;overflow:auto;border-radius:10px;background-color:var(--code-bg)}.markdown-body code{padding:.2em .4em;font-size:85%;background-color:var(--code-bg);border-radius:6px}.markdown-body pre>code{padding:0;font-size:100%;background-color:var(--code-bg);border:0}.Chinese .markdown-body{line-height:200%}.site-date-catalog{font-size:2rem}.header-title{font-size:2rem;font-weight:700;margin-top:32px;font-family:bungee shade,sans-serif}.header-title a{text-decoration:none}.header-subtitle{color:var(--secondary-text)}.header-items{margin:10px 0}.header-item{margin:0 5px}.header-item-left{margin-left:5px;margin-right:auto}.header-line{width:100%;border-width:2px;border-color:var(--border-color);border-style:solid none none none}.lang-switch{font-weight:600}.theme-toggle{background:0 0;border:none;color:var(--link-color);cursor:pointer;font-weight:600;font-size:inherit;padding:0}.theme-toggle:hover{font-weight:800}#posts-list{min-height:600px}.posts-line{font-size:1.2rem;margin:12px 0}.posts-categories{font-size:.8rem;margin:auto;text-align:center}.posts-category{padding:3px 0;border:var(--text-color)2px solid;border-radius:5px}.site-footer{margin-top:50px}.site-footer-item{margin-right:12px}.post-header{margin-bottom:50px}.post-title{font-size:2rem;font-weight:600}.post-tags{display:inline;font-weight:600;padding:2px 5px;margin-right:6px;border:var(--text-color)2px solid;border-radius:5px}.post-date{font-weight:800;font-style:italic}.post-author{float:right;font-weight:600}.page-content{min-height:60%}.post-content{margin-bottom:50px}.post-content p{hyphens:auto;line-height:1.8;text-justify:ideographic;margin-bottom:1em}.post-content img{max-width:100%;display:block;margin-right:auto;margin-top:6px}.post-content .post-gallery{display:flex;flex-wrap:wrap;gap:6px}.post-content .post-gallery img{margin-right:auto;margin-top:auto;width:calc(50% - 3px)}.related-content{border-width:3px;border-style:solid;border-color:var(--text-color);padding:0 10px;margin-bottom:50px;margin-top:100px}.related-content li{margin:5px 0}.taxonomy-term{font-size:3rem}.gallery-img{text-align:center}.gallery-img span{text-align:center}.gallery-img-desc{font-size:.8em;font-weight:800}#disqus_thread{position:relative}#disqus_thread:after{content:"";display:block;height:55px;width:100%;position:absolute;bottom:0;background:var(--disqus-bg)}@media screen and (max-width:600px){.header-title,.header-subtitle,.header-items{}.posts-line{font-size:16px}.markdown-body{font-size:16px}.post-title{font-size:2rem}.post-content p{letter-spacing:.05em}.post-content .post-gallery img{width:100%}}@media screen and (max-width:48em){.posts-category{display:none}}</style>
+  
+  
+  <style>.container,.container-fluid{margin-right:auto;margin-left:auto}.container-fluid{padding-right:2rem;padding-left:2rem}.row{box-sizing:border-box;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-flex:0;-ms-flex:0 1 auto;flex:initial;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-.5rem;margin-left:-.5rem}.row.reverse{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse}.col.reverse{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse}.col-xs,.col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9,.col-xs-offset-0,.col-xs-offset-1,.col-xs-offset-10,.col-xs-offset-11,.col-xs-offset-12,.col-xs-offset-2,.col-xs-offset-3,.col-xs-offset-4,.col-xs-offset-5,.col-xs-offset-6,.col-xs-offset-7,.col-xs-offset-8,.col-xs-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-xs{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-xs-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-xs-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-xs-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-xs-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-xs-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-xs-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-xs-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-xs-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-xs-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-xs-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-xs-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-xs-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-xs-offset-0{margin-left:0}.col-xs-offset-1{margin-left:8.33333333%}.col-xs-offset-2{margin-left:16.66666667%}.col-xs-offset-3{margin-left:25%}.col-xs-offset-4{margin-left:33.33333333%}.col-xs-offset-5{margin-left:41.66666667%}.col-xs-offset-6{margin-left:50%}.col-xs-offset-7{margin-left:58.33333333%}.col-xs-offset-8{margin-left:66.66666667%}.col-xs-offset-9{margin-left:75%}.col-xs-offset-10{margin-left:83.33333333%}.col-xs-offset-11{margin-left:91.66666667%}.start-xs{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-xs{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-xs{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-xs{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-xs{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-xs{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-xs{-ms-flex-pack:distribute;justify-content:space-around}.between-xs{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-xs{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-xs{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}@media only screen and (min-width:48em){.container{width:49rem}.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-offset-0,.col-sm-offset-1,.col-sm-offset-10,.col-sm-offset-11,.col-sm-offset-12,.col-sm-offset-2,.col-sm-offset-3,.col-sm-offset-4,.col-sm-offset-5,.col-sm-offset-6,.col-sm-offset-7,.col-sm-offset-8,.col-sm-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-sm{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-sm-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-sm-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-sm-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-sm-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-sm-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-sm-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-sm-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-sm-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-sm-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-sm-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-sm-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-sm-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-sm-offset-0{margin-left:0}.col-sm-offset-1{margin-left:8.33333333%}.col-sm-offset-2{margin-left:16.66666667%}.col-sm-offset-3{margin-left:25%}.col-sm-offset-4{margin-left:33.33333333%}.col-sm-offset-5{margin-left:41.66666667%}.col-sm-offset-6{margin-left:50%}.col-sm-offset-7{margin-left:58.33333333%}.col-sm-offset-8{margin-left:66.66666667%}.col-sm-offset-9{margin-left:75%}.col-sm-offset-10{margin-left:83.33333333%}.col-sm-offset-11{margin-left:91.66666667%}.start-sm{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-sm{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-sm{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-sm{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-sm{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-sm{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-sm{-ms-flex-pack:distribute;justify-content:space-around}.between-sm{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-sm{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-sm{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:64em){.container{width:65rem}.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-offset-0,.col-md-offset-1,.col-md-offset-10,.col-md-offset-11,.col-md-offset-12,.col-md-offset-2,.col-md-offset-3,.col-md-offset-4,.col-md-offset-5,.col-md-offset-6,.col-md-offset-7,.col-md-offset-8,.col-md-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-md{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-md-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-md-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-md-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-md-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-md-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-md-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-md-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-md-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-md-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-md-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-md-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-md-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-md-offset-0{margin-left:0}.col-md-offset-1{margin-left:8.33333333%}.col-md-offset-2{margin-left:16.66666667%}.col-md-offset-3{margin-left:25%}.col-md-offset-4{margin-left:33.33333333%}.col-md-offset-5{margin-left:41.66666667%}.col-md-offset-6{margin-left:50%}.col-md-offset-7{margin-left:58.33333333%}.col-md-offset-8{margin-left:66.66666667%}.col-md-offset-9{margin-left:75%}.col-md-offset-10{margin-left:83.33333333%}.col-md-offset-11{margin-left:91.66666667%}.start-md{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-md{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-md{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-md{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-md{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-md{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-md{-ms-flex-pack:distribute;justify-content:space-around}.between-md{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-md{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-md{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:75em){.container{width:76rem}.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-offset-0,.col-lg-offset-1,.col-lg-offset-10,.col-lg-offset-11,.col-lg-offset-12,.col-lg-offset-2,.col-lg-offset-3,.col-lg-offset-4,.col-lg-offset-5,.col-lg-offset-6,.col-lg-offset-7,.col-lg-offset-8,.col-lg-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-lg{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-lg-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-lg-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-lg-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-lg-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-lg-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-lg-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-lg-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-lg-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-lg-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-lg-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-lg-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-lg-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-lg-offset-0{margin-left:0}.col-lg-offset-1{margin-left:8.33333333%}.col-lg-offset-2{margin-left:16.66666667%}.col-lg-offset-3{margin-left:25%}.col-lg-offset-4{margin-left:33.33333333%}.col-lg-offset-5{margin-left:41.66666667%}.col-lg-offset-6{margin-left:50%}.col-lg-offset-7{margin-left:58.33333333%}.col-lg-offset-8{margin-left:66.66666667%}.col-lg-offset-9{margin-left:75%}.col-lg-offset-10{margin-left:83.33333333%}.col-lg-offset-11{margin-left:91.66666667%}.start-lg{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-lg{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-lg{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-lg{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-lg{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-lg{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-lg{-ms-flex-pack:distribute;justify-content:space-around}.between-lg{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-lg{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-lg{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}</style>
+  
+  <link
+    rel="stylesheet"
+    href="/assets/css/code.css"
+  /> <link href="/index.xml" rel="alternate" type="application/rss+xml" title="一文破晓">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Bree+Serif|Bungee+Shade"
+    rel="stylesheet"
+  />
+  
+  
+
+  
+  <script data-cfasync="false">
+    (function() {
+      const themeKey = 'theme';
+      const themes = { light: 'light', dark: 'dark', system: 'system' };
+
+      function getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      function getStoredTheme() {
+        return localStorage.getItem(themeKey);
+      }
+      function getCurrentTheme() {
+        const stored = getStoredTheme();
+        if (stored && stored !== themes.system) {
+          return stored;
+        }
+        return getSystemTheme();
+      }
+      function setTheme(theme) {
+        const root = document.documentElement;
+        if (theme === themes.system) {
+          theme = getSystemTheme();
+        }
+        if (theme === themes.dark) {
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.removeAttribute('data-theme');
+        }
+        updateToggleButton(theme);
+      }
+      function updateToggleButton(theme) {
+        const button = document.getElementById('theme-toggle');
+        if (button) {
+          button.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      }
+      function ensureButtonUpdated() {
+        updateToggleButton(getCurrentTheme());
+      }
+      function initTheme() {
+        const stored = getStoredTheme();
+        let theme;
+        if (stored) {
+          theme = stored === themes.system ? getSystemTheme() : stored;
+          setTheme(stored);
+        } else {
+          
+          theme = getSystemTheme();
+          setTheme(themes.system);
+        }
+      }
+      function toggleTheme() { 
+        const current = getStoredTheme() || themes.system;
+        let next;
+        if (current === themes.system) {
+          next = getSystemTheme() === 'dark' ? themes.light : themes.dark;
+        } else if (current === themes.dark) {
+          next = themes.light;
+        } else {
+          next = themes.dark;
+        }
+        localStorage.setItem(themeKey, next);
+        setTheme(next);
+      }
+
+      
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        const stored = getStoredTheme();
+        if (!stored || stored === themes.system) {
+          setTheme(themes.system);
+        }
+      });
+
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureButtonUpdated);
+      } else {
+        
+        ensureButtonUpdated();
+      }
+
+      
+      window.toggleTheme = toggleTheme;
+
+      
+      initTheme();
+    })();
+  </script>
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script><script src="/assets/js/code.js"></script>
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="site-header">
+          
+<header>
+  <div class="header-title">
+    <a href="/"
+      >Wen</a
+    >
+  </div>
+  <div class="header-subtitle"></div>
+</header>
+<div class="row end-md header-items">
+  <div class="header-item-left">
+    <button id="theme-toggle" onclick="toggleTheme()" class="theme-toggle">
+      🌙
+    </button>
+  </div>
+
+  
+  <div class="header-item">
+    <a href="/travel" target="_blank">Travel</a>
+  </div>
+  
+  <div class="header-item">
+    <a href="/about" target="_blank">About</a>
+  </div>
+  
+  <div class="header-item">
+    <a href="https://github.com/ThinkerWen/" target="_blank">Github</a>
+  </div>
+  
+  <div class="header-item">
+    <a href="https://www.hive-net.cn/" target="_blank">Me</a>
+  </div>
+  
+</div>
+<div class="row">
+   
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">小红书蒲公英 x-s, x-t 加密</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2026-04-17 16:03:10 UTC">
+                17 Apr 2026
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <p>最近做的项目和小红书的蒲公英投放平台有关，在请求接口的时候遇到了 <code>x-s</code> 和 <code>x-t</code> 的加密，总体解决难度不大，记录一下，最后附代码。</p>
+<h3 id="一思路">一、思路</h3>
+<p>先对要抓的接口进行抓包分析，可以看到有 4 个看起来比较关键的参数<code> x-b3-traceid</code>、<code>x-s</code>、<code>x-t</code>、<code>x-s-common</code>。我们重放请求找出关键的加密参数，发现 <code>x-b3-traceid</code> 和 <code>x-s-common</code> 对请求是否成功影响不大，只有 <code>x-s</code> 和 <code>x-t</code> 是关键参数，且要同时出现才能成功。</p>
+<img src="https://drive.404fix.cn/i/bVkXJyKsMj.png" width="500" alt="Snipaste_2026-04-17_22-02-51.png" />
+<p>然后我们直接打开控制台，去搜 <code>x-t</code>，找对应的加密 JS 代码。这个加密代码也是比较好找到的，很容易定位到 <code>x-t</code> 的生成方法。现在直接在关键位置打上断点，可以看到这个 <code>x-t</code> 的生成方法。给它在外部入参和内部方法上都打上断点。</p>
+<img src="https://drive.404fix.cn/i/mBVgFMA4zT.png" width="300" alt="Snipaste_2026-04-17_22-16-31.png" />
+<p>很直观地可以看到，<code>x-t</code> 就是当前的时间戳了，那么关键点也就是在 <code>x-s</code> 上面。可以看到这个 <code>x-s</code> 的生成主要依赖两个关键方法：</p>
+<ol>
+<li>内部匿名 <code>function</code></li>
+<li><code>R</code> 方法</li>
+</ol>
+<p>只要还原这两个方法的具体逻辑就可以。先看外层的 <code>R</code> 方法。<code>R</code> 方法主要依赖 4 个关键参数：<code>f</code>、<code>p</code>、<code>u</code>、<code>c</code>，依次看这几个参数是什么：</p>
+<ol>
+<li><code>f</code> 就是 <code>x-t</code>，也就是时间戳</li>
+<li><code>p</code> 在浏览器环境下是固定的 <code>test</code></li>
+<li><code>u</code> 可以通过打断点看到，其实就是当前请求的 url-path</li>
+<li><code>c</code> 是 stringify 后的请求 post-data，在 get 请求中它为空字符串</li>
+</ol>
+<p>最后将这几个参数拼接成字符串就好了。</p>
+<img src="https://drive.404fix.cn/i/RUOiZDnSus.png" width="500" alt="Snipaste_2026-04-17_22-23-35.png" />
+<p>然后我们再看内部匿名 <code>function</code> 的入参，也就是 <code>R</code> 方法的返回值了，断点一进去就可以看出来，它是一个 MD5 字符串我们拿刚才的几个参数去验证一下。刚才的几个参数拼完之后是这样的：<code>1776436465654test/api/solar/user/info</code></p>
+<img src="https://drive.404fix.cn/i/x7UqMxiiDZ.png" width="500" alt="Snipaste_2026-04-17_22-29-38.png" />
+<img src="https://drive.404fix.cn/i/CWm1jVPxdj.png" width="500" alt="Snipaste_2026-04-17_22-40-10.png" />
+<p>显而易见的，我们 <code>R</code> 方法是还原成功了现在开始看匿名 <code>function</code> 方法。其实也能通过特征看出来，这个匿名 <code>function</code> 方法是一个自定义码表的 Base64。我们直接手动还原一下，到控制台跑一下刚才的加密。
+<img src="https://drive.404fix.cn/i/2L6Gn0ED8N.png" width="500" alt="Snipaste_2026-04-17_22-44-07.png" /></p>
+<p>还原后的 JS：</p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>(<span style="color:#d20f39">function</span> () {
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">const</span> table <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;A4NjFqYu5wPHsO0XTdDgMa2r1ZQocVte9UJBvk6/7=yRnhISGKblCWi+LpfE8xzm3&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#d20f39">function</span> customBase64(input) {
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">const</span> bytes <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#8839ef">new</span> TextEncoder().encode(input);
+</span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> output <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#d20f39">let</span> i <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">while</span> (i <span style="color:#04a5e5;font-weight:bold">&lt;</span> bytes.length) {
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> t <span style="color:#04a5e5;font-weight:bold">=</span> bytes[i<span style="color:#04a5e5;font-weight:bold">++</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> n <span style="color:#04a5e5;font-weight:bold">=</span> bytes[i<span style="color:#04a5e5;font-weight:bold">++</span>];
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> r <span style="color:#04a5e5;font-weight:bold">=</span> bytes[i<span style="color:#04a5e5;font-weight:bold">++</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> i1 <span style="color:#04a5e5;font-weight:bold">=</span> t <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">2</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> i2 <span style="color:#04a5e5;font-weight:bold">=</span> ((t <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">3</span>) <span style="color:#04a5e5;font-weight:bold">&lt;&lt;</span> <span style="color:#fe640b">4</span>) <span style="color:#04a5e5;font-weight:bold">|</span> (n <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">4</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> i3 <span style="color:#04a5e5;font-weight:bold">=</span> ((n <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">15</span>) <span style="color:#04a5e5;font-weight:bold">&lt;&lt;</span> <span style="color:#fe640b">2</span>) <span style="color:#04a5e5;font-weight:bold">|</span> (r <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">6</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">const</span> i4 <span style="color:#04a5e5;font-weight:bold">=</span> r <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">63</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">if</span> (<span style="color:#04a5e5">isNaN</span>(n)) {
+</span></span><span style="display:flex;"><span>                output <span style="color:#04a5e5;font-weight:bold">+=</span> table[i1] <span style="color:#04a5e5;font-weight:bold">+</span> table[i2] <span style="color:#04a5e5;font-weight:bold">+</span> table[<span style="color:#fe640b">64</span>] <span style="color:#04a5e5;font-weight:bold">+</span> table[<span style="color:#fe640b">64</span>];
+</span></span><span style="display:flex;"><span>            } <span style="color:#8839ef">else</span> <span style="color:#8839ef">if</span> (<span style="color:#04a5e5">isNaN</span>(r)) {
+</span></span><span style="display:flex;"><span>                output <span style="color:#04a5e5;font-weight:bold">+=</span> table[i1] <span style="color:#04a5e5;font-weight:bold">+</span> table[i2] <span style="color:#04a5e5;font-weight:bold">+</span> table[i3] <span style="color:#04a5e5;font-weight:bold">+</span> table[<span style="color:#fe640b">64</span>];
+</span></span><span style="display:flex;"><span>            } <span style="color:#8839ef">else</span> {
+</span></span><span style="display:flex;"><span>                output <span style="color:#04a5e5;font-weight:bold">+=</span> table[i1] <span style="color:#04a5e5;font-weight:bold">+</span> table[i2] <span style="color:#04a5e5;font-weight:bold">+</span> table[i3] <span style="color:#04a5e5;font-weight:bold">+</span> table[i4];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        console.log(output);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    customBase64(<span style="color:#40a02b">&#34;d38a9ee4247c093d7515a516098fa4d2&#34;</span>);
+</span></span><span style="display:flex;"><span>})();
+</span></span></code></pre></div><img src="https://drive.404fix.cn/i/hs4Oxk2nxh.png" width="500" alt="Snipaste_2026-04-17_22-46-38.png" />
+<img src="https://drive.404fix.cn/i/chZN2pENGS.png" width="500" alt="Snipaste_2026-04-17_22-47-54.png" />
+<p>去原请求验证一下，可以看到是完全匹配的，<code>x-s</code> 和 <code>x-t</code>都还原成功了。</p>
+<h3 id="二实现">二、实现</h3>
+<p>因为我习惯用 python 所以还原成 python 代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">time</span>
+</span></span><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">hashlib</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>table <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;A4NjFqYu5wPHsO0XTdDgMa2r1ZQocVte9UJBvk6/7=yRnhISGKblCWi+LpfE8xzm3&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">custom_base64</span>(input_str: <span style="color:#04a5e5">str</span>) <span style="color:#04a5e5;font-weight:bold">-&gt;</span> <span style="color:#04a5e5">str</span>:
+</span></span><span style="display:flex;"><span>    data <span style="color:#04a5e5;font-weight:bold">=</span> input_str<span style="color:#04a5e5;font-weight:bold">.</span>encode(<span style="color:#40a02b">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>    output <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    i <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">while</span> i <span style="color:#04a5e5;font-weight:bold">&lt;</span> <span style="color:#04a5e5">len</span>(data):
+</span></span><span style="display:flex;"><span>        t <span style="color:#04a5e5;font-weight:bold">=</span> data[i]
+</span></span><span style="display:flex;"><span>        i <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#fe640b">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        n <span style="color:#04a5e5;font-weight:bold">=</span> data[i] <span style="color:#8839ef">if</span> i <span style="color:#04a5e5;font-weight:bold">&lt;</span> <span style="color:#04a5e5">len</span>(data) <span style="color:#8839ef">else</span> <span style="color:#fe640b">None</span>
+</span></span><span style="display:flex;"><span>        i <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#fe640b">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        r <span style="color:#04a5e5;font-weight:bold">=</span> data[i] <span style="color:#8839ef">if</span> i <span style="color:#04a5e5;font-weight:bold">&lt;</span> <span style="color:#04a5e5">len</span>(data) <span style="color:#8839ef">else</span> <span style="color:#fe640b">None</span>
+</span></span><span style="display:flex;"><span>        i <span style="color:#04a5e5;font-weight:bold">+=</span> <span style="color:#fe640b">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        i1 <span style="color:#04a5e5;font-weight:bold">=</span> t <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">2</span>
+</span></span><span style="display:flex;"><span>        i2 <span style="color:#04a5e5;font-weight:bold">=</span> ((t <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">3</span>) <span style="color:#04a5e5;font-weight:bold">&lt;&lt;</span> <span style="color:#fe640b">4</span>) <span style="color:#04a5e5;font-weight:bold">|</span> ((n <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">4</span>) <span style="color:#8839ef">if</span> n <span style="color:#04a5e5;font-weight:bold">is</span> <span style="color:#04a5e5;font-weight:bold">not</span> <span style="color:#fe640b">None</span> <span style="color:#8839ef">else</span> <span style="color:#fe640b">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">if</span> n <span style="color:#04a5e5;font-weight:bold">is</span> <span style="color:#fe640b">None</span>:
+</span></span><span style="display:flex;"><span>            i3 <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">64</span>
+</span></span><span style="display:flex;"><span>            i4 <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">64</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">elif</span> r <span style="color:#04a5e5;font-weight:bold">is</span> <span style="color:#fe640b">None</span>:
+</span></span><span style="display:flex;"><span>            i3 <span style="color:#04a5e5;font-weight:bold">=</span> (n <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">15</span>) <span style="color:#04a5e5;font-weight:bold">&lt;&lt;</span> <span style="color:#fe640b">2</span>
+</span></span><span style="display:flex;"><span>            i4 <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#fe640b">64</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">else</span>:
+</span></span><span style="display:flex;"><span>            i3 <span style="color:#04a5e5;font-weight:bold">=</span> ((n <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">15</span>) <span style="color:#04a5e5;font-weight:bold">&lt;&lt;</span> <span style="color:#fe640b">2</span>) <span style="color:#04a5e5;font-weight:bold">|</span> (r <span style="color:#04a5e5;font-weight:bold">&gt;&gt;</span> <span style="color:#fe640b">6</span>)
+</span></span><span style="display:flex;"><span>            i4 <span style="color:#04a5e5;font-weight:bold">=</span> r <span style="color:#04a5e5;font-weight:bold">&amp;</span> <span style="color:#fe640b">63</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        output <span style="color:#04a5e5;font-weight:bold">+=</span> table[i1] <span style="color:#04a5e5;font-weight:bold">+</span> table[i2] <span style="color:#04a5e5;font-weight:bold">+</span> table[i3] <span style="color:#04a5e5;font-weight:bold">+</span> table[i4]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">return</span> output
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">sign</span>(url):
+</span></span><span style="display:flex;"><span>    x_t <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">int</span>(time<span style="color:#04a5e5;font-weight:bold">.</span>time() <span style="color:#04a5e5;font-weight:bold">*</span><span style="color:#fe640b">1000</span>)
+</span></span><span style="display:flex;"><span>    payload <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#d20f39">f</span><span style="color:#40a02b">&#34;</span><span style="color:#40a02b">{</span>x_t<span style="color:#40a02b">}</span><span style="color:#40a02b">test</span><span style="color:#40a02b">{</span>url<span style="color:#40a02b">}</span><span style="color:#40a02b">&#34;</span>
+</span></span><span style="display:flex;"><span>    cipher <span style="color:#04a5e5;font-weight:bold">=</span> hashlib<span style="color:#04a5e5;font-weight:bold">.</span>md5(payload<span style="color:#04a5e5;font-weight:bold">.</span>encode(<span style="color:#40a02b">&#34;utf-8&#34;</span>))<span style="color:#04a5e5;font-weight:bold">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>    x_s <span style="color:#04a5e5;font-weight:bold">=</span> custom_base64(cipher)
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">return</span> x_t, x_s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#04a5e5">print</span>(sign(<span style="color:#40a02b">&#34;/api/pgy/kol/data/data_summary?userId=692c426a000000000300c4f0&amp;business=0&#34;</span>))
+</span></span></code></pre></div>
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="col-xs-12">
+              
+            </div>
+          </div>
+
+          
+
+
+
+          
+          
+          <div style="height: 50px;"></div>
+          
+          <div class="post-comments">
+            <div id="disqus_thread"></div>
+<script>
+  window.addEventListener("load", () => {
+    (function() {
+      
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://Wen.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  });
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+
+          </div>
+          
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  
+<script>
+  
+  document.addEventListener("DOMContentLoaded", function() {
+    const disqus = document.getElementById('disqus_thread');
+    if (!disqus) {
+      return;
+    }
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        const iframes = disqus.getElementsByTagName('iframe');
+        if (iframes.length > 1) {
+          const commentsIframe = iframes[1];
+          while (disqus.firstChild) {
+            disqus.removeChild(disqus.firstChild);
+          }
+          disqus.appendChild(commentsIframe);
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(disqus, { childList: true, subtree: true });
+  });
+</script>
+
+  
+
+</body>
+
+</html>

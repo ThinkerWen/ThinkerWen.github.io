@@ -28,7 +28,7 @@
       "articleSection" : "posts",
       "name" : "Android crackme_0x02",
       "headline" : "Android crackme_0x02",
-      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到Flag\nAPK下载 点击下载\n题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag\n用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。\n进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。\n进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。\n追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？\nAndroid的字符串资源都存储在 \/res\/values\/strings.xml中 可以使用apktool工具解压apk文件查看：\napktool d base.apk cd base cat res\/values\/strings.xml 或者直接在Jadx-GUI的路径 \/资源文件\/resources.arsc\/res\/values\/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。\n在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。\n",
+      "description" : "描述 What if JD-GUI doesn’t show you the password?\n目标 找到 Flag\nAPK下载 点击下载\n题解 首先打开 APP 看一下，可以看到是输入密码点击 SUBMIT 来获取 Flag\n用 Jadx-GUI 打开 APK 看一下源码，在 MainActivity 中找到了 SUBMIT 按钮绑定的 onClick 函数。 在 ① 中通过 FlagGuard().getFlag() 函数来根据获取文本框中输入的 password 和 ApplicationContext 得到 flag。 ② 中 Flag 不为空则展示 Congratulations! 和 Flag。\n进入 FlagGuard().getFlag() ，发现只要传入的 str (即输入的 password)与 Data().getData(context) 相等就会返回 ② 所计算出的 flag，现在只需要看 Data().getData() 就可以拿到密码。\n进入 Data().getData()，发现函数需要获取到 ApplicationContext 中的字符串来当做 password。\n",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -48,37 +48,29 @@
   <meta
     property="og:description"
     content="描述 What if JD-GUI doesn’t show you the password?
-目标 找到Flag
+目标 找到 Flag
 APK下载 点击下载
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
-进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
-进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。
-追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
-Android的字符串资源都存储在 /res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
-apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径 /资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。
-在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。
+题解 首先打开 APP 看一下，可以看到是输入密码点击 SUBMIT 来获取 Flag
+用 Jadx-GUI 打开 APK 看一下源码，在 MainActivity 中找到了 SUBMIT 按钮绑定的 onClick 函数。 在 ① 中通过 FlagGuard().getFlag() 函数来根据获取文本框中输入的 password 和 ApplicationContext 得到 flag。 ② 中 Flag 不为空则展示 Congratulations! 和 Flag。
+进入 FlagGuard().getFlag() ，发现只要传入的 str (即输入的 password)与 Data().getData(context) 相等就会返回 ② 所计算出的 flag，现在只需要看 Data().getData() 就可以拿到密码。
+进入 Data().getData()，发现函数需要获取到 ApplicationContext 中的字符串来当做 password。
 "
   />
   <meta
     name="description"
     content="描述 What if JD-GUI doesn’t show you the password?
-目标 找到Flag
+目标 找到 Flag
 APK下载 点击下载
-题解 首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
-用Jadx-GUI打开APK看一下源码，在 MainActivity中找到了 SUBMIT按钮绑定的 onClick函数。 在①中通过 FlagGuard().getFlag()函数来根据获取文本框中输入的 password和 ApplicationContext得到 flag。 ②中 Flag不为空则展示 Congratulations!和 Flag。
-进入 FlagGuard().getFlag()，发现只要传入的 str(即输入的 password)与 Data().getData(context)相等就会返回②所计算出的flag，现在只需要看 Data().getData()就可以拿到密码。
-进入 Data().getData()，发现函数需要获取到 ApplicationContext中的字符串来当做 password。
-追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？
-Android的字符串资源都存储在 /res/values/strings.xml中 可以使用apktool工具解压apk文件查看：
-apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的路径 /资源文件/resources.arsc/res/values/strings.xml中查看。 打开xml文件后可以看到名为secret的字符串值：s0m3_0th3r_s3cr3t_passw0rd即为密码。
-在文本框输入 s0m3_0th3r_s3cr3t_passw0rd即可拿到 flag。
+题解 首先打开 APP 看一下，可以看到是输入密码点击 SUBMIT 来获取 Flag
+用 Jadx-GUI 打开 APK 看一下源码，在 MainActivity 中找到了 SUBMIT 按钮绑定的 onClick 函数。 在 ① 中通过 FlagGuard().getFlag() 函数来根据获取文本框中输入的 password 和 ApplicationContext 得到 flag。 ② 中 Flag 不为空则展示 Congratulations! 和 Flag。
+进入 FlagGuard().getFlag() ，发现只要传入的 str (即输入的 password)与 Data().getData(context) 相等就会返回 ② 所计算出的 flag，现在只需要看 Data().getData() 就可以拿到密码。
+进入 Data().getData()，发现函数需要获取到 ApplicationContext 中的字符串来当做 password。
 "
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
   
-  <style>body{font-family:bree serif,sans-serif;-webkit-font-smoothing:antialiased;margin:0 20px}article{max-width:800px;margin-left:auto;margin-right:auto}a{color:#000;text-decoration:none}a:hover{font-weight:600;text-decoration:underline}.post-ads{margin:50px 0}.markdown-body{font-size:18px;max-width:100%}.markdown-body a{text-decoration:underline;text-decoration-color:#000}.markdown-body blockquote{margin:0;padding:0 1em;color:#57606a;border-left:.25em solid #d0d7de}.markdown-body pre{padding:16px;overflow:auto;border-radius:10px}.markdown-body code{padding:.2em .4em;font-size:85%;background-color:#f6f8fa;border-radius:6px}.markdown-body pre>code{padding:0;font-size:100%;background-color:inherit;border:0}.Chinese .markdown-body{line-height:200%}.site-date-catalog{font-size:2rem}.header-title{font-size:2rem;font-weight:700;margin-top:32px;font-family:bungee shade,sans-serif}.header-title a{text-decoration:none}.header-subtitle{color:#666}.header-items{margin:10px 0}.header-item{margin:0 5px}.header-line{width:100%;border-width:2px;border-color:#482936;border-style:solid none none none}.lang-switch{font-weight:600}#posts-list{min-height:600px}.posts-line{font-size:1.2rem;margin:12px 0}.posts-categories{font-size:.8rem;margin:auto;text-align:center}.posts-category{padding:3px 0;border:#000 2px solid;border-radius:5px}.site-footer{margin-top:50px}.site-footer-item{margin-right:12px}.post-header{margin-bottom:50px}.post-title{font-size:2rem;font-weight:600}.post-tags{display:inline;font-weight:600;padding:2px 5px;margin-right:6px;border:#000 2px solid;border-radius:5px}.post-date{font-weight:800;font-style:italic}.post-author{float:right;font-weight:600}.page-content{min-height:60%}.post-content{margin-bottom:50px}.post-content p{hyphens:auto;line-height:1.8;text-justify:ideographic;margin-bottom:1em}.post-content img{max-width:100%;display:block;margin-right:auto;margin-top:6px}.post-content .post-gallery{display:flex;flex-wrap:wrap;gap:6px}.post-content .post-gallery img{margin-right:auto;margin-top:auto;width:calc(50% - 3px)}.related-content{border-width:3px;border-style:solid;border-color:#000;padding:0 10px;margin-bottom:50px;margin-top:100px}.related-content li{margin:5px 0}.taxonomy-term{font-size:3rem}.gallery-img{text-align:center}.gallery-img span{text-align:center}.gallery-img-desc{font-size:.8em;font-weight:800}#disqus_thread{position:relative}#disqus_thread:after{content:"";display:block;height:55px;width:100%;position:absolute;bottom:0;background:#fff}@media screen and (max-width:600px){.header-title,.header-subtitle,.header-items{}.posts-line{font-size:16px}.markdown-body{font-size:16px}.post-title{font-size:2rem}.post-content p{letter-spacing:.05em}.post-content .post-gallery img{width:100%}}@media screen and (max-width:48em){.posts-category{display:none}}</style>
+  <style>:root{--bg-color:#ffffff;--text-color:#000000;--link-color:#000000;--border-color:#482936;--secondary-text:#666666;--code-bg:#f6f8fa;--blockquote-color:#57606a;--blockquote-border:#d0d7de;--disqus-bg:white}[data-theme=dark]{--bg-color:#1a1a1a;--text-color:#e0e0e0;--link-color:#b0b0b0;--border-color:#8b5a7a;--secondary-text:#aaaaaa;--code-bg:#2d2d2d;--blockquote-color:#a0a0a0;--blockquote-border:#404040;--disqus-bg:#1a1a1a}body{font-family:bree serif,sans-serif;-webkit-font-smoothing:antialiased;margin:0 20px;background-color:var(--bg-color);color:var(--text-color)}article{max-width:800px;margin-left:auto;margin-right:auto}a{color:var(--link-color);text-decoration:none}a:hover{font-weight:600;text-decoration:underline}.post-ads{margin:50px 0}.markdown-body{font-size:18px;max-width:100%}.markdown-body a{text-decoration:underline;text-decoration-color:var(--link-color)}.markdown-body blockquote{margin:0;padding:0 1em;color:var(--blockquote-color);border-left:.25em solid var(--blockquote-border)}.markdown-body pre{padding:16px;overflow:auto;border-radius:10px;background-color:var(--code-bg)}.markdown-body code{padding:.2em .4em;font-size:85%;background-color:var(--code-bg);border-radius:6px}.markdown-body pre>code{padding:0;font-size:100%;background-color:var(--code-bg);border:0}.Chinese .markdown-body{line-height:200%}.site-date-catalog{font-size:2rem}.header-title{font-size:2rem;font-weight:700;margin-top:32px;font-family:bungee shade,sans-serif}.header-title a{text-decoration:none}.header-subtitle{color:var(--secondary-text)}.header-items{margin:10px 0}.header-item{margin:0 5px}.header-item-left{margin-left:5px;margin-right:auto}.header-line{width:100%;border-width:2px;border-color:var(--border-color);border-style:solid none none none}.lang-switch{font-weight:600}.theme-toggle{background:0 0;border:none;color:var(--link-color);cursor:pointer;font-weight:600;font-size:inherit;padding:0}.theme-toggle:hover{font-weight:800}#posts-list{min-height:600px}.posts-line{font-size:1.2rem;margin:12px 0}.posts-categories{font-size:.8rem;margin:auto;text-align:center}.posts-category{padding:3px 0;border:var(--text-color)2px solid;border-radius:5px}.site-footer{margin-top:50px}.site-footer-item{margin-right:12px}.post-header{margin-bottom:50px}.post-title{font-size:2rem;font-weight:600}.post-tags{display:inline;font-weight:600;padding:2px 5px;margin-right:6px;border:var(--text-color)2px solid;border-radius:5px}.post-date{font-weight:800;font-style:italic}.post-author{float:right;font-weight:600}.page-content{min-height:60%}.post-content{margin-bottom:50px}.post-content p{hyphens:auto;line-height:1.8;text-justify:ideographic;margin-bottom:1em}.post-content img{max-width:100%;display:block;margin-right:auto;margin-top:6px}.post-content .post-gallery{display:flex;flex-wrap:wrap;gap:6px}.post-content .post-gallery img{margin-right:auto;margin-top:auto;width:calc(50% - 3px)}.related-content{border-width:3px;border-style:solid;border-color:var(--text-color);padding:0 10px;margin-bottom:50px;margin-top:100px}.related-content li{margin:5px 0}.taxonomy-term{font-size:3rem}.gallery-img{text-align:center}.gallery-img span{text-align:center}.gallery-img-desc{font-size:.8em;font-weight:800}#disqus_thread{position:relative}#disqus_thread:after{content:"";display:block;height:55px;width:100%;position:absolute;bottom:0;background:var(--disqus-bg)}@media screen and (max-width:600px){.header-title,.header-subtitle,.header-items{}.posts-line{font-size:16px}.markdown-body{font-size:16px}.post-title{font-size:2rem}.post-content p{letter-spacing:.05em}.post-content .post-gallery img{width:100%}}@media screen and (max-width:48em){.posts-category{display:none}}</style>
   
   
   <style>.container,.container-fluid{margin-right:auto;margin-left:auto}.container-fluid{padding-right:2rem;padding-left:2rem}.row{box-sizing:border-box;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-flex:0;-ms-flex:0 1 auto;flex:initial;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-.5rem;margin-left:-.5rem}.row.reverse{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse}.col.reverse{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse}.col-xs,.col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9,.col-xs-offset-0,.col-xs-offset-1,.col-xs-offset-10,.col-xs-offset-11,.col-xs-offset-12,.col-xs-offset-2,.col-xs-offset-3,.col-xs-offset-4,.col-xs-offset-5,.col-xs-offset-6,.col-xs-offset-7,.col-xs-offset-8,.col-xs-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-xs{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-xs-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-xs-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-xs-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-xs-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-xs-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-xs-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-xs-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-xs-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-xs-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-xs-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-xs-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-xs-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-xs-offset-0{margin-left:0}.col-xs-offset-1{margin-left:8.33333333%}.col-xs-offset-2{margin-left:16.66666667%}.col-xs-offset-3{margin-left:25%}.col-xs-offset-4{margin-left:33.33333333%}.col-xs-offset-5{margin-left:41.66666667%}.col-xs-offset-6{margin-left:50%}.col-xs-offset-7{margin-left:58.33333333%}.col-xs-offset-8{margin-left:66.66666667%}.col-xs-offset-9{margin-left:75%}.col-xs-offset-10{margin-left:83.33333333%}.col-xs-offset-11{margin-left:91.66666667%}.start-xs{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-xs{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-xs{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-xs{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-xs{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-xs{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-xs{-ms-flex-pack:distribute;justify-content:space-around}.between-xs{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-xs{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-xs{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}@media only screen and (min-width:48em){.container{width:49rem}.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-offset-0,.col-sm-offset-1,.col-sm-offset-10,.col-sm-offset-11,.col-sm-offset-12,.col-sm-offset-2,.col-sm-offset-3,.col-sm-offset-4,.col-sm-offset-5,.col-sm-offset-6,.col-sm-offset-7,.col-sm-offset-8,.col-sm-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-sm{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-sm-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-sm-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-sm-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-sm-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-sm-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-sm-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-sm-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-sm-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-sm-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-sm-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-sm-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-sm-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-sm-offset-0{margin-left:0}.col-sm-offset-1{margin-left:8.33333333%}.col-sm-offset-2{margin-left:16.66666667%}.col-sm-offset-3{margin-left:25%}.col-sm-offset-4{margin-left:33.33333333%}.col-sm-offset-5{margin-left:41.66666667%}.col-sm-offset-6{margin-left:50%}.col-sm-offset-7{margin-left:58.33333333%}.col-sm-offset-8{margin-left:66.66666667%}.col-sm-offset-9{margin-left:75%}.col-sm-offset-10{margin-left:83.33333333%}.col-sm-offset-11{margin-left:91.66666667%}.start-sm{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-sm{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-sm{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-sm{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-sm{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-sm{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-sm{-ms-flex-pack:distribute;justify-content:space-around}.between-sm{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-sm{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-sm{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:64em){.container{width:65rem}.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-offset-0,.col-md-offset-1,.col-md-offset-10,.col-md-offset-11,.col-md-offset-12,.col-md-offset-2,.col-md-offset-3,.col-md-offset-4,.col-md-offset-5,.col-md-offset-6,.col-md-offset-7,.col-md-offset-8,.col-md-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-md{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-md-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-md-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-md-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-md-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-md-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-md-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-md-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-md-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-md-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-md-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-md-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-md-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-md-offset-0{margin-left:0}.col-md-offset-1{margin-left:8.33333333%}.col-md-offset-2{margin-left:16.66666667%}.col-md-offset-3{margin-left:25%}.col-md-offset-4{margin-left:33.33333333%}.col-md-offset-5{margin-left:41.66666667%}.col-md-offset-6{margin-left:50%}.col-md-offset-7{margin-left:58.33333333%}.col-md-offset-8{margin-left:66.66666667%}.col-md-offset-9{margin-left:75%}.col-md-offset-10{margin-left:83.33333333%}.col-md-offset-11{margin-left:91.66666667%}.start-md{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-md{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-md{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-md{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-md{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-md{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-md{-ms-flex-pack:distribute;justify-content:space-around}.between-md{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-md{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-md{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:75em){.container{width:76rem}.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-offset-0,.col-lg-offset-1,.col-lg-offset-10,.col-lg-offset-11,.col-lg-offset-12,.col-lg-offset-2,.col-lg-offset-3,.col-lg-offset-4,.col-lg-offset-5,.col-lg-offset-6,.col-lg-offset-7,.col-lg-offset-8,.col-lg-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-lg{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-lg-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-lg-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-lg-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-lg-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-lg-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-lg-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-lg-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-lg-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-lg-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-lg-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-lg-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-lg-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-lg-offset-0{margin-left:0}.col-lg-offset-1{margin-left:8.33333333%}.col-lg-offset-2{margin-left:16.66666667%}.col-lg-offset-3{margin-left:25%}.col-lg-offset-4{margin-left:33.33333333%}.col-lg-offset-5{margin-left:41.66666667%}.col-lg-offset-6{margin-left:50%}.col-lg-offset-7{margin-left:58.33333333%}.col-lg-offset-8{margin-left:66.66666667%}.col-lg-offset-9{margin-left:75%}.col-lg-offset-10{margin-left:83.33333333%}.col-lg-offset-11{margin-left:91.66666667%}.start-lg{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-lg{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-lg{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-lg{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-lg{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-lg{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-lg{-ms-flex-pack:distribute;justify-content:space-around}.between-lg{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-lg{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-lg{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}</style>
@@ -96,6 +88,96 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
   
   
 
+  
+  <script data-cfasync="false">
+    (function() {
+      const themeKey = 'theme';
+      const themes = { light: 'light', dark: 'dark', system: 'system' };
+
+      function getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      function getStoredTheme() {
+        return localStorage.getItem(themeKey);
+      }
+      function getCurrentTheme() {
+        const stored = getStoredTheme();
+        if (stored && stored !== themes.system) {
+          return stored;
+        }
+        return getSystemTheme();
+      }
+      function setTheme(theme) {
+        const root = document.documentElement;
+        if (theme === themes.system) {
+          theme = getSystemTheme();
+        }
+        if (theme === themes.dark) {
+          root.setAttribute('data-theme', 'dark');
+        } else {
+          root.removeAttribute('data-theme');
+        }
+        updateToggleButton(theme);
+      }
+      function updateToggleButton(theme) {
+        const button = document.getElementById('theme-toggle');
+        if (button) {
+          button.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      }
+      function ensureButtonUpdated() {
+        updateToggleButton(getCurrentTheme());
+      }
+      function initTheme() {
+        const stored = getStoredTheme();
+        let theme;
+        if (stored) {
+          theme = stored === themes.system ? getSystemTheme() : stored;
+          setTheme(stored);
+        } else {
+          
+          theme = getSystemTheme();
+          setTheme(themes.system);
+        }
+      }
+      function toggleTheme() { 
+        const current = getStoredTheme() || themes.system;
+        let next;
+        if (current === themes.system) {
+          next = getSystemTheme() === 'dark' ? themes.light : themes.dark;
+        } else if (current === themes.dark) {
+          next = themes.light;
+        } else {
+          next = themes.dark;
+        }
+        localStorage.setItem(themeKey, next);
+        setTheme(next);
+      }
+
+      
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        const stored = getStoredTheme();
+        if (!stored || stored === themes.system) {
+          setTheme(themes.system);
+        }
+      });
+
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureButtonUpdated);
+      } else {
+        
+        ensureButtonUpdated();
+      }
+
+      
+      window.toggleTheme = toggleTheme;
+
+      
+      initTheme();
+    })();
+  </script>
+  
   
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxx"></script><script src="/assets/js/code.js"></script>
 </head>
@@ -116,6 +198,12 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
   <div class="header-subtitle"></div>
 </header>
 <div class="row end-md header-items">
+  <div class="header-item-left">
+    <button id="theme-toggle" onclick="toggleTheme()" class="theme-toggle">
+      🌙
+    </button>
+  </div>
+
   
   <div class="header-item">
     <a href="/travel" target="_blank">Travel</a>
@@ -163,33 +251,32 @@ apktool d base.apk cd base cat res/values/strings.xml 或者直接在Jadx-GUI的
           <h2 id="描述">描述</h2>
 <p>What if JD-GUI doesn’t show you the password?</p>
 <h3 id="目标">目标</h3>
-<p>找到Flag</p>
+<p>找到 Flag</p>
 <h3 id="apk下载">APK下载</h3>
 <p><a href="http://drive.404fix.cn/f/52dqwkfXW1">点击下载</a></p>
 <h2 id="题解">题解</h2>
-<p>首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag</p>
+<p>首先打开 APP 看一下，可以看到是输入密码点击 SUBMIT 来获取 Flag</p>
 <img src="https://drive.404fix.cn/i/FOuTazdY.png" width="200" alt="CrackMe" />
-<p>用Jadx-GUI打开APK看一下源码，在 <code>MainActivity</code>中找到了 <code>SUBMIT</code>按钮绑定的 <code>onClick</code>函数。
-在①中通过 <code>FlagGuard().getFlag()</code>函数来根据获取文本框中输入的 <code>password</code>和 <code>ApplicationContext</code>得到 <code>flag</code>。
-②中 <code>Flag</code>不为空则展示 <code>Congratulations!</code>和 <code>Flag</code>。</p>
+<p>用 Jadx-GUI 打开 APK 看一下源码，在 <code>MainActivity</code> 中找到了 <code>SUBMIT</code> 按钮绑定的 <code>onClick</code> 函数。
+在 ① 中通过 <code>FlagGuard().getFlag()</code> 函数来根据获取文本框中输入的 <code>password</code> 和 <code>ApplicationContext</code> 得到 <code>flag</code>。
+② 中 <code>Flag</code> 不为空则展示 <code>Congratulations!</code> 和 <code>Flag</code>。</p>
 <img src="https://drive.404fix.cn/i/oc0P7sEg.png" width="500" alt="CrackMe" />
-<p>进入 <code>FlagGuard().getFlag()</code>，发现只要传入的 <code>str</code>(即输入的 <code>password</code>)与 <code>Data().getData(context)</code>相等就会返回②所计算出的flag，现在只需要看 <code>Data().getData()</code>就可以拿到密码。</p>
+<p>进入 <code>FlagGuard().getFlag()</code> ，发现只要传入的 <code>str</code> (即输入的 <code>password</code>)与 <code>Data().getData(context)</code> 相等就会返回 ② 所计算出的 flag，现在只需要看 <code>Data().getData()</code> 就可以拿到密码。</p>
 <img src="https://drive.404fix.cn/i/THJJqDOx.png" width="500" alt="CrackMe" />
-<p>进入 <code>Data().getData()</code>，发现函数需要获取到 <code>ApplicationContext</code>中的字符串来当做 <code>password</code>。</p>
+<p>进入 <code>Data().getData()</code>，发现函数需要获取到 <code>ApplicationContext</code> 中的字符串来当做 <code>password</code>。</p>
 <img src="https://drive.404fix.cn/i/dADaMlEz.png" width="500" alt="CrackMe" />
-<p>追踪进去后我们发现R.string.secret的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？</p>
+<p>追踪进去后我们发现 <code>R.string.secret</code> 的值是一个地址，这显然不是明文密码，那么我该何看到密码呢？</p>
 <img src="https://drive.404fix.cn/i/aHwcfv5p.png" width="500" alt="CrackMe" />
-<p>Android的字符串资源都存储在 <code>/res/values/strings.xml</code>中
-可以使用apktool工具解压apk文件查看：</p>
+<p>Android 的字符串资源都存储在 <code>/res/values/strings.xml</code>中
+可以使用 apktool 工具解压 apk 文件查看：</p>
 <div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apktool d base.apk
 </span></span><span style="display:flex;"><span><span style="color:#04a5e5">cd</span> base
 </span></span><span style="display:flex;"><span>cat res/values/strings.xml
-</span></span></code></pre></div><p>或者直接在Jadx-GUI的路径 <code>/资源文件/resources.arsc/res/values/strings.xml</code>中查看。
-打开xml文件后可以看到名为secret的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code>即为密码。</p>
+</span></span></code></pre></div><p>或者直接在 Jadx-GUI 的路径 <code>/资源文件/resources.arsc/res/values/strings.xml</code> 中查看。
+打开 xml 文件后可以看到名为 <code>secret</code> 的字符串值：<code>s0m3_0th3r_s3cr3t_passw0rd</code> 即为密码。</p>
 <img src="https://drive.404fix.cn/i/3dASb0Qf.png" width="500" alt="CrackMe" />
-<p>在文本框输入 <code>s0m3_0th3r_s3cr3t_passw0rd</code>即可拿到 <code>flag</code>。</p>
+<p>在文本框输入 <code>s0m3_0th3r_s3cr3t_passw0rd</code> 即可拿到 <code>flag</code>。</p>
 <img src="https://drive.404fix.cn/i/YllrqwcG.png" width="200" alt="CrackMe" />
-
         </div>
 
         <div class="row middle-xs">

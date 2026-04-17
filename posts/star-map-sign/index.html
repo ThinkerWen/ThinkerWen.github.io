@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://www.404fix.cn/tags/" />
-  <link rel="canonical" href="https://www.404fix.cn/tags/" /><link rel="apple-touch-icon" href="/assets/images/favicon.png" />
+  <meta property="og:url" content="https://www.404fix.cn/posts/star-map-sign/" />
+  <link rel="canonical" href="https://www.404fix.cn/posts/star-map-sign/" /><link rel="apple-touch-icon" href="/assets/images/favicon.png" />
   <link rel="icon" href="/assets/images/favicon.png" />
   <link rel="shortcut" href="/assets/images/favicon.png" /><link
     rel="alternate"
@@ -25,33 +25,51 @@
            "@type": "WebPage",
            "@id": "https:\/\/www.404fix.cn\/"
       },
-      "articleSection" : "tags",
-      "name" : "Tags",
-      "headline" : "Tags",
-      "description" : "",
+      "articleSection" : "posts",
+      "name" : "抖音星图 sign 加密参数",
+      "headline" : "抖音星图 sign 加密参数",
+      "description" : "前段时间做星图爬虫的时候，一些请求遇到了 sign 参数加密，由于好久没有写 Blog 了，于是写个 Blog 记录一下。好了，现在直接进入正题。\n一、思路 首先是对星图的对应请求进行抓包，抓包得到下面的这个接口。\n这个接口是一个任务导出接口，可以看到有一个 sign 参数：2fe1ed100fee78edd2277c8a26ae0778。密钥一看就像是 MD5 加密，可以打 XHR 断点，然后根据调用栈，去 js 里面找 MD5相关调用场景。\n很容易就能定位到这个 sign 加密的位置，就看到这个 sign 的赋值位置是在这个 sign$1 的方法里面，只要拆解还原一下这个方法就可以。\n首先在调试面板里能看到，函数会先提取请求里的关键参数：page、limit、start_time、end_time、payment_type、operate_type、service_name、service_method、sign_strict。\n然后做了三步关键处理：\n从 d 中取出关键的参数对照表 把这些参数排序后按 key\u002bvalue 规则拼接成字符串，还会额外加一个固定密钥串 e9fefef711becf4c3d7bfef829578b0c； 对拼接后的字符串做md5哈希处理，最终生成 sign 参数。 方法还原起来也是比较容易的，只要注意拼接时的顺序就行，我们直接在本地还原一下，然后按照已有的请求参数进行一次重试。 本地把加密方法用 python 还原之后再跑一遍，得到加密后的参数 2fe1ed100fee78edd2277c8a26ae0778 。拿去和原来的请求对比发现完全一致，重放请求也请求正常，证明我们的 sign 逻辑是正确。\n这是一个简单的 MD5 加密，只要知道它的加密参数的生成逻辑就行，没有什么难度，记录一下。\n二、实现 附代码：\nimport hashlib page = \u0026#39;1\u0026#39; limit = \u0026#39;10\u0026#39; start_time = \u0026#39;2025-10-27 00:00:00\u0026#39; end_time = \u0026#39;2026-01-27 23:59:59\u0026#39; payment_type = \u0026#39;10\u0026#39; operate_type = \u0026#39;0\u0026#39; service_name = \u0026#39;orders.AdStarOrdersService\u0026#39; service_method = \u0026#39;DemanderGetTradeRecord\u0026#39; sign_strict = \u0026#39;1\u0026#39; payload = { \u0026#34;download\u0026#34;: True, \u0026#34;page\u0026#34;: 1, \u0026#34;limit\u0026#34;: 10, \u0026#34;start_time\u0026#34;: \u0026#39;2025-10-27 00:00:00\u0026#39;, \u0026#34;end_time\u0026#34;: \u0026#39;2026-01-27 23:59:59\u0026#39;, \u0026#34;payment_type\u0026#34;: 10, \u0026#34;operate_type\u0026#34;: 0, \u0026#34;service_name\u0026#34;: \u0026#39;orders.AdStarOrdersService\u0026#39;, \u0026#34;service_method\u0026#34;: \u0026#39;DemanderGetTradeRecord\u0026#39;, \u0026#34;sign_strict\u0026#34;: 1, } def sign(params: dict) -\u0026gt; str: keys = list(params.keys()) secret = \u0026#34;e9fefef711becf4c3d7bfef829578b0c\u0026#34; parts = [] for k in sorted(keys): v = params.get(k) if v is None: parts.append(\u0026#34;\u0026#34;) else: if isinstance(v, (str, int, float)) and not isinstance(v, bool): parts.append(f\u0026#34;{k}{v}\u0026#34;) else: parts.append(f\u0026#34;{k}{k}\u0026#34;) return hashlib.md5((\u0026#34;\u0026#34;.join(parts) \u002b secret).encode(\u0026#34;utf-8\u0026#34;)).hexdigest() print(sign(payload)) ",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
       "publisher": "",
       "accountablePerson" : "",
       "copyrightHolder" : "",
-      "copyrightYear" : "0001",
-      "datePublished": "0001-01-01 00:00:00 \u002b0000 UTC",
-      "dateModified" : "0001-01-01 00:00:00 \u002b0000 UTC",
-      "url" : "https:\/\/www.404fix.cn\/tags\/",
+      "copyrightYear" : "2025",
+      "datePublished": "2025-12-20 15:10:03 \u002b0000 UTC",
+      "dateModified" : "2025-12-20 15:10:03 \u002b0000 UTC",
+      "url" : "https:\/\/www.404fix.cn\/posts\/star-map-sign\/",
       "keywords" : [  ]
   }
 </script>
-<title>Tags</title>
-  <meta property="og:title" content="Tags" />
+<title>抖音星图 sign 加密参数</title>
+  <meta property="og:title" content="抖音星图 sign 加密参数" />
   <meta property="og:type" content="article" />
   <meta
     property="og:description"
-    content=""
+    content="前段时间做星图爬虫的时候，一些请求遇到了 sign 参数加密，由于好久没有写 Blog 了，于是写个 Blog 记录一下。好了，现在直接进入正题。
+一、思路 首先是对星图的对应请求进行抓包，抓包得到下面的这个接口。
+这个接口是一个任务导出接口，可以看到有一个 sign 参数：2fe1ed100fee78edd2277c8a26ae0778。密钥一看就像是 MD5 加密，可以打 XHR 断点，然后根据调用栈，去 js 里面找 MD5相关调用场景。
+很容易就能定位到这个 sign 加密的位置，就看到这个 sign 的赋值位置是在这个 sign$1 的方法里面，只要拆解还原一下这个方法就可以。
+首先在调试面板里能看到，函数会先提取请求里的关键参数：page、limit、start_time、end_time、payment_type、operate_type、service_name、service_method、sign_strict。
+然后做了三步关键处理：
+从 d 中取出关键的参数对照表 把这些参数排序后按 key&#43;value 规则拼接成字符串，还会额外加一个固定密钥串 e9fefef711becf4c3d7bfef829578b0c； 对拼接后的字符串做md5哈希处理，最终生成 sign 参数。 方法还原起来也是比较容易的，只要注意拼接时的顺序就行，我们直接在本地还原一下，然后按照已有的请求参数进行一次重试。 本地把加密方法用 python 还原之后再跑一遍，得到加密后的参数 2fe1ed100fee78edd2277c8a26ae0778 。拿去和原来的请求对比发现完全一致，重放请求也请求正常，证明我们的 sign 逻辑是正确。
+这是一个简单的 MD5 加密，只要知道它的加密参数的生成逻辑就行，没有什么难度，记录一下。
+二、实现 附代码：
+import hashlib page = &#39;1&#39; limit = &#39;10&#39; start_time = &#39;2025-10-27 00:00:00&#39; end_time = &#39;2026-01-27 23:59:59&#39; payment_type = &#39;10&#39; operate_type = &#39;0&#39; service_name = &#39;orders.AdStarOrdersService&#39; service_method = &#39;DemanderGetTradeRecord&#39; sign_strict = &#39;1&#39; payload = { &#34;download&#34;: True, &#34;page&#34;: 1, &#34;limit&#34;: 10, &#34;start_time&#34;: &#39;2025-10-27 00:00:00&#39;, &#34;end_time&#34;: &#39;2026-01-27 23:59:59&#39;, &#34;payment_type&#34;: 10, &#34;operate_type&#34;: 0, &#34;service_name&#34;: &#39;orders.AdStarOrdersService&#39;, &#34;service_method&#34;: &#39;DemanderGetTradeRecord&#39;, &#34;sign_strict&#34;: 1, } def sign(params: dict) -&gt; str: keys = list(params.keys()) secret = &#34;e9fefef711becf4c3d7bfef829578b0c&#34; parts = [] for k in sorted(keys): v = params.get(k) if v is None: parts.append(&#34;&#34;) else: if isinstance(v, (str, int, float)) and not isinstance(v, bool): parts.append(f&#34;{k}{v}&#34;) else: parts.append(f&#34;{k}{k}&#34;) return hashlib.md5((&#34;&#34;.join(parts) &#43; secret).encode(&#34;utf-8&#34;)).hexdigest() print(sign(payload)) "
   />
   <meta
     name="description"
-    content=""
+    content="前段时间做星图爬虫的时候，一些请求遇到了 sign 参数加密，由于好久没有写 Blog 了，于是写个 Blog 记录一下。好了，现在直接进入正题。
+一、思路 首先是对星图的对应请求进行抓包，抓包得到下面的这个接口。
+这个接口是一个任务导出接口，可以看到有一个 sign 参数：2fe1ed100fee78edd2277c8a26ae0778。密钥一看就像是 MD5 加密，可以打 XHR 断点，然后根据调用栈，去 js 里面找 MD5相关调用场景。
+很容易就能定位到这个 sign 加密的位置，就看到这个 sign 的赋值位置是在这个 sign$1 的方法里面，只要拆解还原一下这个方法就可以。
+首先在调试面板里能看到，函数会先提取请求里的关键参数：page、limit、start_time、end_time、payment_type、operate_type、service_name、service_method、sign_strict。
+然后做了三步关键处理：
+从 d 中取出关键的参数对照表 把这些参数排序后按 key&#43;value 规则拼接成字符串，还会额外加一个固定密钥串 e9fefef711becf4c3d7bfef829578b0c； 对拼接后的字符串做md5哈希处理，最终生成 sign 参数。 方法还原起来也是比较容易的，只要注意拼接时的顺序就行，我们直接在本地还原一下，然后按照已有的请求参数进行一次重试。 本地把加密方法用 python 还原之后再跑一遍，得到加密后的参数 2fe1ed100fee78edd2277c8a26ae0778 。拿去和原来的请求对比发现完全一致，重放请求也请求正常，证明我们的 sign 逻辑是正确。
+这是一个简单的 MD5 加密，只要知道它的加密参数的生成逻辑就行，没有什么难度，记录一下。
+二、实现 附代码：
+import hashlib page = &#39;1&#39; limit = &#39;10&#39; start_time = &#39;2025-10-27 00:00:00&#39; end_time = &#39;2026-01-27 23:59:59&#39; payment_type = &#39;10&#39; operate_type = &#39;0&#39; service_name = &#39;orders.AdStarOrdersService&#39; service_method = &#39;DemanderGetTradeRecord&#39; sign_strict = &#39;1&#39; payload = { &#34;download&#34;: True, &#34;page&#34;: 1, &#34;limit&#34;: 10, &#34;start_time&#34;: &#39;2025-10-27 00:00:00&#39;, &#34;end_time&#34;: &#39;2026-01-27 23:59:59&#39;, &#34;payment_type&#34;: 10, &#34;operate_type&#34;: 0, &#34;service_name&#34;: &#39;orders.AdStarOrdersService&#39;, &#34;service_method&#34;: &#39;DemanderGetTradeRecord&#39;, &#34;sign_strict&#34;: 1, } def sign(params: dict) -&gt; str: keys = list(params.keys()) secret = &#34;e9fefef711becf4c3d7bfef829578b0c&#34; parts = [] for k in sorted(keys): v = params.get(k) if v is None: parts.append(&#34;&#34;) else: if isinstance(v, (str, int, float)) and not isinstance(v, bool): parts.append(f&#34;{k}{v}&#34;) else: parts.append(f&#34;{k}{k}&#34;) return hashlib.md5((&#34;&#34;.join(parts) &#43; secret).encode(&#34;utf-8&#34;)).hexdigest() print(sign(payload)) "
   />
   <meta property="og:locale" content="en-us" /><meta property="og:image" content="/assets/images/favicon.png" />
   
@@ -170,10 +188,11 @@
 
 
 <body>
-  <article class="posts">
+  <article class="post " id="article">
     <div class="row">
       <div class="col-xs-12">
-        
+        <div class="site-header">
+          
 <header>
   <div class="header-title">
     <a href="/"
@@ -212,11 +231,138 @@
 </div>
 <div class="header-line"></div>
 
-
-        <h1 class="taxonomy-term"></h1>
-        <div id="posts-list">
-          
         </div>
+        <header class="post-header">
+          <h1 class="post-title">抖音星图 sign 加密参数</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2025-12-20 15:10:03 UTC">
+                20 Dec 2025
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+          <p>前段时间做星图爬虫的时候，一些请求遇到了 <code>sign</code> 参数加密，由于好久没有写 Blog 了，于是写个 Blog 记录一下。好了，现在直接进入正题。</p>
+<h3 id="一思路">一、思路</h3>
+<p>首先是对星图的对应请求进行抓包，抓包得到下面的这个接口。</p>
+<img src="https://drive.404fix.cn/i/y7mnrlIHEG.png" width="500" alt="星图"/>
+<p>这个接口是一个任务导出接口，可以看到有一个 <code>sign</code> 参数：<code>2fe1ed100fee78edd2277c8a26ae0778</code>。密钥一看就像是 MD5 加密，可以打 XHR 断点，然后根据调用栈，去 js 里面找 MD5相关调用场景。</p>
+<img src="https://drive.404fix.cn/i/xVndAnaiYu.png" width="500" alt="CleanShot 2026-01-27 at 19.24.03@2x.png" />
+<p>很容易就能定位到这个 <code>sign</code> 加密的位置，就看到这个 <code>sign</code> 的赋值位置是在这个 <code>sign$1</code> 的方法里面，只要拆解还原一下这个方法就可以。</p>
+<p>首先在调试面板里能看到，函数会先提取请求里的关键参数：<code>page</code>、<code>limit</code>、<code>start_time</code>、<code>end_time</code>、<code>payment_type</code>、<code>operate_type</code>、<code>service_name</code>、<code>service_method</code>、<code>sign_strict</code>。</p>
+<p>然后做了三步关键处理：</p>
+<ul>
+<li>从 <code>d</code> 中取出关键的参数对照表</li>
+<li>把这些参数排序后按 <code>key+value</code> 规则拼接成字符串，还会额外加一个固定密钥串 <code>e9fefef711becf4c3d7bfef829578b0c</code>；</li>
+<li>对拼接后的字符串做<code>md5</code>哈希处理，最终生成 <code>sign</code> 参数。</li>
+</ul>
+<img src="https://drive.404fix.cn/i/eFKlJhJR8F.png" width="500" alt="CleanShot 2026-01-27 at 19.24.59@2x.png" />
+方法还原起来也是比较容易的，只要注意拼接时的顺序就行，我们直接在本地还原一下，然后按照已有的请求参数进行一次重试。
+<p>本地把加密方法用 python 还原之后再跑一遍，得到加密后的参数 <code>2fe1ed100fee78edd2277c8a26ae0778</code> 。拿去和原来的请求对比发现完全一致，重放请求也请求正常，证明我们的 <code>sign</code> 逻辑是正确。</p>
+<img src="https://drive.404fix.cn/i/WtHTwgQP7e.png" width="300" alt="CleanShot 2026-01-27 at 19.48.31@2x.png" />
+<p>这是一个简单的 MD5 加密，只要知道它的加密参数的生成逻辑就行，没有什么难度，记录一下。</p>
+<h3 id="二实现">二、实现</h3>
+<p>附代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#4c4f69;background-color:#eff1f5;-moz-tab-size:2;-o-tab-size:2;tab-size:2;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#179299">import</span> <span style="color:#fe640b">hashlib</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>page <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;1&#39;</span>
+</span></span><span style="display:flex;"><span>limit <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;10&#39;</span>
+</span></span><span style="display:flex;"><span>start_time <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;2025-10-27 00:00:00&#39;</span>
+</span></span><span style="display:flex;"><span>end_time <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;2026-01-27 23:59:59&#39;</span>
+</span></span><span style="display:flex;"><span>payment_type <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;10&#39;</span>
+</span></span><span style="display:flex;"><span>operate_type <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;0&#39;</span>
+</span></span><span style="display:flex;"><span>service_name <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;orders.AdStarOrdersService&#39;</span>
+</span></span><span style="display:flex;"><span>service_method <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;DemanderGetTradeRecord&#39;</span>
+</span></span><span style="display:flex;"><span>sign_strict <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#39;1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#04a5e5;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;download&#34;</span>: <span style="color:#fe640b">True</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;page&#34;</span>: <span style="color:#fe640b">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;limit&#34;</span>: <span style="color:#fe640b">10</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;start_time&#34;</span>: <span style="color:#40a02b">&#39;2025-10-27 00:00:00&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;end_time&#34;</span>: <span style="color:#40a02b">&#39;2026-01-27 23:59:59&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;payment_type&#34;</span>: <span style="color:#fe640b">10</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;operate_type&#34;</span>: <span style="color:#fe640b">0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;service_name&#34;</span>: <span style="color:#40a02b">&#39;orders.AdStarOrdersService&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;service_method&#34;</span>: <span style="color:#40a02b">&#39;DemanderGetTradeRecord&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#40a02b">&#34;sign_strict&#34;</span>: <span style="color:#fe640b">1</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8839ef">def</span> <span style="color:#1e66f5">sign</span>(params: <span style="color:#04a5e5">dict</span>) <span style="color:#04a5e5;font-weight:bold">-&gt;</span> <span style="color:#04a5e5">str</span>:
+</span></span><span style="display:flex;"><span>    keys <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#04a5e5">list</span>(params<span style="color:#04a5e5;font-weight:bold">.</span>keys())
+</span></span><span style="display:flex;"><span>    secret <span style="color:#04a5e5;font-weight:bold">=</span> <span style="color:#40a02b">&#34;e9fefef711becf4c3d7bfef829578b0c&#34;</span>
+</span></span><span style="display:flex;"><span>    parts <span style="color:#04a5e5;font-weight:bold">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">for</span> k <span style="color:#04a5e5;font-weight:bold">in</span> <span style="color:#04a5e5">sorted</span>(keys):
+</span></span><span style="display:flex;"><span>        v <span style="color:#04a5e5;font-weight:bold">=</span> params<span style="color:#04a5e5;font-weight:bold">.</span>get(k)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">if</span> v <span style="color:#04a5e5;font-weight:bold">is</span> <span style="color:#fe640b">None</span>:
+</span></span><span style="display:flex;"><span>            parts<span style="color:#04a5e5;font-weight:bold">.</span>append(<span style="color:#40a02b">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#8839ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">if</span> <span style="color:#04a5e5">isinstance</span>(v, (<span style="color:#04a5e5">str</span>, <span style="color:#04a5e5">int</span>, <span style="color:#04a5e5">float</span>)) <span style="color:#04a5e5;font-weight:bold">and</span> <span style="color:#04a5e5;font-weight:bold">not</span> <span style="color:#04a5e5">isinstance</span>(v, <span style="color:#04a5e5">bool</span>):
+</span></span><span style="display:flex;"><span>                parts<span style="color:#04a5e5;font-weight:bold">.</span>append(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#34;</span><span style="color:#40a02b">{</span>k<span style="color:#40a02b">}{</span>v<span style="color:#40a02b">}</span><span style="color:#40a02b">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#8839ef">else</span>:
+</span></span><span style="display:flex;"><span>                parts<span style="color:#04a5e5;font-weight:bold">.</span>append(<span style="color:#d20f39">f</span><span style="color:#40a02b">&#34;</span><span style="color:#40a02b">{</span>k<span style="color:#40a02b">}{</span>k<span style="color:#40a02b">}</span><span style="color:#40a02b">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8839ef">return</span> hashlib<span style="color:#04a5e5;font-weight:bold">.</span>md5((<span style="color:#40a02b">&#34;&#34;</span><span style="color:#04a5e5;font-weight:bold">.</span>join(parts) <span style="color:#04a5e5;font-weight:bold">+</span> secret)<span style="color:#04a5e5;font-weight:bold">.</span>encode(<span style="color:#40a02b">&#34;utf-8&#34;</span>))<span style="color:#04a5e5;font-weight:bold">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#04a5e5">print</span>(sign(payload))
+</span></span></code></pre></div>
+        </div>
+
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="col-xs-12">
+              
+            </div>
+          </div>
+
+          
+
+
+
+          
+          
+          <div style="height: 50px;"></div>
+          
+          <div class="post-comments">
+            <div id="disqus_thread"></div>
+<script>
+  window.addEventListener("load", () => {
+    (function() {
+      
+      var d = document,
+        s = d.createElement("script");
+      s.src = "https://Wen.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  });
+</script>
+<noscript
+  >Please enable JavaScript to view the
+  <a href="https://disqus.com/?ref_noscript"
+    >comments powered by Disqus.</a
+  ></noscript
+>
+
+          </div>
+          
+        
 
         <div class="site-footer">
   
@@ -251,6 +397,8 @@
     observer.observe(disqus, { childList: true, subtree: true });
   });
 </script>
+
+  
 
 </body>
 

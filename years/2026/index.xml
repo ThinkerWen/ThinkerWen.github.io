@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2026 on 一文破晓</title>
+    <link>https://www.404fix.cn/years/2026/</link>
+    <description>Recent content in 2026 on 一文破晓</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2026 16:03:10 +0000</lastBuildDate>
+    <atom:link href="https://www.404fix.cn/years/2026/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>小红书蒲公英 x-s, x-t 加密</title>
+      <link>https://www.404fix.cn/posts/rednote-dandelion-xs/</link>
+      <pubDate>Fri, 17 Apr 2026 16:03:10 +0000</pubDate>
+      <guid>https://www.404fix.cn/posts/rednote-dandelion-xs/</guid>
+      <description>&lt;p&gt;最近做的项目和小红书的蒲公英投放平台有关，在请求接口的时候遇到了 &lt;code&gt;x-s&lt;/code&gt; 和 &lt;code&gt;x-t&lt;/code&gt; 的加密，总体解决难度不大，记录一下，最后附代码。&lt;/p&gt;&#xA;&lt;h3 id=&#34;一思路&#34;&gt;一、思路&lt;/h3&gt;&#xA;&lt;p&gt;先对要抓的接口进行抓包分析，可以看到有 4 个看起来比较关键的参数&lt;code&gt; x-b3-traceid&lt;/code&gt;、&lt;code&gt;x-s&lt;/code&gt;、&lt;code&gt;x-t&lt;/code&gt;、&lt;code&gt;x-s-common&lt;/code&gt;。我们重放请求找出关键的加密参数，发现 &lt;code&gt;x-b3-traceid&lt;/code&gt; 和 &lt;code&gt;x-s-common&lt;/code&gt; 对请求是否成功影响不大，只有 &lt;code&gt;x-s&lt;/code&gt; 和 &lt;code&gt;x-t&lt;/code&gt; 是关键参数，且要同时出现才能成功。&lt;/p&gt;&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/bVkXJyKsMj.png&#34; width=&#34;500&#34; alt=&#34;Snipaste_2026-04-17_22-02-51.png&#34; /&gt;&#xA;&lt;p&gt;然后我们直接打开控制台，去搜 &lt;code&gt;x-t&lt;/code&gt;，找对应的加密 JS 代码。这个加密代码也是比较好找到的，很容易定位到 &lt;code&gt;x-t&lt;/code&gt; 的生成方法。现在直接在关键位置打上断点，可以看到这个 &lt;code&gt;x-t&lt;/code&gt; 的生成方法。给它在外部入参和内部方法上都打上断点。&lt;/p&gt;&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/mBVgFMA4zT.png&#34; width=&#34;300&#34; alt=&#34;Snipaste_2026-04-17_22-16-31.png&#34; /&gt;&#xA;&lt;p&gt;很直观地可以看到，&lt;code&gt;x-t&lt;/code&gt; 就是当前的时间戳了，那么关键点也就是在 &lt;code&gt;x-s&lt;/code&gt; 上面。可以看到这个 &lt;code&gt;x-s&lt;/code&gt; 的生成主要依赖两个关键方法：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;内部匿名 &lt;code&gt;function&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;R&lt;/code&gt; 方法&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;只要还原这两个方法的具体逻辑就可以。先看外层的 &lt;code&gt;R&lt;/code&gt; 方法。&lt;code&gt;R&lt;/code&gt; 方法主要依赖 4 个关键参数：&lt;code&gt;f&lt;/code&gt;、&lt;code&gt;p&lt;/code&gt;、&lt;code&gt;u&lt;/code&gt;、&lt;code&gt;c&lt;/code&gt;，依次看这几个参数是什么：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;code&gt;f&lt;/code&gt; 就是 &lt;code&gt;x-t&lt;/code&gt;，也就是时间戳&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;p&lt;/code&gt; 在浏览器环境下是固定的 &lt;code&gt;test&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;u&lt;/code&gt; 可以通过打断点看到，其实就是当前请求的 url-path&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;c&lt;/code&gt; 是 stringify 后的请求 post-data，在 get 请求中它为空字符串&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;最后将这几个参数拼接成字符串就好了。&lt;/p&gt;&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/RUOiZDnSus.png&#34; width=&#34;500&#34; alt=&#34;Snipaste_2026-04-17_22-23-35.png&#34; /&gt;&#xA;&lt;p&gt;然后我们再看内部匿名 &lt;code&gt;function&lt;/code&gt; 的入参，也就是 &lt;code&gt;R&lt;/code&gt; 方法的返回值了，断点一进去就可以看出来，它是一个 MD5 字符串我们拿刚才的几个参数去验证一下。刚才的几个参数拼完之后是这样的：&lt;code&gt;1776436465654test/api/solar/user/info&lt;/code&gt;&lt;/p&gt;&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/x7UqMxiiDZ.png&#34; width=&#34;500&#34; alt=&#34;Snipaste_2026-04-17_22-29-38.png&#34; /&gt;&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/CWm1jVPxdj.png&#34; width=&#34;500&#34; alt=&#34;Snipaste_2026-04-17_22-40-10.png&#34; /&gt;&#xA;&lt;p&gt;显而易见的，我们 &lt;code&gt;R&lt;/code&gt; 方法是还原成功了现在开始看匿名 &lt;code&gt;function&lt;/code&gt; 方法。其实也能通过特征看出来，这个匿名 &lt;code&gt;function&lt;/code&gt; 方法是一个自定义码表的 Base64。我们直接手动还原一下，到控制台跑一下刚才的加密。&#xA;&lt;img src=&#34;https://drive.404fix.cn/i/2L6Gn0ED8N.png&#34; width=&#34;500&#34; alt=&#34;Snipaste_2026-04-17_22-44-07.png&#34; /&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
