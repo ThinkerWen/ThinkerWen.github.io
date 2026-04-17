@@ -13,26 +13,26 @@ The crackme from hell! A secret string is hidden somewhere in this app. Find a w
 
 找到密码
 
-### APK下载
+### APK 下载
 
 [点击下载](http://drive.404fix.cn/f/0vSw0mRGFX)
 
 ## 题解
 
-首先打开APP看一下，可以看到是需要输入注册码来进行注册，但是检测到了root，需要先过root检测。
+首先打开 APP 看一下，可以看到是需要输入注册码来进行注册，但是检测到了 root，需要先过 root 检测。
 
 <img src="https://drive.404fix.cn/i/wzXBYkwr.png" width="200" alt="CrackMe" />
 
-在GitHub上有个脚本可以过很多root检测[https://github.com/AshenOneYe/FridaAntiRootDetection](https://github.com/AshenOneYe/FridaAntiRootDetection)，用这个脚本就可以过这个APP的root检测，不过还是看看具体代码中怎么过吧。
-Jadx-GUI打开找到root检测的位置，发现用到了3个函数，当3个函数都返回true时就可以正常使用APP。
+在 GitHub 上有个脚本可以过很多 root 检测 [https://github.com/AshenOneYe/FridaAntiRootDetection](https://github.com/AshenOneYe/FridaAntiRootDetection)，用这个脚本就可以过这个 APP 的 root 检测，不过还是看看具体代码中怎么过吧。
+Jadx-GUI 打开找到 root 检测的位置，发现用到了 3 个函数，当 3 个函数都返回 true 时就可以正常使用 APP。
 
 <img src="https://drive.404fix.cn/i/P8rucHrE.png" width="500" alt="CrackMe" />
 
-点进去发现3个函数都在一个类中，只要将3个函数都改为永远返回true就行，可以直接修改smali或者hook，hook方便一些。
+点进去发现 3 个函数都在一个类中，只要将 3 个函数都改为永远返回 true 就行，可以直接修改 smali 或者 hook，hook 方便一些。
 
 <img src="https://drive.404fix.cn/i/uzCC7l3N.png" width="500" alt="CrackMe" />
 
-写好hook的代码，使用frida重启注入`frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js`
+写好 hook 的代码，使用 frida 重启注入 `frida -U --no-pause -f owasp.mstg.uncrackable3 -l crack.js`
 
 ```JavaScript
 function passRoot() {
@@ -60,20 +60,20 @@ function main() {
 setImmediate(main);
 ```
 
-打开后APP就可以正常使用，不会提示root了。
+打开后 APP 就可以正常使用，不会提示 root 了。
 
 <img src="https://drive.404fix.cn/i/yEFYaLhq.png" width="200" alt="CrackMe" />
 
-再找到验证密码的地方，看到是在`verify()`方法中，将用户输入的文本传入`this.check.check_code()`方法中进行检查。
+再找到验证密码的地方，看到是在 `verify()` 方法中，将用户输入的文本传入 `this.check.check_code()` 方法中进行检查。
 
 <img src="https://drive.404fix.cn/i/7aKTuKgU.png" width="500" alt="CrackMe" />
 
-进入`this.check.check_code()`方法，发现用到的关键方法`bar()`是一个返回值为bool的native方法。在`MainActivity`中看到在`verifyLibs()`中加载了`libfoo.so`，于是去`libfoo.so`中找`bar()`方法。
+进入 `this.check.check_code()` 方法，发现用到的关键方法 `bar()` 是一个返回值为 bool 的 native 方法。在 `MainActivity` 中看到在 `verifyLibs()` 中加载了 `libfoo.so`，于是去 `libfoo.so` 中找 `bar()` 方法。
 
 <img src="https://drive.404fix.cn/i/9XAJJmUY.png" width="500" alt="CrackMe" />
 
-用ida打开`libfoo.so`，通过字符串很容易找到静态注册的`bar()`方法，可以看到验证方法主要用到了`v8`,`v9`两个参数，且在②中做了一些简单的对比，当字节长度为24且内容都相等的时候则会在③return true验证成功。
-可以看到`v9`在`sub_10E0`中做了处理，`v8`作为循环的index在`qword_15038`数组上遍历，那么现在的任务就是找到`v9`和`qword_15038`的内容，然后还原对比算法。
+用 ida 打开 `libfoo.so`，通过字符串很容易找到静态注册的 `bar()` 方法，可以看到验证方法主要用到了 `v8`、`v9` 两个参数，且在 ② 中做了一些简单的对比，当字节长度为 24 且内容都相等的时候则会在 ③ return true 验证成功。
+可以看到 `v9` 在 `sub_10E0` 中做了处理，`v8` 作为循环的 index 在 `qword_15038` 数组上遍历，那么现在的任务就是找到 `v9` 和 `qword_15038` 的内容，然后还原对比算法。
 
 <img src="https://drive.404fix.cn/i/HDmmbieQ.png" width="500" alt="CrackMe" />
 
@@ -146,7 +146,7 @@ function main() {
 setImmediate(main);
 ```
 
-找到了`v8`的内容：`pizzapizzapizzapizzapizz`和`qword_15038`的内容：`1d0811130f1749150d0003195a1d1315080e5a0017081314`
+找到了 `v8` 的内容：`pizzapizzapizzapizzapizz` 和 `qword_15038` 的内容：`1d0811130f1749150d0003195a1d1315080e5a0017081314`
 
 <img src="https://drive.404fix.cn/i/kZsamrbw.png" width="500" alt="CrackMe" />
 
@@ -167,6 +167,6 @@ print(password)
 # output: making owasp great again
 ```
 
-将密码输入APP，密码正确，密码为`making owasp great again`
+将密码输入 APP，密码正确，密码为 `making owasp great again`
 
 <img src="https://drive.404fix.cn/i/vS4UP7wu.png" width="200" alt="CrackMe" />

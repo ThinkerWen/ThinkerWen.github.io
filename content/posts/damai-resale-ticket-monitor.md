@@ -7,6 +7,8 @@ years: ["2024"]
 
 最近演唱会增多，总是抢不到票，所以想从回流票入手，做一个某麦网的演唱会回流票的监控。
 
+### 一、思路
+
 最简单的方向就是从网页端入手。
 
 <img src="https://drive.404fix.cn/i/d6IL2a54.png" width="200" alt="大麦" />
@@ -27,7 +29,7 @@ https://mtop.damai.cn/h5/mtop.alibaba.damai.detail.getdetail/1.2/?jsv=2.7.2&appK
 https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&appKey=12574478&t=1696837077937&sign=2000a8d025a2b8ff407be20a671b5e48&api=mtop.alibaba.detail.subpage.getdetail&v=2.0&H5Request=true&type=originaljson&timeout=10000&dataType=json&valueType=original&forceAntiCreep=true&AntiCreep=true&useH5=true&data=%7B%22itemId%22%3A%22739853478245%22%2C%22bizCode%22%3A%22ali.china.damai%22%2C%22scenario%22%3A%22itemsku%22%2C%22exParams%22%3A%22%7B%5C%22dataType%5C%22%3A2%2C%5C%22dataId%5C%22%3A%5C%22211839138%5C%22%2C%5C%22privilegeActId%5C%22%3A%5C%22%5C%22%7D%22%2C%22platform%22%3A%228%22%2C%22comboChannel%22%3A%222%22%2C%22dmChannel%22%3A%22damai%40damaih5_h5%22%7D
 ```
 
-经过验证headers是统一的不会变也没有加密参数，cookie也是一致的但有未知参数 `_m_h5_tk`和 `_m_h5_tk_enc`
+经过验证 headers 是统一的不会变也没有加密参数，cookie 也是一致的但有未知参数 `_m_h5_tk`和 `_m_h5_tk_enc`
 
 <img src="https://drive.404fix.cn/i/b5SwmNsr.png" width="500" alt="大麦" />
 而这两个接口里的参数大同小异，分别如下
@@ -42,12 +44,12 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&ap
 
 可以看到其中关键参数就是 `t`、`sign`、`data`，其他参数都是固定的。
 
-其中data显而易见，场次接口的 `itemId`就是这个演出的id，其他参数固定；座次接口的 `itemId`是演出id，`dataId`就是当前场次的id（例如10.21场），其他参数固定。
-接着我们可以打断点看一下这个t和sign是如何生成的。F12调出控制台，下一个xhr断点，可以直接打到 `sign`上，也可以打到对应链接上。
+其中 `data` 显而易见，场次接口的 `itemId` 就是这个演出的 id，其他参数固定；座次接口的 `itemId` 是演出 id，`dataId`就是当前场次的 id（例如 10.21 场），其他参数固定。
+接着我们可以打断点看一下这个 `t` 和 `sign` 是如何生成的。F12 调出控制台，下一个 xhr 断点，可以直接打到 `sign`上，也可以打到对应链接上。
 
 <img src="https://drive.404fix.cn/i/PqLkoXPS.png" width="200" alt="大麦" />
 
-刷新一下页面触发断点，找到对应的请求发起js文件。
+刷新一下页面触发断点，找到对应的请求发起 js 文件。
 
 <img src="https://drive.404fix.cn/i/BFKQlfci.png" width="500" alt="大麦" />
 
@@ -55,26 +57,26 @@ https://mtop.damai.cn/h5/mtop.alibaba.detail.subpage.getdetail/2.0/?jsv=2.7.2&ap
 
 <img src="https://drive.404fix.cn/i/x7NO7kSL.png" width="500" alt="大麦" />
 
-可以看到这个函数就是将 `token`、`c`、`s`、`data`，以&进行分隔拼接，然后再进行加密得到sign。
+可以看到这个函数就是将 `token`、`c`、`s`、`data`，以&进行分隔拼接，然后再进行加密得到 `sign`。
 
-其中 `token`暂时未知，`c`就是url参数中的t时间戳，`s`就是url参数中的 `appKey`固定值，`data`就是url参数中的 `data`的json字符串，简单拼接就行。
+其中 `token` 暂时未知，`c` 就是url参数中的t时间戳，`s` 就是 url 参数中的 `appKey` 固定值，`data` 就是 url 参数中的 `data` 的 json 字符串，简单拼接就行。
 
 所以现在就剩token未知，在函数上打个断点看看：
 
 <img src="https://drive.404fix.cn/i/J29eBuAc.png" width="500" alt="大麦" />
 
+发现这个 `token` 很眼熟，回头看看我们请求所需的 cookie，这个 `token` 就是 cookie 中 `_m_h5_tk` 的前半部分，直接拿过来用就可以。
 
+我们拿相同的参数去网上的在线 md5 加密一下，发现加密结果一致，即这个加密函数就是简单的 md5 加密。
 
-发现这个 `token`很眼熟，回头看看我们请求所需的cookie，这个 `token`就是cookie中 `_m_h5_tk`的前半部分，直接拿过来用就可以。
-
-我们拿相同的参数去网上的在线md5加密一下，发现加密结果一致，即这个加密函数就是简单的md5加密。
-
-现在所需要知道的就是 `_m_h5_tk`是如何产生的，直接回到首页，删除cookie缓存重新抓包，找到set-cookie的那一条请求就行。
+现在所需要知道的就是 `_m_h5_tk` 是如何产生的，直接回到首页，删除 cookie 缓存重新抓包，找到 set-cookie 的那一条请求就行。
 
 <img src="https://drive.404fix.cn/i/1Ko2pcGU.png" width="500" alt="大麦" />
 
-可以发现只要在token失效之后，随便发起一条请求携带过期的sign，就会返回新的 `_m_h5_tk`，这下大功告成了。
+可以发现只要在 token 失效之后，随便发起一条请求携带过期的 `sign` ，就会返回新的 `_m_h5_tk`，这下大功告成了。
 
-最后再加上VX推送提示，或者其他通知app接口，就完成了回流监控。
+### 二、实现
 
-<img src="https://drive.404fix.cn/i/SnVNxSm1.png" width="200" alt="微信推送" />
+最后再加上 VX 推送提示，或者其他通知 app 接口，就完成了回流监控。
+
+<img src="https://drive.404fix.cn/i/SnVNxSm1.png" width="200" alt="大麦" />

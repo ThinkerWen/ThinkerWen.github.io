@@ -7,58 +7,60 @@ years: ["2023"]
 
 ## 描述
 
-此为2013年ISCC的一道移动题，相对简单的题，要求是注册为企业版程序。
+此为 2013 年 ISCC 的一道移动题，相对简单的题，要求是注册为企业版程序。
 
 ### 目标
 
 注册为企业版程序
 
-### APK下载
+### APK 下载
 
 [点击下载](http://drive.404fix.cn/f/iuC0iV3P3y)
 
 ## 题解
 
-首先打开APP看一下，可以看到是需要输入注册码来进行注册。
+首先打开 APP 看一下，可以看到是需要输入注册码来进行注册。
 
-<div style="display: flex; align-items: flex-start; gap: 10px;">  <img src="https://drive.404fix.cn/i/USyXWpnm.png" width="200" alt="CrackMe" /> <img src="https://drive.404fix.cn/i/GmfgHQgS.png" width="200" alt="CrackMe" /></div>
+<div style="display: flex; align-items: flex-start; gap: 10px;">
+<img src="https://drive.404fix.cn/i/USyXWpnm.png" width="200" alt="CrackMe" />
+<img src="https://drive.404fix.cn/i/GmfgHQgS.png" width="200" alt="CrackMe" />
+</div>
 
-用Jadx-GUI打开APK看一下源码，在打开APP后先执行①，通过`MyApp.m`来判断APP的注册状态。
-在②中判断注册状态，如果未注册则执行③的`doRegister()`，如果已经注册则执行`MyApp.work()`
+用 Jadx-GUI 打开 APK 看一下源码，在打开 APP 后先执行 ①，通过 `MyApp.m` 来判断 APP 的注册状态。
+在 ② 中判断注册状态，如果未注册则执行 ③ 的 `doRegister()`，如果已经注册则执行 `MyApp.work()`。
 
 <img src="https://drive.404fix.cn/i/GqIvNPCL.png" width="500" alt="CrackMe" />
 
-先看一下`MyApp.m`参数是怎么来的，发现MyApp.m是静态属性，所在的类加载了名为`hack`的so，并在`onCreate()`中调用了native方法`initSN()`。
-且在别处没有找到其他修改`MyApp.m`的地方，那么大概率就在so中进行操作的，并且`MyApp.work()`函数也是native函数。
+先看一下 `MyApp.m` 参数是怎么来的，发现 `MyApp.m` 是静态属性，所在的类加载了名为 `hack` 的 so，并在 `onCreate()` 中调用了 native 方法 `initSN()`。
+且在别处没有找到其他修改 `MyApp.m` 的地方，那么大概率就在 so 中进行操作的，并且 `MyApp.work()` 函数也是 native 函数。
 
 <img src="https://drive.404fix.cn/i/tk61aoLw.png" width="500" alt="CrackMe" />
 
-我们再看输入注册码后的`doRegister()`,他将输入的注册码sn作为参数传入到了`MyApp.saveSN()`中，且`MyApp.saveSN()`也是native函数，所以我们只需要看`hack`的so即可。
+我们再看输入注册码后的 `doRegister()`，它将输入的注册码 sn 作为参数传入到了 `MyApp.saveSN()` 中，且 `MyApp.saveSN()` 也是 native 函数，所以我们只需要看 `hack` 的 so 即可。
 
 <img src="https://drive.404fix.cn/i/5dUhb9ar.png" width="500" alt="CrackMe" />
 
-打开IDA工具找对应的native方法。
-找到`work()`方法对应的native方法`n3`后发现想要注册为企业版，则使用到了`n1`方法
+打开 IDA 工具找对应的 native 方法。
+找到 `work()` 方法对应的 native 方法 `n3` 后发现想要注册为企业版，则使用到了 `n1` 方法。
 
 <img src="https://drive.404fix.cn/i/8kggjzUm.png" width="500" alt="CrackMe" />
 
-我们再去看`n1`，`n1`对应的是`initSN()`方法，它在打开APP时读取`/sdcard/reg.dat`，将其中的内容与4种md5字符串做对比，来设置`MyApp.m`的值。
-而我们要注册为企业版，所以需要`MyApp.m`为3，即内容需要和`b2db1185c9e5b88d9b70d7b3278a4947`相等。
+我们再去看 `n1`，`n1` 对应的是 `initSN()` 方法，它在打开 APP 时读取 `/sdcard/reg.dat`，将其中的内容与 4 种 MD5 字符串做对比，来设置 `MyApp.m` 的值。
+而我们要注册为企业版，所以需要 `MyApp.m` 为 3，即内容需要和 `b2db1185c9e5b88d9b70d7b3278a4947` 相等。
 
 <img src="https://drive.404fix.cn/i/XC0IdPS5.png" width="500" alt="CrackMe" />
 
-再看`saveSN()`对应的`n2`方法，它将输入的字符串做md5加密然后存储到`/sdcard/reg.dat`中
+再看 `saveSN()` 对应的 `n2` 方法，它将输入的字符串做 MD5 加密然后存储到 `/sdcard/reg.dat` 中。
 
 <img src="https://drive.404fix.cn/i/EWg1yJwX.png" width="500" alt="CrackMe" />
 
-所以结合n2现在有两种解法：
-1. 直接将`b2db1185c9e5b88d9b70d7b3278a4947`输入到`/sdcard/reg.dat`中即可
-2. 找到`b2db1185c9e5b88d9b70d7b3278a4947`对应的明文即为注册码
-3. 到md5撞库解密的网站输入`b2db1185c9e5b88d9b70d7b3278a4947`，得到明文为`32345678`
-
+所以结合 n2 现在有两种解法：
+1. 直接将 `b2db1185c9e5b88d9b70d7b3278a4947` 输入到 `/sdcard/reg.dat` 中即可。
+2. 找到 `b2db1185c9e5b88d9b70d7b3278a4947` 对应的明文即为注册码。
+3. 到 MD5 撞库解密的网站输入 `b2db1185c9e5b88d9b70d7b3278a4947`，得到明文为 `32345678`。
 
 <img src="https://drive.404fix.cn/i/FSVo48a2.png" width="500" alt="CrackMe" />
 
-输入注册码保存成功，再打开APP则已经注册为企业版了
+输入注册码保存成功，再打开 APP 则已经注册为企业版了。
 
 <img src="https://drive.404fix.cn/i/1yZi0R6X.png" width="200" alt="CrackMe" />

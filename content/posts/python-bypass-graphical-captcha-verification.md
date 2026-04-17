@@ -7,17 +7,17 @@ years: ["2024"]
 
 ## 背景
 
-最近在给一个app抓包的时候发现App在特定时间会弹出验证码，验证之后会给一个token，需要携带token才能发起能正常请求。
+最近在给一个 app 抓包的时候发现 app 在特定时间会弹出验证码，验证之后会给一个 token，需要携带 token 才能发起能正常请求。
 
 文章源码地址：[点击查看](https://github.com/ThinkerWen/CaptchaPass)
 
 **验证码如下：**
 
-|                                      背景图                                      |                                      目标图                                      |
-| :------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-| <img src="https://drive.404fix.cn/i/A4si1YAa.png" width="500" alt="背景图"> | <img src="https://drive.404fix.cn/i/WX5IWLXM.png" width="500" alt="目标图"> |
+| 背景图                                                                            | 目标图                                                                            |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| <img src="https://drive.404fix.cn/i/A4si1YAa.png" width="500" alt="captcha" /> | <img src="https://drive.404fix.cn/i/WX5IWLXM.png" width="500" alt="captcha" /> |
 
-**弹出验证码的Response如下：**
+**弹出验证码的 Response 如下：**
 
 ```JSON
 {
@@ -33,7 +33,7 @@ years: ["2024"]
 }
 ```
 
-**完成验证码的Request如下**
+**完成验证码的 Request 如下**
 
 ```JSON
 {
@@ -42,7 +42,7 @@ years: ["2024"]
 }
 ```
 
-由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到token，即现在的目标就是提取坐标。
+由此观察到只要将验证码的点击坐标post到完成验证码的接口，就可以获取到 token，即现在的目标就是提取坐标。
 
 ## 方案
 
@@ -52,19 +52,19 @@ years: ["2024"]
 
 要过验证码，就是将目标图案在背景图片上找到，并且将其像素点找到就可以。
 
-于是我使用Python的OpenCV进行图片的识别。
+于是我使用 Python 的 OpenCV 进行图片的识别。
 
 #### 1.提取图片
 
 首先观察发现目标图片都是黑色图案，且背景为透明地址，当我直接使用 `cv2.imread(front_image)` 来加载图片时，会显示一片漆黑：
 
-<img src="https://drive.404fix.cn/i/nHxdiat7.png" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/nHxdiat7.png" width="200" alt="captcha" />
 
 即使后来我使用了保留透明通道的加载 `cv2.imread(front_path, cv2.IMREAD_UNCHANGED)`，依旧是一片漆黑。
 
 于是我想可以将透明通道剥离，然后将目标图案透明色设置为白色，那么目标图案就自然显现了，成品如下：
 
-<img src="https://drive.404fix.cn/i/tEjMjXpw.png" width="200" alt="目标图"/>
+<img src="https://drive.404fix.cn/i/tEjMjXpw.png" width="200" alt="captcha" />
 
 #### 2.匹配图片
 
@@ -73,7 +73,7 @@ years: ["2024"]
 我先要将目标图片的三个图案分割出来，对每一个图案分别找出他的像素位置。
 本来想通过颜色精准分割，但有些图案并不是整体粘连的，经过观察发现目标图片的三个图案排列位置都是固定的，所以直接记录出他的坐标进行像素分割：
 
-**rectangle_list**每一个元素是[x1,y1,x2,y2]
+`rectangle_list` 每一个元素是[x1,y1,x2,y2]
 
 ```Python
 rectangle_list = [[9, 9, 75, 75], [109, 9, 175, 75], [209, 9, 275, 75]]  
@@ -103,7 +103,7 @@ show(bg)
 
 继续观察，发现背景图片中的目标图案总是白色的，所以我们放弃使用默认的灰度，转而将背景图片上所有的白色部分保留，其余全部转为黑色，这样不就完全没有杂色了。
 
-为了尽可能保留完整的图案，经过多次RGB颜色的尝试，发现250-255区间可以保留大部分目标图案的白色：
+为了尽可能保留完整的图案，经过多次 RGB 颜色的尝试，发现 250-255 区间可以保留大部分目标图案的白色：
 
 ```Python
 gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  
@@ -111,7 +111,7 @@ _, strong_contrast_bg = cv2.threshold(gray_bg, 250, 255, cv2.THRESH_BINARY)
 ```
 
 同时为了和背景图片上的黑色色块一致，我再将黑色的目标图案反转为白色:
-由于要获取的是点击坐标，所以我们将x1,y1(即左上角坐标)进行+20的偏移，来移动到图案本身上面
+由于要获取的是点击坐标，所以我们将 x1,y1 (即左上角坐标)进行 +20 的偏移，来移动到图案本身上面
 
 ```Python
 gray_bg = cv2.cvtColor(bg, cv2.COLOR_BGR2GRAY)  
@@ -129,7 +129,7 @@ x, y = x + 20, y + 20
 ```
 
 经过验证，现在的识别就能正常过点击验证码了。
-贴出代码：
+附代码：
 
 ```Python
 import logging  
@@ -199,9 +199,9 @@ def ProcessCaptcha(bg_path: str, front_path: str):
 
 滑动验证码与上同理，甚至现在比较常见的一种滑动验证码已经有了通用的代码，如：
 
-| 背景图 | 目标图 |
-| :----: | :----: |
-|    <img src="https://drive.404fix.cn/i/DQ7OakdF.png" width="200" alt="背景图">    |    <img src="https://drive.404fix.cn/i/svdGRljX.png" height="50" alt="目标图">    |
+| 背景图                                                                      | 目标图                                                                      |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| <img src="https://drive.404fix.cn/i/DQ7OakdF.png" width="200" alt="背景图"> | <img src="https://drive.404fix.cn/i/svdGRljX.png" height="50" alt="目标图"> |
 
 这种滑动验证码已经是无脑式 `matchTemplate()、minMaxLoc()` 就可以，非常方便：
 

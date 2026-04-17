@@ -13,24 +13,23 @@ years: ["2023"]
 
 成功注册软件
 
-### APK下载
+### APK 下载
 
 [点击下载](http://drive.404fix.cn/f/T2yKhL6Zqbe)
 
 ## 题解
 
-首先打开APP看一下，可以看到是需要输入用户名和注册码来通过注册。
+首先打开 APP 看一下，可以看到是需要输入用户名和注册码来通过注册。
 
 <img src="https://drive.404fix.cn/i/B0k94DVl.png" width="200" alt="CrackMe" />
 
-用Jadx-GUI打开APK看一下源码，通过`onClick()`绑定的函数发现注册按钮是通过调用`checkSN()`函数来判断是否成功注册的，传入参数为用户名和注册码。
+用 Jadx-GUI 打开 APK 看一下源码，通过 `onClick()` 绑定的函数发现注册按钮是通过调用 `checkSN()` 函数来判断是否成功注册的，传入参数为用户名和注册码。
 
 <img src="https://drive.404fix.cn/i/zKsf13dU.png" width="500" alt="CrackMe" />
 
-在`checkSN()`中将`username`进行md5加密，然后经过简单的字符串拼接计算出注册码`sn`，由于并不困难，所以只需本地实现一下计算过程就行。
+在 `checkSN()` 中将 `username` 进行 MD5 加密，然后经过简单的字符串拼接计算出注册码 `sn`，由于并不困难，所以只需本地实现一下计算过程就行。
 
 <img src="https://drive.404fix.cn/i/wKJhl6SF.png" width="500" alt="CrackMe" />
-
 
 ```Python
 import hashlib
@@ -53,6 +52,6 @@ print(f"The {user_name}'s password is: {result}")
 # The cracker's password is: 26b525207d9b7886
 ```
 
-将得到的用户名和注册码填入APP即可注册成功
+将得到的用户名和注册码填入 APP 即可注册成功。
 
 <img src="https://drive.404fix.cn/i/phmRZxRP.png" width="200" alt="CrackMe" />

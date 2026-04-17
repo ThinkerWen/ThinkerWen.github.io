@@ -7,58 +7,54 @@ years: ["2023"]
 
 ## 描述
 
-Some hashes, cats and strings generation.
-
+Some hashes, cats and strings generation
 ### 目标
 
-找到Flag
+找到 Flag
 
-### APK下载
+### APK 下载
 
 [点击下载](http://drive.404fix.cn/f/RtTYjxvwNi)
 
+---
+
 ## 题解
 
-首先打开APP看一下，可以看到是输入密码点击SUBMIT来获取Flag
+首先打开 APP，可以看到界面为输入密码并点击 SUBMIT 来获取 Flag。
 
-<img src="https://drive.404fix.cn/i/rSSFyzVC.png" width="200" alt="CrackMe" />
+用 Jadx-GUI 打开 APK 查看源码，在 `MainActivity` 中找到了 SUBMIT 按钮绑定的 `onClick` 函数。
+在 ① 中通过 `FlagGuard().getFlag()` 函数，根据文本框中输入的 `password` 得到 flag；
+在 ② 中若 Flag 不为空，则展示 `Congratulations!` 与 Flag。
 
-用Jadx-GUI打开APK看一下源码，在`MainActivity`中找到了`SUBMIT`按钮绑定的`onClick`函数。
-在①中通过`FlagGuard().getFlag()`函数来根据获取文本框中输入的`password`得到`flag`。
-②中`Flag`不为空则展示`Congratulations!`和`Flag`。
+进入 `FlagGuard().getFlag()` 方法，发现只要传入的 `str`（即输入的 password）与 `Data().isPasswordOk(context)` 相等，就会返回 ② 计算出的 flag。
+因此只需查看 `Data().isPasswordOk()` 即可获取密码。
 
-<img src="https://drive.404fix.cn/i/5y6norE8.png" width="500" alt="CrackMe" />
+在 `Data().isPasswordOk()` 中：
+① 可看到密码长度为 6；
+② 将用户输入的 password 进行 MD5 加密，并与固定 MD5 字符串 `ac43bb53262e4edd82c0e82a93c84755` 对比，相等则返回正确结果。
 
-进入 `FlagGuard().getFlag()`，发现只要传入的 `str`(即输入的 `password`)与 `Data().isPasswordOk(context)`相等就会返回②所计算出的flag，现在只需要看 `Data().isPasswordOk()`就可以拿到密码。
+于是有两种解法：
+1. 对 MD5 字符串 `ac43bb53262e4edd82c0e82a93c84755` 进行撞库解密，得到明文即为密码。
+2. Hook `isPasswordOk()` 函数使其永远返回 true，任意输入 6 位字符串即可拿到 Flag。
 
-<img src="https://drive.404fix.cn/i/QPac5zvh.png" width="500" alt="CrackMe" />
-
-在 `Data().isPasswordOk()`可以从①中看到密码长度是6，然后在②中将用户填入的 `password`进行md5加密并与现有的md5字符串 `ac43bb53262e4edd82c0e82a93c84755`作对比，相等则给出flag。
-
-<img src="https://drive.404fix.cn/i/OCk4pKTr.png" width="500" alt="CrackMe" />
-
-于是现在有两种解法：
-1.找出md5字符串 `ac43bb53262e4edd82c0e82a93c84755`的明文，即为密码。
-2.让 `isPasswordOk()`函数永远返回true，随便输入6位字符串即可拿到flag。
+---
 
 ### 方法一
 
-到md5撞库解密的网站输入 `ac43bb53262e4edd82c0e82a93c84755`，得到明文为 `3#8H1J`
+前往 MD5 撞库解密网站，输入 `ac43bb53262e4edd82c0e82a93c84755`，得到明文为 `3#8H1J`。
 
-<img src="https://drive.404fix.cn/i/p91jeltk.png" width="500" alt="CrackMe" />
+输入密码 `3#8H1J`，即可获取 flag。
 
-输入密码`3#8H1J`，即可拿到flag。
-
-<img src="https://drive.404fix.cn/i/B0v0pwT9.png" width="200" alt="CrackMe" />
+---
 
 ### 方法二
 
-使用frida对 `isPasswordOk()`函数进行hook，使之永远返回true。
-hook代码如下：
+使用 Frida 对 `isPasswordOk()` 函数进行 Hook，使其永远返回 true。
 
-```JavaScript
+Hook 代码如下：
+```javascript
 function main() {
-  Java.perform( function(){
+  Java.perform(function(){
     let Data = Java.use("net.persianov.crackme0x03.Data");
     Data["isPasswordOk"].implementation = function (str) {
       console.log('isPasswordOk is called' + ', ' + 'str: ' + str);
@@ -72,10 +68,9 @@ function main() {
 setImmediate(main);
 ```
 
-重启app注入js `frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js`
+重启 APP 并注入 JS：
+```shell
+frida -U --no-pause -f net.persianov.crackme0x03 -l crack.js
+```
 
-<img src="https://drive.404fix.cn/i/pSjq2p5H.png" width="500" alt="CrackMe" />
-
-随意输入字符串即可拿到flag。
-
-<img src="https://drive.404fix.cn/i/Rcfrx7Ds.png" width="200" alt="CrackMe" />
+随意输入字符串即可拿到 flag。
